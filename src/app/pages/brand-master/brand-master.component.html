@@ -1,0 +1,148 @@
+<div class="pagetitle">
+    <h1>Brand Master</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Brand Master</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Brand Name :</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="serchObj.name" name="name">
+                    </div>
+
+                    <div class="serch-box col-md-6">
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
+                        <button type="submit" class="btn btn-primary" (click)="getBrandList()">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results ({{brandList.length}})</h5>
+            <div class="add-box">
+                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                    Add
+                    <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table with hoverable rows -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Brand Name</th>
+                        <th scope="col">Email </th>
+                        <th scope="col">Website</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of brandList | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{item.name}}</td>
+                        <td>{{item.email}} </td>
+                        <td>{{item.website}}</td>
+                        <td>
+                            <div class="action-box">
+                                <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="deletBrand(item)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+        <!-- End Table with hoverable rows -->
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="brandPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="rolePopLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="rolePopLabel">{{brandType}} Brand</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #brandForm="ngForm" (ngSubmit)="submitForm(brandForm)">
+                <div class="modal-body">
+                    <!-- Name Field -->
+                    <div class="form-group row">
+                        <label for="name" class="col-md-3">Name <sup class="text-danger">*</sup> : </label>
+                        <div class="col">
+                            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="formData.name"
+                                #nameCtrl="ngModel" required minlength="3" maxlength="50">
+                            <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || brandForm.submitted)"
+                                class="text-danger invalid-field">
+                                <div *ngIf="nameCtrl.errors?.['required']">Name is required.</div>
+                                <div *ngIf="nameCtrl.errors?.['minlength']">Name must be at least 3 characters.</div>
+                                <div *ngIf="nameCtrl.errors?.['maxlength']">Name cannot exceed 50 characters.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logo Field -->
+                    <div class="form-group row">
+                        <label for="logo" class="col-md-3">Logo <sup class="text-danger">*</sup> : </label>
+                        <div class="col">
+                            <input type="file" id="logo" name="logo" class="form-control"
+                                (change)="onFileSelected($event)" accept="image/*">
+                        </div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group row">
+                        <label for="email" class="col-md-3">Email <sup class="text-danger">*</sup> : </label>
+                        <div class="col">
+                            <input type="email" id="email" name="email" class="form-control"
+                                [(ngModel)]="formData.email" #emailCtrl="ngModel" required email>
+                            <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched || brandForm.submitted)"
+                                class="text-danger invalid-field">
+                                <div *ngIf="emailCtrl.errors?.['required']">Email is required.</div>
+                                <div *ngIf="emailCtrl.errors?.['email']">Please enter a valid email.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Website Field -->
+                    <div class="form-group row">
+                        <label for="website" class="col-md-3">Website : </label>
+                        <div class="col">
+                            <input type="url" id="website" name="website" class="form-control"
+                                [(ngModel)]="formData.website" #websiteCtrl="ngModel">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

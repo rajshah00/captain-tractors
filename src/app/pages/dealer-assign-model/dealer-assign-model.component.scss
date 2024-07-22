@@ -1,0 +1,152 @@
+.add-box {
+    display: flex;
+    align-items: center;
+}
+
+.form-label,
+.form-check-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #544f4f;
+}
+
+// #userPopLabel {
+//     font-size: 18px;
+//     font-weight: 700;
+//     color: #544f4f;
+// }
+
+.action-box {
+    display: flex;
+    gap: 10px;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.permissions-menu h2{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.serch-box {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+}
+
+
+
+table.table-container {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.table-header {
+    white-space: nowrap;
+}
+
+.table-wrapper {
+    margin-top: 25px;
+    background: rgba(207, 207, 207, 0.05);
+    border-radius: 10px;
+    overflow: auto;
+    border: 1px solid rgba(207, 207, 207, 0.5);
+}
+
+.table-footer-data-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 20px;
+}
+
+.table-footer-pages {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.table-footer-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.table-footer-btns-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+}
+
+.table-footer-container tr td {
+    background: rgba(207, 207, 207, 0.05);
+    border-radius: 0px 0px 10px 10px;
+    border: none;
+}
+
+.table-head-container {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+    border-right: 1px solid rgba(207, 207, 207, 0.5);
+}
+
+.table-wrapper th {
+    color: #fff !important;
+    font-family: Inter !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    padding: 10px !important;
+    line-height: normal !important;
+}
+
+.table-head-first-data {
+    border-radius: 10px 0 0 0;
+    overflow: hidden;
+    border: none;
+}
+
+.table-header {
+    background-color: #017efa !important;
+    color: white;
+    border: none;
+}
+
+
+.isCheck {
+    font-size: 20px;
+    margin-left: 8px;
+}
+
+
+.input-with-btn-input {
+    width: 100%;
+    border: none;
+    outline: none;
+}
+
+.input-with-btn-input-container {
+    border-radius: 6px;
+    border: 1px solid rgba(207, 207, 207, 0.3);
+    background: #fff;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+    margin: 9px 8px;
+    padding: 5px 5px 5px 10px;
+}
+
+.input-with-btn-input-container>* {
+    cursor: pointer;
+}

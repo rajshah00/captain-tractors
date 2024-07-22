@@ -1,0 +1,68 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<main id="main" class="main">
+    <router-outlet></router-outlet>
+</main><!-- End #main -->
+
+<app-footer></app-footer>
+
+<!-- Theme Settings -->
+<!-- data-bs-scroll="true" data-bs-backdrop="false" -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="theme-settings-offcanvas" style="width: 35%;">
+    <div class="d-flex align-items-center bg-color p-3 offcanvas-header">
+        <h5 class="text-white m-0">All Notifications</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+
+    <div class="offcanvas-body px-3 notification-list">
+        <ng-container *ngFor="let item of getAllNotification">
+            <ng-container *ngIf="isToday(item.created_at); else oldNotification">
+                <h5 class="text-muted font-14 fw-normal mt-2">{{item.dateType}}</h5>
+                <!-- item-->
+                <a (click)="redirectTo(item)" class="dropdown-item p-0 notify-item card  shadow-none mb-2"
+                    [ngClass]="{'unread-noti': item.is_read == 1, 'read-noti': item.is_read != 1}">
+                    <div class="card-body">
+                        <a class="float-end noti-close-btn text-muted"><i class="bi bi-x"></i></a>
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="notify-icon bg-primary">
+                                    <i class="bi bi-person-vcard"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 text-truncate ms-2">
+                                <h5 class="noti-item-title fw-semibold font-14 mb-0">{{item.type}} <small
+                                        class="fw-normal text-muted ms-1">{{item.displayTime}}</small></h5>
+                                <small class="noti-item-subtitle text-muted">{{item.message}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </ng-container>
+
+            <ng-template #oldNotification>
+                <h5 class="text-muted font-14 fw-normal mt-3">{{item.dateType}}</h5>
+
+                <a (click)="redirectTo(item)" class="dropdown-item p-0 notify-item card shadow-none mb-2"
+                    [ngClass]="{'unread-noti': item.is_read == 1, 'read-noti': item.is_read != 1}">
+                    <div class="card-body">
+                        <a class="float-end noti-close-btn text-muted"><i class="bi bi-x"></i></a>
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <div class="notify-icon bg-info">
+                                    <i class="bi bi-person-vcard"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 text-truncate ms-2">
+                                <h5 class="noti-item-title fw-semibold font-14 mb-0">{{item.type}} <small
+                                        class="fw-normal text-muted ms-1">{{item.displayTime}}</small></h5>
+                                <small class="noti-item-subtitle text-muted">{{item.message}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>

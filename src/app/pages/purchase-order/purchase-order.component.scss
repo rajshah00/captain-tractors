@@ -1,0 +1,132 @@
+.card-body {
+    padding: 20px 20px 20px 20px;
+}
+
+.deler-detial {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.deler-detial span {
+    font-weight: 400;
+    font-size: 14px;
+    color: rgb(43, 42, 42);
+}
+
+.input-box {
+    width: 250px;
+}
+
+.lable-box{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.grid-item{
+    display: flex;
+    gap: 10px;
+}
+
+/* Hide number input spinners for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide number input spinners for Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.qty-box input {
+    width: 66px;
+    text-align: center;
+}
+
+.qty-box button {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4.5px;
+    padding-bottom: 3px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.serch-box{
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.invalid-feild{
+    font-size: 13px;
+}
+
+
+// Drag and drop
+
+.upload-container {
+    display: block;
+    text-align: center;
+    margin: 15px;
+}
+
+.drop-area {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 40px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.drop-area p {
+    font-size: 16px;
+    color: #333;
+}
+
+.drop-area span {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.drop-area:hover {
+    background-color: #e9f5ff;
+}
+
+.drop-area.dragover {
+    background-color: #e0f7fa;
+    border-color: #009688;
+}
+
+.progress-container {
+    margin-top: 20px;
+    width: 100%;
+    // max-width: 300px;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    border-radius: 10px;
+}
+
+#progress-text {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+// .ng-dropdown-panel.ng-select-bottom {
+//     top: 533.792px !important;
+// }

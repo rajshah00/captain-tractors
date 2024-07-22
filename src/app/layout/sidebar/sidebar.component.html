@@ -1,0 +1,88 @@
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <!-- <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/user-master" routerLinkActive="active">
+                <i class="bi bi-people"></i>
+                <span>User Master</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/role-master" routerLinkActive="active">
+                <i class="bi bi-person-gear"></i>
+                <span>Role Master</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span> Products Parts </span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a routerLinkActive="active" routerLink="/products-type-master">
+                        <i class="bi bi-circle"></i><span>Products Type Master</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" routerLink="/modal-master">
+                        <i class="bi bi-circle"></i><span>Model Master</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" routerLink="/assembly-master">
+                        <i class="bi bi-circle"></i><span>Assembly Master</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/catalogue-and-ordering" routerLinkActive="active">
+                <i class="bi bi-cart4"></i>
+                <span>Catalogue & Ordering</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/dealer-assign-model" routerLinkActive="active">
+                <i class="bi bi-person-lines-fill"></i>
+                <span>Dealer Assign Model</span>
+            </a>
+        </li>
+
+    </ul> -->
+
+<!-- sidebar.component.html -->
+<ul class="sidebar-nav" id="sidebar-nav">
+    <li *ngFor="let item of menuItems" class="nav-item">
+      <a *ngIf="!item.children.length" class="nav-link" [routerLink]="item.path" routerLinkActive="active" (click)="toggelRemove()">
+        <i [class]="item.icon"></i>
+        <span>{{ item.title }}</span>
+      </a>
+      <a *ngIf="item.children.length" href="#" class="nav-link collapsed" data-bs-toggle="collapse" [attr.data-bs-target]="'#' + formatTitle(item.title)">
+        <i [class]="item.icon"></i>
+        <span>{{ item.title }}</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul *ngIf="item.children.length" [id]="formatTitle(item.title)" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li *ngFor="let child of item.children">
+          <a [routerLink]="child.path" routerLinkActive="active">
+            <i [class]="child.icon"></i><span>{{ child.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  
+
+</aside>

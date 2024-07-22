@@ -1,0 +1,78 @@
+.card-body {
+    padding: 20px 20px 20px 20px;
+}
+
+.serch-box {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+    justify-content: end;
+}
+
+.img-box {
+    border: 1px solid black;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.table-hed {
+    display: flex;
+    justify-content: space-between;
+}
+
+.img-title {
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 5px solid black;
+}
+
+.table-dark tr th {
+    font-size: 15px;
+}
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.qty-box input {
+    width: 66px;
+    text-align: center;
+}
+
+.qty-box button {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4.5px;
+    padding-bottom: 3px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.table-agliment {
+    display: flex;
+    height: 84px;
+    align-items: center;
+    justify-content: center;
+}
+
+.move-to-cart{
+    text-decoration: underline;
+    color: #4154f1;
+    cursor: pointer;
+}
+
+
+/* Hide number input spinners for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide number input spinners for Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}

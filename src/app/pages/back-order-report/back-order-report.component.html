@@ -1,0 +1,114 @@
+<div class="pagetitle">
+    <h1>Back Order Report</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a>Reports</a></li>
+            <li class="breadcrumb-item active">Back Order Report</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title p-0">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="start_date" class="form-label mb-0">Start Date:</label>
+                        <input type="date" class="form-control" id="start_date" [(ngModel)]="serchObj.start_date"
+                            name="start_date">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="end_date" class="form-label mb-0">End Date:</label>
+                        <input type="date" class="form-control" id="end_date" [(ngModel)]="serchObj.end_date"
+                            name="end_date">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="dealer" class="form-label mb-0">Dealer:</label>
+                        <select class="form-select" id="dealer" [(ngModel)]="serchObj.dealer_name" name="dealer">
+                            <ng-container *ngFor="let item of dealerList">
+                                <option [value]="item.first_name +' '+ item.last_name">{{item.first_name}} {{item.last_name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="region" class="form-label mb-0">Region:</label>
+                        <select class="form-select" id="region" [(ngModel)]="serchObj.region" name="region">
+                            <option selected>Open this select menu</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="country" class="form-label mb-0">Country:</label>
+                        <select class="form-select" id="country" [(ngModel)]="serchObj.country_id" name="country">
+                            <ng-container *ngFor="let item of allCountryList">
+                                <option [value]="item.id">{{item.name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+
+                    <div class="serch-box col-md-4">
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
+                        <button type="submit" class="btn btn-primary" (click)="getCatalogue(serchObj)">Search</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results (1)</h5>
+            <div class="add-box">
+                <button type="button" class="btn btn-primary">
+                    Export to EXCEL
+                </button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Order Number</th>
+                        <th scope="col">Order Type</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Creat Date</th>
+                        <th scope="col">Order Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container
+                        *ngFor="let item of getAllBackOrder | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        <tr (click)="selectedRow(item)">
+                            <td scope="col">{{i + 1}}</td>
+                            <td scope="col">{{item.order_number}}</td>
+                            <td scope="col">{{item.order_type}}</td>
+                            <td scope="col">{{item.total_qty}}</td>
+                            <td scope="col">{{item.created_at | date:'dd-MMM-yyyy'}}</td>
+                            <td scope="col">{{item.approval_status}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+<!-- start page title -->
+<div class="pagetitle">
+    <h1>Order Details</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item"><a routerLink="/catalogue-and-ordering">Catalogue & Ordering</a></li>
+            <li class="breadcrumb-item active">Order Details</li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Start Content-->
+<div class="container-fluid px-0">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Parts from Order #{{orderDetail?.order_number}}</h4>
+
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th *ngIf="userData?.role_name == 'CTPL'">
+                                        <input class="form-check-input" type="checkbox" id="selectAll"
+                                            [(ngModel)]="selectAll" (change)="selected()">
+                                    </th>
+                                    <th>Part</th>
+                                    <th>Part No</th>
+                                    <th>Quantity</th>
+                                    <th *ngIf="userData?.role_name == 'CTPL'"
+                                        style="max-width: 130px;text-align: center;">Approve QTY</th>
+                                    <th class="text-center">Back Order <br> QTY</th>
+                                    <th>MOQ</th>
+                                    <!-- <th>Status</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of partList;let i = index">
+                                    <td *ngIf="userData?.role_name == 'CTPL'">
+                                        <input class="form-check-input" type="checkbox" id="selectAll"
+                                            [(ngModel)]="item.is_approve">
+                                    </td>
+                                    <td>{{item.part?.name}}</td>
+                                    <td>{{item.part?.part_no}}</td>
+                                    <td>
+                                        {{item.part_qty}}
+                                    </td>
+
+                                    <td style="max-width: 130px;" *ngIf="userData?.role_name == 'CTPL'">
+                                        <div class="qty-box">
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="decrement(i,item.part_qty)">
+                                                <i class="bi bi-dash-circle"></i>
+                                            </button>
+                                            <input type="number" [(ngModel)]="item.approve_qty" class="form-control"
+                                                id="approve_qty" name="approve_qty">
+                                            <button type="button" class="btn btn-danger"
+                                                (click)="increment(i,item.part_qty)">
+                                                <i class="bi bi-plus-circle"></i>
+                                            </button>
+                                        </div>
+
+                                    </td>
+                                    <td class="text-center">{{item.backorder_qty || '-'}}</td>
+                                    <td>{{item.part?.moq || '-'}}</td>
+                                    <!-- <td>{{item.part?.moq || '-'}}</td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end table-responsive -->
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Shipping Information</h4>
+
+                    <h5 class="font-16">{{orderDetail.dealer?.first_name}} {{orderDetail.dealer?.last_name}}</h5>
+
+                    <address class="mb-0 font-14 address-lg">
+                        {{orderDetail.dealer?.address}}<br>
+                        <abbr title="Phone">P:</abbr> {{orderDetail.dealer?.phone}}<br>
+                        <!-- <abbr title="City">City:</abbr> {{orderDetail.dealer?.city}}<br>
+                        <abbr title="State">State:</abbr> {{orderDetail.dealer?.state?.name}}<br>
+                        <abbr title="Country">Country:</abbr> {{orderDetail.dealer?.country?.name}} -->
+                    </address>
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+        <div class="col-lg-8" *ngIf="userData?.role_name == 'CTPL'">
+            <!-- Add note input-->
+            <div class="">
+                <label for="example-textarea" class="form-label">Add a Note:</label>
+                <textarea class="form-control" id="example-textarea" rows="3"
+                    placeholder="Write some note.."></textarea>
+            </div>
+        </div>
+        <div class="col-md-8" *ngIf="userData?.role_name == 'Camel' && orderDetail.approval_status == 'Updated'">
+            <div class="row align-items-center">
+                <div class="col-sm-4">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">PI Upload</label>
+                        <input type="file" (change)="onFileSelected($event)" accept="application/pdf"
+                            class="form-control" id="formGroupExampleInput" required>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="text-sm-end">
+                        <a class="btn btn-primary mt-3 d-flex" (click)="onSubmit()">
+                            <i class="bi bi-file-earmark-pdf"></i> Upload
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="serch-box col-md-12">
+            <ng-container
+                *ngIf="userData?.role_name == 'Camel' && orderDetail.current_stage != 'Approved' && orderDetail.current_stage != 'Partial-Approved'">
+                <button type="button" class="btn btn-danger" (click)="rejectOrder()">Reject</button>
+                <button type="submit" class="btn btn-success" (click)="approveOrder()">Approve</button>
+            </ng-container>
+            <ng-container *ngIf="userData?.role_name == 'CTPL'  && orderDetail.current_stage != 'Partial-Approved'">
+                <button type="button" class="btn btn-danger">Reject</button>
+                <button type="submit" class="btn btn-success" (click)="approveOrderCtpl()">Approve</button>
+            </ng-container>
+        </div>
+    </div>
+    <!-- end row -->
+
+
+
+
+
+</div>
+<!-- container -->

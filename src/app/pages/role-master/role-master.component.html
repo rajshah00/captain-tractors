@@ -1,0 +1,270 @@
+<div class="pagetitle">
+    <h1>Role Master</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Role Master</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="serchObj.name" name="name">
+                    </div>
+
+                    <div class="serch-box col-md-6">
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
+                        <button type="submit" class="btn btn-primary" (click)="getRoleList()">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results ({{roleList.length}})</h5>
+            <div class="add-box">
+                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                    Add
+                    <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table with hoverable rows -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description </th>
+                        <!-- <th scope="col">Status</th> -->
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of roleList | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{item.name}}</td>
+                        <td>{{item.description}} </td>
+                        <!-- <td>active</td> -->
+                        <td>
+                            <div class="action-box">
+                                <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <!-- <button type="button" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+        <!-- End Table with hoverable rows -->
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="rolePop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="rolePopLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="rolePopLabel">{{roleType}} Role</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #roleForm="ngForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label"> Name<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.name" name="name"
+                                required #nameCtrl="ngModel">
+                            <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || roleForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputAddress2" class="form-label">Description:</label>
+                            <textarea type="text" class="form-control" id="inputAddress2"
+                                [(ngModel)]="formObj.description" name="address" required></textarea>
+                        </div>
+
+                        <!-- <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck"
+                                    [(ngModel)]="formObj.isActive" name="isActive" #isActiveCtrl="ngModel">
+                                <label class="form-check-label" for="gridCheck">
+                                    Is Active
+                                </label>
+                            </div>
+                        </div> -->
+                    </div>
+                </form>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-12 permissions-menu">
+                        <h2 class="">Role Permissions</h2>
+                    </div>
+
+                    <div class="col-md-12 mt-0">
+                        <label for="searchTex" class="form-label"> Permissions Search :</label>
+                        <input type="text" class="form-control" id="searchTex" [(ngModel)]="searchTex" name="searchTex">
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-flush-spacing">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap fw-medium">
+                                            Administrator Access
+                                            <i class="bi bi-info-circle bx-xs"></i>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="selectAll"
+                                                    [(ngModel)]="selectAll" (change)="selected()">
+                                                <label class="form-check-label" for="selectAll">
+                                                    Select All
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <ng-container *ngFor="let item of menuItems | search: searchTex;let i = index">
+                                        <tr>
+                                            <td class="text-nowrap fw-medium">
+                                                {{item.title}}
+                                            </td>
+                                            <ng-container *ngIf="item.path != ''">
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class="form-check me-3 me-lg-5">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="mainItemView" [(ngModel)]="item.is_view">
+                                                            <label class="form-check-label" for="mainItemView">
+                                                                View
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check me-3 me-lg-5">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="mainItemCreate" [(ngModel)]="item.is_create">
+                                                            <label class="form-check-label" for="mainItemCreate">
+                                                                Create
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check me-3 me-lg-5">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="mainItemEdit" [(ngModel)]="item.is_edit">
+                                                            <label class="form-check-label" for="mainItemEdit">
+                                                                Edit
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check me-3 me-lg-5">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="mainItemDelete" [(ngModel)]="item.is_delete">
+                                                            <label class="form-check-label" for="mainItemDelete">
+                                                                Delete
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container *ngIf="item.path == ''">
+                                                <td>
+                                                    <button class="add-circle-btn row-show-hide-btn" id="showHide{{i}}"
+                                                        data-is-card-show="false" (click)="toggelRow(i)">
+                                                        <img src="./assets/img/add-circle-icon.svg"
+                                                            alt="add-circle-icon" class="add-circle-icon">
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                        <ng-container *ngIf="item.children && item.children.length">
+                                            <tr id="showBody{{i}}"
+                                                class="table-body-row show-hide-table-row table-box d-none">
+                                                <td colspan="12">
+                                                    <table class="table table-flush-spacing">
+                                                        <tbody>
+                                                            <tr *ngFor="let subItem of item.children">
+                                                                <td>
+                                                                    <i class="bi bi-dot"></i> {{subItem.title}}
+                                                                </td>
+                                                                <ng-container *ngIf="subItem.path != ''">
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <div class="form-check me-3 me-lg-5">
+                                                                                <input class="form-check-input"
+                                                                                    type="checkbox" id="subItemView"
+                                                                                    [(ngModel)]="subItem.is_view">
+                                                                                <label class="form-check-label"
+                                                                                    for="subItemView">
+                                                                                    View
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check me-3 me-lg-5">
+                                                                                <input class="form-check-input"
+                                                                                    type="checkbox" id="subItemCreate"
+                                                                                    [(ngModel)]="subItem.is_create">
+                                                                                <label class="form-check-label"
+                                                                                    for="subItemCreate">
+                                                                                    Create
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check me-3 me-lg-5">
+                                                                                <input class="form-check-input"
+                                                                                    type="checkbox" id="subItemEdit"
+                                                                                    [(ngModel)]="subItem.is_edit">
+                                                                                <label class="form-check-label"
+                                                                                    for="subItemEdit">
+                                                                                    Edit
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="form-check me-3 me-lg-5">
+                                                                                <input class="form-check-input"
+                                                                                    type="checkbox" id="subItemDelete"
+                                                                                    [(ngModel)]="subItem.is_delete">
+                                                                                <label class="form-check-label"
+                                                                                    for="subItemDelete">
+                                                                                    Delete
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </ng-container>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" (click)="saveRole(roleForm)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

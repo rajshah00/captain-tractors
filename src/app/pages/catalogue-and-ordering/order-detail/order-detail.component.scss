@@ -1,0 +1,63 @@
+.card-body {
+    padding: 20px;
+}
+
+.card .header-title {
+    margin-bottom: .5rem;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    font-size: .9rem;
+    margin-top: 0;
+}
+
+table td {
+    font-size: 14.4px;
+}
+
+table th {
+    font-size: 15.4px;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.font-16 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.serch-box {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    justify-content: end;
+}
+
+
+
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.qty-box input {
+    width: 66px;
+    text-align: center;
+}
+
+.qty-box button {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4.5px;
+    padding-bottom: 3px;
+    border-radius: 50%;
+    background-color: red;
+}

@@ -1,0 +1,86 @@
+<div class="pagetitle">
+    <h1>Catalogue & Ordering</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Catalogue & Ordering</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="order_number" class="form-label">Order Number<sup
+                                class="text-danger">*</sup>:</label>
+                        <input type="text" class="form-control" id="order_number" [(ngModel)]="serchObj.order_number"
+                            name="order_number">
+                    </div>
+                    <div class="serch-box col-md-6">
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
+                        <button type="submit" class="btn btn-primary" (click)="getCatalogue(serchObj)">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results ({{getAllOrder.length}})</h5>
+            <div class="add-box" *ngIf="userData?.role_name != 'CTPL'">
+                <button type="button" class="btn btn-primary" routerLink="/add-catalogue">
+                    Add
+                    <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table with hoverable rows -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Order Number</th>
+                        <th scope="col">Order Type</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Creat Date</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Current Stage</th>
+                        <th scope="col" *ngIf="userData?.role_name == 'Dealer'">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of getAllOrder | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                        <tr (click)="selectedRow(item)" class="pointer">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ item.order_number }}</td>
+                            <td>{{ item.order_type }}</td>
+                            <td>{{ item.total_qty }}</td>
+                            <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
+                            <td *ngIf="userData?.role_name == 'Dealer'">{{ item.dealer_show_status }}</td>
+                            <td *ngIf="userData?.role_name != 'Dealer'">{{ item.approval_status }}</td>
+                            <td *ngIf="userData?.role_name != 'Dealer'">{{ item.current_stage }}</td>
+                            <td *ngIf="userData?.role_name == 'Dealer'">
+                                <div class="action-box">
+                                    <button type="button" class="btn btn-success" (click)="downloadPdf(item.po_pdf); $event.stopPropagation()">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>                    
+                </tbody>
+            </table>
+        </div>
+        <!-- End Table with hoverable rows -->
+
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+
+    </div>
+</div>

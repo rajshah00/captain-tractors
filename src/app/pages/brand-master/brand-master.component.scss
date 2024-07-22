@@ -1,0 +1,72 @@
+.add-box {
+    display: flex;
+    align-items: center;
+}
+
+.form-label,
+.form-check-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #544f4f;
+    margin-bottom: 2px !important;
+}
+
+// #userPopLabel {
+//     font-size: 18px;
+//     font-weight: 700;
+//     color: #544f4f;
+// }
+
+.action-box {
+    display: flex;
+    gap: 10px;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.permissions-menu h2 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.add-circle-btn {
+    border-radius: 7px;
+    border: 1px solid #017efa;
+    background: #fff;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5px;
+}
+
+.table-box {
+    padding: 0px 10px;
+    border-bottom: 1px solid #dee2e6;
+    border-radius: 3px;
+}
+
+.serch-box {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+}
+
+.invalid-feild{
+    font-size: 13px;
+}
+
+.row > * {
+    margin-top: 13px !important;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        flex: 0 0 auto;
+        width: 20% !important;
+    }
+}

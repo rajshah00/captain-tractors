@@ -1,0 +1,289 @@
+<div class="pagetitle">
+    <h1>User Master</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">User Master</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="first_name" class="form-label">Name<sup class="text-danger">*</sup>:</label>
+                        <input type="text" class="form-control" id="first_name" [(ngModel)]="serchObj.name"
+                            name="first_name">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="serch-box">
+                            <button type="button" class="btn btn-secondary"
+                                (click)="resetForm(serchForm)">Reset</button>
+                            <button type="submit" class="btn btn-primary" (click)="getUerList()">Search</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results ({{userList.length}})</h5>
+            <div class="add-box">
+                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                    Add
+                    <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table with hoverable rows -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of userList | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{item.first_name}} {{item.last_name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.country?.name}}</td>
+                        <td>{{item.state?.name}}</td>
+                        <td>{{item.role_name}}</td>
+                        <td>
+                            <span *ngIf="item.is_active" class="badge bg-success">Active</span>
+                            <span *ngIf="!item.is_active" class="badge bg-danger">Deactivate</span>
+                        </td>
+                        <td>
+                            <div class="action-box">
+                                <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="deleteUser(item)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+        <!-- End Table with hoverable rows -->
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="userPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="userPopLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userPopLabel">{{userType}} User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="first_name" class="form-label">First Name<sup
+                                    class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="first_name" [(ngModel)]="formObj.first_name"
+                                name="first_name" required #firstNameCtrl="ngModel">
+                            <div *ngIf="firstNameCtrl.invalid && (firstNameCtrl.dirty || firstNameCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                First name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="last_name" class="form-label">Last Name<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="last_name" [(ngModel)]="formObj.last_name"
+                                name="last_name" required #lastNameCtrl="ngModel">
+                            <div *ngIf="lastNameCtrl.invalid && (lastNameCtrl.dirty || lastNameCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Last name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputAddress5" class="form-label">Phone</label>
+                            <input type="number" class="form-control" id="inputAddress5" [(ngModel)]="formObj.phone"
+                                name="phone" #phoneCtrl="ngModel">
+                            <!-- <div *ngIf="phoneCtrl.invalid && (phoneCtrl.dirty || phoneCtrl.touched || form.submitted)" class="text-danger">
+                                Phone number is required.
+                            </div> -->
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputEmail5" class="form-label">Email<sup class="text-danger">*</sup>:</label>
+                            <input type="email" class="form-control" id="inputEmail5" [(ngModel)]="formObj.email"
+                                name="email" required email #emailCtrl="ngModel">
+                            <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                <div *ngIf="emailCtrl.errors?.['required']">
+                                    Email is required.
+                                </div>
+                                <div *ngIf="emailCtrl.errors?.['email']">
+                                    Invalid email format.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <ng-container *ngIf="userType == 'Add'">
+                                <label for="inputPassword5" class="form-label">Password<sup
+                                        class="text-danger">*</sup>:</label>
+                                <input type="password" class="form-control" id="inputPassword5"
+                                    [(ngModel)]="formObj.password" name="password" required minlength="6"
+                                    #passwordCtrl="ngModel">
+                                <div *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched || form.submitted)"
+                                    class="text-danger invalid-feild">
+                                    <div *ngIf="passwordCtrl.errors?.['required']">
+                                        Password is required.
+                                    </div>
+                                    <div *ngIf="passwordCtrl.errors?.['minlength']">
+                                        Password must be at least 6 characters.
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="userType == 'Edit'">
+                                <label for="inputPassword5" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="inputPassword5"
+                                    [(ngModel)]="formObj.password" name="password" minlength="6" disabled>
+                            </ng-container>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="brandId" class="form-label">Brand<sup class="text-danger">*</sup>:</label>
+                            <select id="brandId" class="form-select" [(ngModel)]="formObj.braand_id" name="braand_id"
+                                required #brandCtrl="ngModel">
+                                <ng-container *ngFor="let item of brandList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="brandCtrl.invalid && (brandCtrl.dirty || brandCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Brand is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputregion" class="form-label">Region<sup class="text-danger">*</sup>:</label>
+                            <select id="inputregion" class="form-select" [(ngModel)]="formObj.region_id"
+                                name="region_id" required #regionCtrl="ngModel">
+                                <!-- <ng-container *ngFor="let item of allCountryList"> -->
+                                <option value="Africa">Africa</option>
+                                <option value="Asia">Asia</option>
+                                <option value="Central America">Central America</option>
+                                <!-- </ng-container> -->
+                            </select>
+                            <div *ngIf="regionCtrl.invalid && (regionCtrl.dirty || regionCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Country is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputcountry" class="form-label">Country<sup
+                                    class="text-danger">*</sup>:</label>
+                            <select id="inputcountry" class="form-select" [(ngModel)]="formObj.country_id"
+                                name="country_id" required #countryCtrl="ngModel" (change)="selectCountry()">
+                                <ng-container *ngFor="let item of allCountryList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="countryCtrl.invalid && (countryCtrl.dirty || countryCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Country is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputState" class="form-label">State<sup class="text-danger">*</sup>:</label>
+                            <select id="inputState" class="form-select" [(ngModel)]="formObj.state_id" name="state_id"
+                                required #stateCtrl="ngModel">
+                                <ng-container *ngFor="let item of allStateList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="stateCtrl.invalid && (stateCtrl.dirty || stateCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                State is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">City<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="inputCity" [(ngModel)]="formObj.city"
+                                name="city" required #cityCtrl="ngModel">
+                            <div *ngIf="cityCtrl.invalid && (cityCtrl.dirty || cityCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                City is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="roles" class="form-label">Roles<sup class="text-danger">*</sup>:</label>
+                            <select id="roles" class="form-select" [(ngModel)]="formObj.role_id" name="role_id" required
+                                #rolesCtrl="ngModel">
+                                <ng-container *ngFor="let item of roleList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Role is required.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputAddress2" class="form-label">Address<sup
+                                    class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="inputAddress2"
+                                placeholder="Apartment, studio, or floor" [(ngModel)]="formObj.address" name="address"
+                                required #addressCtrl="ngModel">
+                            <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Address is required.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="is_active"
+                                    [(ngModel)]="formObj.is_active" name="is_active" #isActiveCtrl="ngModel">
+                                <label class="form-check-label" for="is_active">
+                                    Is Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #0ea004
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.form-label,
+.form-check-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #544f4f;
+}
+
+.tab-pane{
+    border: 1px solid #dde1e5;
+    border-top: 0;
+    border-radius: 0px 0px 9px 9px;
+    // margin-bottom: 12px;
+}

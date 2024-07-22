@@ -1,0 +1,228 @@
+<div class="pagetitle">
+    <h1>Spare Parts Purchase Order</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Spare Parts Purchase Order</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row justify-content-between">
+            <div class="col-md-6">
+                <div class="deler-detial">
+                    Distributor Name : <span>{{userData.first_name}} {{userData.last_name}}</span>
+                </div>
+                <div class="deler-detial">
+                    Distributor Code : <span>{{userData.code}}</span>
+                </div>
+                <div class="deler-detial">
+                    Country : <span>{{userData.country?.name}}</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="deler-detial">
+                    Date : <span>{{todayDate | date:'dd-MMM-yyyy'}}</span>
+                </div>
+                <div class="deler-detial">
+                    PO Number : <span>{{userData.po_number}}</span>
+                </div>
+            </div>
+        </div>
+
+        <form #purchsForm="ngForm" class="mt-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3 grid-item">
+                        <label for="order_type" class="form-label lable-box">Order Type<sup class="text-danger">*</sup>
+                            : </label>
+                        <div class="input-box">
+                            <select id="order_type" class="form-select" [(ngModel)]="formObj.order_type"
+                                name="order_type" required #order_typeCtrl="ngModel">
+                                <option value="" disabled selected>Select option</option>
+                                <option value="VOR">VOR - Vehicle Off Road</option>
+                                <option value="STD">STD - Standard order</option>
+                            </select>
+                            <div *ngIf="order_typeCtrl.invalid && (order_typeCtrl.dirty || order_typeCtrl.touched || purchsForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Order Type is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3 grid-item">
+                        <label for="mode_of_dispatch" class="form-label lable-box">Mode of Dispatch<sup
+                                class="text-danger">*</sup> : </label>
+                        <div class="input-box">
+                            <select id="mode_of_dispatch" class="form-select" [(ngModel)]="formObj.mode_of_dispatch"
+                                name="mode_of_dispatch" required #mode_of_dispatchCtrl="ngModel">
+                                <ng-container *ngIf="formObj.order_type == 'VOR'">
+                                    <option value="" disabled selected>Select option</option>
+                                    <option value="By Air">By Air</option>
+                                    <option value="By Courier">By Courier</option>
+                                </ng-container>
+                                <ng-container *ngIf="formObj.order_type == 'STD'">
+                                    <option value="" disabled selected>Select option</option>
+                                    <option value="With Tractor container">With Tractor container</option>
+                                    <option value="LCL">LCL</option>
+                                    <option value="By Courier">By Courier</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="mode_of_dispatchCtrl.invalid && (mode_of_dispatchCtrl.dirty || mode_of_dispatchCtrl.touched || purchsForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Mode of Dispatch is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-check">
+                        <input class="form-check-input" [(ngModel)]="formObj.entry_type" type="radio"
+                            value="Manual Entry" name="flexRadioDefault" id="manual-entry" checked>
+                        <label class="form-check-label" for="manual-entry">
+                            Manual Entry
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" [(ngModel)]="formObj.entry_type" type="radio"
+                            value="Excel Sheet Upload" name="flexRadioDefault" id="excel-sheet-upload">
+                        <label class="form-check-label" for="excel-sheet-upload">
+                            Excel Sheet Upload
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-3" *ngIf="formObj.order_type == 'VOR'">
+                    <div class="mb-3 grid-item">
+                        <label for="chassis_number" class="form-label lable-box">Chassis Number<sup
+                                class="text-danger">*</sup> : </label>
+                        <div style="width: 65%;">
+                            <select id="chassis_number" class="form-select" [(ngModel)]="formObj.chassis_number"
+                                name="chassis_number" required #chassis_numberCtrl="ngModel">
+                                <option value="" disabled selected>Select option</option>
+                                <ng-container *ngFor="let item of chassisList">
+                                    <option [value]="item.id">{{item.number}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="chassis_numberCtrl.invalid && (chassis_numberCtrl.dirty || chassis_numberCtrl.touched || purchsForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Chassis Number is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 text-end" [ngClass]="formObj.order_type != 'VOR' ? 'col-md-12' : 'col-md-6' "
+                    *ngIf="formObj.entry_type == 'Manual Entry'">
+                    <button type="button" class="btn btn-primary mb-2" (click)="getCartList()">Import From Cart</button>
+                </div>
+                <div class="mt-3 text-end" [ngClass]="formObj.order_type != 'VOR' ? 'col-md-12' : 'col-md-6' "
+                    *ngIf="formObj.entry_type == 'Excel Sheet Upload'">
+                    <button type="button" class="btn btn-primary mb-2" (click)="demoImport()">Excel Demo</button>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="formObj.entry_type == 'Manual Entry'">
+            <table class="table table-bordered border-dark">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">
+                            <div class="text-center">
+                                Ser No
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                Part Number
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                Parts Description
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                MOQ
+                            </div>
+                        </th>
+
+                        <th scope="col" class="text-center">QTY</th>
+                        <th scope="col" class="text-center">Action</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of partList;let i = index">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>
+                            <ng-select [items]="partListOption" bindLabel="part_no" bindValue="id"
+                                placeholder="Select Part" [(ngModel)]="item.part_id"
+                                (change)="onChangePart(item.part_id,i)">
+                            </ng-select>
+                            <!-- <div class="d-flex justify-content-center">
+                                <input type="text" class="form-control" style="max-width: 114px;"
+                                    [(ngModel)]="item.part_no" name="part_no">
+                            </div> -->
+                        </td>
+                        <td>
+                            <textarea type="text" rows="1" class="form-control" [(ngModel)]="item.description"
+                                name="description"></textarea>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <input type="number" class="form-control" style="max-width: 114px;"
+                                    [(ngModel)]="item.moq" name="moq">
+                            </div>
+                        </td>
+                        <td style="max-width: 130px;">
+                            <div class="qty-box">
+                                <button type="button" class="btn btn-danger" (click)="decrement(i)">
+                                    <i class="bi bi-dash-circle"></i>
+                                </button>
+                                <input type="number" [(ngModel)]="item.qty" class="form-control" id="qty" name="qty">
+                                <button type="button" class="btn btn-danger" (click)="increment(i)">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </div>
+
+                        </td>
+                        <td class="text-center">
+                            <button *ngIf="i == 0" type="button" class="btn btn-success" (click)="addRow()">
+                                <i class="bi bi-plus-circle"></i>
+                            </button>
+                            <button *ngIf="i > 0" type="button" class="btn btn-danger" (click)="removeRow(i)">
+                                <i class="bi bi-dash-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="upload-container" *ngIf="formObj.entry_type == 'Excel Sheet Upload'">
+            <label for="file-input" class="d-block">
+                <input type="file" id="file-input" accept=".xlsx, .xls" hidden (change)="onFileChange($event)">
+                <div id="drop-area" class="drop-area" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+                    (drop)="onDrop($event)">
+                    <p>Drag and drop an Excel file here, or <span id="browse">browse</span></p>
+                </div>
+            </label>
+            <div id="progress-container" class="progress-container" *ngIf="showProgress">
+                <progress id="progress-bar" [value]="progress" class="progress-bar" max="100"></progress>
+                <span id="progress-text">{{progress}}%</span>
+            </div>
+        </div>
+
+
+
+        <div class="serch-box">
+            <button type="button" class="btn btn-secondary">Draft</button>
+            <button type="submit" class="btn btn-primary" (click)="sapeParts(purchsForm)">Submit</button>
+        </div>
+    </div>
+</div>

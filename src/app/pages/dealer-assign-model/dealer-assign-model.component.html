@@ -1,0 +1,136 @@
+<div class="pagetitle">
+    <h1>Dealer Assign Model</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Dealer Assign Model</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="serchObj.name" name="name">
+                    </div>
+
+                    <!-- <div class="col-md-3">
+                        <label for="modal_number" class="form-label">Modal:</label>
+                        <select id="inputState" class="form-select" [(ngModel)]="serchObj.model_id" name="model_id"
+                            #stateCtrl="ngModel">
+                            <ng-container *ngFor="let item of modaldataList">
+                                <option [value]="item.id">{{item.name}}</option>
+                            </ng-container>
+                        </select>
+
+                    </div> -->
+                    <div class="serch-box col-md-6">
+                        <button type="button" class="btn btn-secondary">Reset</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results ({{dealerList.length}})</h5>
+        </div>
+
+        <!-- Table with hoverable rows -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of dealerList;let i = index">
+                        <th scope="row">{{i +1}}</th>
+                        <td>{{item.first_name}} {{item.last_name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.email}}</td>
+                        <td>
+                            <div class="action-box">
+                                <!-- <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button> -->
+                                <button type="button" class="btn btn-secondary" (click)="openAssignModal(item)">
+                                    <i class="bi bi-diagram-2"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- End Table with hoverable rows -->
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detail-popup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="userPopLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userPopLabel"> Assign Modal </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 border-0 popup-modal-body">
+                <div class="form-grid-item">
+                    <div class="input-with-btn-input-container">
+                        <input type="text" [(ngModel)]="searchText" name="searchTex" id="walk-in-reservation-name-input"
+                            class="input-with-btn-input" placeholder="" />
+                        <label for="walk-in-reservation-name-input" style="margin-bottom: 0;">
+                            <img src="./assets/img/input-search-icon.svg" alt="input-search-icon"
+                                class="input-search-icon" />
+                        </label>
+                    </div>
+                </div>
+                <div id="detail-table" class="table mt-3 " *ngIf="modaldataList && modaldataList.length">
+                    <table class="table-container table">
+                        <thead class="table-head-container">
+                            <tr class="table-header-row">
+                                <th class="table-header">
+                                    <input type="checkbox" style="height: 16px;width: 16px;" [(ngModel)]="isChecked"
+                                        (change)="checkAll()" class="isCheck" name="isActive">
+                                </th>
+                                <th class="table-header">Code</th>
+                                <th class="table-header">Description</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="table-body-container">
+                            <ng-container *ngFor="let item of modaldataList | search: searchText; let i=index">
+                                <tr class="table-body-row" [ngClass]="{'selected-row': item.checked}">
+                                    <td class="table-body-data">
+                                        <input type="checkbox" class="isCheck ms-2" [(ngModel)]="item.checked"
+                                            (change)="onCheckboxChange(i)" name="isActive">
+                                    </td>
+                                    <td class="table-body-data">{{item.name}}</td>
+                                    <td class="table-body-data">{{item.description}}</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="saveAssignModal()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

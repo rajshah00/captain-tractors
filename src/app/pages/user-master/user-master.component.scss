@@ -1,0 +1,44 @@
+.add-box {
+    display: flex;
+    align-items: center;
+}
+
+.form-label,
+.form-check-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #544f4f;
+    margin-bottom: 2px !important;
+}
+
+#userPopLabel {
+    font-size: 18px;
+    font-weight: 700;
+    color: #544f4f;
+}
+
+.action-box {
+    display: flex;
+    gap: 10px;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.serch-box {
+    display: flex;
+    /* justify-content: end; */
+    gap: 10px;
+    align-items: end;
+    height: 100%;
+}
+
+.invalid-feild{
+    font-size: 13px;
+}
+
+.row > * {
+    margin-top: 13px !important;
+}
