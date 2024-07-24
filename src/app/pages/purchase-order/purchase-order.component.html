@@ -218,11 +218,40 @@
             </div>
         </div>
 
+        <div *ngIf="formObj.entry_type == 'Excel Sheet Upload' && missing_parts.length">
+            <h6 class="deler-detial">Not Found Parts</h6>
+            <table class="table table-bordered border-dark">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">
+                            #
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                Part Number
+                            </div>
+                        </th>
+                    </tr>
 
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of missing_parts; let i = index">
+                        <tr>
+                            <td>{{i + 1}}</td>
+                            <td>{{item}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
 
-        <div class="serch-box">
+        <div class="serch-box" *ngIf="formObj.entry_type == 'Manual Entry'">
             <button type="button" class="btn btn-secondary">Draft</button>
             <button type="submit" class="btn btn-primary" (click)="sapeParts(purchsForm)">Submit</button>
+        </div>
+
+        <div class="serch-box" *ngIf="formObj.entry_type == 'Excel Sheet Upload'">
+            <button type="submit" class="btn btn-primary" (click)="importData(purchsForm)">Submit</button>
         </div>
     </div>
 </div>

@@ -66,4 +66,20 @@ export class BackOrderReportComponent implements OnInit {
     form.resetForm();
     this.getCatalogue({});
   }
+
+  export() {
+    this.serchObj.export = 1;
+    this.serchObj.export_type = "xlsx";
+    this.service.getBackOrder(this.serchObj).subscribe((res: any) => {
+      if (res.success) {
+        const link = document.createElement('a');
+        link.href = res.data.file_url;
+        link.target = '_blank';
+        link.download = 'sample_excel';
+        link.click();
+      } else {
+        this.comman.toster('warning', res.message)
+      }
+    })
+  }
 }

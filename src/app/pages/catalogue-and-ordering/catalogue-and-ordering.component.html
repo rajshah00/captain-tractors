@@ -65,7 +65,7 @@
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.approval_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.current_stage }}</td>
                             <td *ngIf="userData?.role_name == 'Dealer'">
-                                <div class="action-box">
+                                <div class="action-box" *ngIf="item.po_pdf">
                                     <button type="button" class="btn btn-success" (click)="downloadPdf(item.po_pdf); $event.stopPropagation()">
                                         <i class="bi bi-download"></i>
                                     </button>

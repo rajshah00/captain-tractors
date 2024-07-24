@@ -74,7 +74,7 @@ export class OrderDetailComponent implements OnInit {
     this.service.getBackOrderDetail(this.order_id).subscribe((res: any) => {
       if (res.success && res.data) {
         this.orderDetail = res.data;
-        this.partList = res.data.order_details;
+        this.partList = res.data.backorder_details;
         this.partList.forEach((item: any) => {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;

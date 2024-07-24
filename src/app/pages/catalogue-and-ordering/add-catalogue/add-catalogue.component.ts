@@ -16,6 +16,7 @@ export class AddCatalogueComponent implements OnInit {
   partList: any = [];
   totalQty: any = 0;
   lineCount: any = 0;
+  p: number = 1;
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   constructor(
     public service: ApiServiceService,

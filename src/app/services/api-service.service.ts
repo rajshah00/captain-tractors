@@ -176,6 +176,10 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'order/store', data);
   }
 
+  uploadExcel (data: any) {
+    return this.http.post(environment.apiUrl + 'order/import', data);
+  }
+
   getOrder(data: any) {
     return this.http.post(environment.apiUrl + 'order/list', data);
   }

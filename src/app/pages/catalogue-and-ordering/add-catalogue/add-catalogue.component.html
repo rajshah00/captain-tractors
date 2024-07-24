@@ -96,7 +96,7 @@
                                 </th>
                                 <th scope="col" rowspan="2">
                                     <div class="table-agliment">
-                                        Item Selected {{totalQty}}  
+                                        Item Selected {{totalQty}}
                                     </div>
                                 </th>
                                 <th scope="col" class="text-center">Qty</th>
@@ -114,7 +114,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of partList;let i = index">
+                            <tr
+                                *ngFor="let item of partList | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                                 <th scope="row">{{item.sno}}</th>
                                 <td>{{item.part_no}}</td>
                                 <td>{{item.description}}</td>
@@ -137,6 +138,10 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="d-flex justify-content-end">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+
 
             </div>
         </div>

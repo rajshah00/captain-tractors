@@ -17,7 +17,7 @@ export class PurchaseOrderComponent implements OnInit {
     chassis_number: ''
   };
   partList: any = [];
-
+  missing_parts: any = [];
   progress: number = 0;
   showProgress: boolean = false;
   chassisList: any;
@@ -29,7 +29,6 @@ export class PurchaseOrderComponent implements OnInit {
     public comman: CommanService,
     public router: Router
   ) {
-
 
   }
 
@@ -58,8 +57,6 @@ export class PurchaseOrderComponent implements OnInit {
   removeRow(ind: any) {
     this.partList.splice(ind, 1);
   }
-
-
 
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -99,40 +96,48 @@ export class PurchaseOrderComponent implements OnInit {
         console.log('Excel file uploaded:', file.name);
         this.uploadFile(file);
       } else {
-        alert('Please upload a valid Excel file.');
+        this.comman.toster('warning', 'Please upload a valid Excel file.');
       }
     }
   }
 
+  //========// Import Part Data Progress //========//
   uploadFile(file: File) {
     this.showProgress = true;
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/upload', true); // Replace with your upload URL
-
-    xhr.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        const percentComplete = (event.loaded / event.total) * 100;
-        this.progress = Math.round(percentComplete);
-      }
-    };
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        alert('Upload complete!');
-        this.progress = 0;
-        this.showProgress = false;
+    this.formObj.file = file;
+    this.progress = 0;
+    const simulateUpload = () => {
+      if (this.progress < 100) {
+        this.progress += 5; // Adjust the increment as needed
       } else {
-        alert('Upload failed.');
+        clearInterval(uploadInterval);
+        this.comman.toster('success', 'Upload complete!');
+        // this.progress = 0;
+        // this.showProgress = false;
       }
     };
+    const uploadInterval = setInterval(simulateUpload, 100);
+  }
 
-    xhr.onerror = () => {
-      alert('Upload failed.');
-    };
-
-    const formData = new FormData();
-    formData.append('file', file);
-    xhr.send(formData);
+  //========// Import Part Data //========//
+  importData(form: any) {
+    form.submitted = true
+    if (form.form.valid) {
+      const formData = new FormData();
+      formData.append('file', this.formObj.file);
+      formData.append('order_type', this.formObj.order_type);
+      formData.append('entry_type', this.formObj.entry_type);
+      formData.append('mode_of_dispatch', this.formObj.mode_of_dispatch);
+      formData.append('chassis_number', this.formObj.chassis_number);
+      this.service.uploadExcel(formData).subscribe((res: any) => {
+        if (res.success) {
+          this.missing_parts = res.data.missing_parts;
+          this.comman.toster('success', res.message);
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      })
+    }
   }
 
   //========// Get All Modal //========//
