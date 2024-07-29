@@ -28,11 +28,10 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="dealer" class="form-label mb-0">Brand:</label>
-                        <select class="form-select" id="dealer" [(ngModel)]="serchObj.dealer_name" name="dealer">
-                            <ng-container *ngFor="let item of dealerList">
-                                <option [value]="item.first_name +' '+ item.last_name">{{item.first_name}}
-                                    {{item.last_name}}</option>
+                        <label for="brand_id" class="form-label mb-0">Brand:</label>
+                        <select class="form-select" id="brand_id" [(ngModel)]="serchObj.brand_id" name="brand_id">
+                            <ng-container *ngFor="let item of brandList">
+                                <option [value]="item.id ">{{item.name}}</option>
                             </ng-container>
                         </select>
                     </div>
@@ -48,12 +47,12 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="region" class="form-label mb-0">Region:</label>
-                        <select class="form-select" id="region" [(ngModel)]="serchObj.region" name="region">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="inputregion" class="form-label">Region<sup class="text-danger">*</sup>:</label>
+                        <select id="inputregion" class="form-select" [(ngModel)]="serchObj.region_id" name="region_id"
+                            (change)="getCountryList()">
+                            <ng-container *ngFor="let item of allRegionList">
+                                <option [value]="item.id">{{item.name}}</option>
+                            </ng-container>
                         </select>
                     </div>
 
@@ -67,8 +66,8 @@
                     </div>
 
                     <div class="serch-box col-md-12">
-                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
                         <button type="submit" class="btn btn-primary" (click)="getCatalogue(serchObj)">Search</button>
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
                     </div>
                 </div>
             </form>
@@ -120,7 +119,7 @@
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
                             <td>{{ item.order_type }}</td>
                             <td scope="col">{{ getTotalQty(item) }}</td>
-                            <td scope="col">{{item.approval_status}}</td>
+                            <td scope="col">{{item.approval_status || '-'}}</td>
                         </tr>
                     </ng-container>
                 </tbody>

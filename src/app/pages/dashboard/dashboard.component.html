@@ -10,28 +10,113 @@
     </div>
 
     <div class="row mt-3">
-        <div class="col-xxl-3 col-md-4">
+        <div class="col-xxl-3 col-md-3">
             <div class="card info-card pb-0 sales-card cursor-pointer">
-                <div class="card-body">
+                <div class="card-body" (click)="toggelSection('Catalogue')">
                     <div class="d-flex align-items-center">
-                        <div class="ps-3">
-                            <h6>145</h6>
+                        <div class="ps-3 box-header">
+                            <h6>Parts Catalogue</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xxl-3 col-md-4">
+        <div class="col-xxl-3 col-md-3">
             <div class="card info-card pb-0 sales-card cursor-pointer">
-                <div class="card-body">
+                <div class="card-body" (click)="toggelSection('Order')">
                     <div class="d-flex align-items-center">
-                        <div class="ps-3">
-                            <h6>145</h6>
+                        <div class="ps-3 box-header">
+                            <h6>Parts Order</h6>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="card info-card" *ngIf="is_show_part_cat">
+        <div class="card-body">
+            <section>
+                <div class="box-header mb-3">
+                    <h6>Model List</h6>
+                </div>
+                <div class="accordion" id="accordionExample">
+                    <ng-container *ngFor="let item of modalList; let i = index">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" [id]="'heading' + i">
+                                <button (click)="getParts(item)" class="accordion-button collapsed" type="button"
+                                    [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
+                                    [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
+                                    {{item.name}}
+                                </button>
+                            </h2>
+                            <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                                [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <ng-container *ngIf="partList.length;else noParts">
+                                        <table class="table table-bordered border-dark">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">
+                                                        <div class="table-agliment">
+                                                            #
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="table-agliment">
+                                                            PartNo
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="table-agliment">
+                                                            PartDesc
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col" class="text-center">
+                                                        <div class="table-agliment">
+                                                            2WD 4WD
+                                                        </div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="table-agliment">
+                                                            Remarks
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr
+                                                    *ngFor="let part of partList | paginate: { itemsPerPage: 10, currentPage: p }; let j = index">
+                                                    <th scope="row">{{j + 1}}</th>
+                                                    <td>{{part.part_no}}</td>
+                                                    <td>{{part.description}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="d-flex justify-content-end">
+                                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noParts>
+                                        <p class="text-center fw-blod">No parts available.</p>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+    <div class="card info-card" *ngIf="is_show_part_ord">
+        <div class="card-body">
+            <section>
+                Comming Soon ...
+            </section>
         </div>
     </div>
 </div>

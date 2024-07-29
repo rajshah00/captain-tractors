@@ -12,6 +12,7 @@ export class AddToCartComponent implements OnInit {
   cartList: any;
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   finalTotal: any;
+  totalQty: number = 0;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -33,9 +34,9 @@ export class AddToCartComponent implements OnInit {
     this.service.cartList(obj).subscribe((res: any) => {
       if (res.success) {
         this.cartList = res.data;
-        this.finalTotal = 0;
+        this.totalQty = 0;
         this.cartList.forEach((item: any) => {
-          this.finalTotal += item.price * item.qty;
+          this.totalQty += item.qty;
         });
       }
     })
@@ -77,6 +78,30 @@ export class AddToCartComponent implements OnInit {
     } else {
       this.comman.toster('warning', "Plese select quantities and move items to a cart")
     }
+
+  }
+
+  increment(ind: any): void {
+    if (this.cartList[ind].qty < 100) {
+      this.cartList[ind].qty += 1;
+      this.totalQty += 1;
+    }
+  }
+
+  decrement(ind: any): void {
+    if (this.cartList[ind].qty > 0 && this.cartList[ind].qty < 100) {
+      this.cartList[ind].qty -= 1;
+      this.totalQty -= 1;
+    }
+  }
+
+  onChange() {
+    // console.log("item", item);
+
+    this.totalQty = 0;
+    this.cartList.forEach((item: any) => {
+      this.totalQty += item.qty;
+    });
 
   }
 }

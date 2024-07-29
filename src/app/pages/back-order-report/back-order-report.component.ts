@@ -12,8 +12,10 @@ export class BackOrderReportComponent implements OnInit {
   serchObj: any = {};
   getAllBackOrder: any = [];
   p: number = 1;
-  allCountryList: any;
+  allCountryList: any = [];
   dealerList: any;
+  brandList: any;
+  allRegionList: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -24,7 +26,8 @@ export class BackOrderReportComponent implements OnInit {
   ngOnInit(): void {
     this.getCatalogue({});
     this.getDealerList();
-    this.getCountryList();
+    this.getRegionList()
+    this.getBrandList();
   }
 
   getCatalogue(obj: any) {
@@ -46,9 +49,19 @@ export class BackOrderReportComponent implements OnInit {
 
   //========// Get All Country //========//
   getCountryList() {
-    this.service.countryList({}).subscribe((res: any) => {
+    let obj = { region_id: this.serchObj.region_id }
+    this.service.countryList(obj).subscribe((res: any) => {
       if (res.success) {
-        this.allCountryList = res.data;
+        this.allCountryList = res.data.country;
+      }
+    })
+  }
+
+    //========// Get All Region //========//
+  getRegionList() {
+    this.service.Region({}).subscribe((res: any) => {
+      if (res.success) {
+        this.allRegionList = res.data;
       }
     })
   }
@@ -58,6 +71,15 @@ export class BackOrderReportComponent implements OnInit {
     this.service.DealerList({}).subscribe((res: any) => {
       if (res.success) {
         this.dealerList = res.data
+      }
+    })
+  }
+
+  //========// get Brand List //========//
+  getBrandList() {
+    this.service.brandList({}).subscribe((res: any) => {
+      if (res.success) {
+        this.brandList = res.data;
       }
     })
   }

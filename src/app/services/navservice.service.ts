@@ -156,6 +156,12 @@ export class NavserviceService {
         },
         {
           path: '/spare-parts-billing-report',
+          title: 'Pending Order Report',
+          type: 'link',
+          icon: 'bi bi-circle',
+        },
+        {
+          path: '/spare-parts-billing-report',
           title: 'Spare Parts Billing Report',
           type: 'link',
           icon: 'bi bi-circle',

@@ -1,3 +1,40 @@
 .card-body {
     padding: 20px 20px 20px 20px;
 }
+
+/* Hide number input spinners for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide number input spinners for Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.qty-box input {
+    width: 66px;
+    text-align: center;
+}
+
+.qty-box button {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4.5px;
+    padding-bottom: 3px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+// .qty-box button i {
+//     font-size: 12px;
+// }

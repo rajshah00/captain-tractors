@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of cartList">
+                            <tr *ngFor="let item of cartList;let i = index">
                                 <td>
                                     {{item.part?.sno}}
                                 </td>
@@ -42,8 +42,18 @@
                                     {{item.part.model.name}}
                                 </td>
                                 <td>
-                                    <input type="number" [(ngModel)]="item.qty" class="form-control" placeholder="Qty"
-                                        style="width: 90px;">
+                                    <!-- <input type="number" [(ngModel)]="item.qty" (change)="onChange(item)" class="form-control" placeholder="Qty"
+                                        style="width: 90px;"> -->
+                                    <div class="qty-box">
+                                        <button type="button" class="btn btn-danger" (click)="decrement(i)">
+                                            <i class="bi bi-dash-circle"></i>
+                                        </button>
+                                        <input type="number" [(ngModel)]="item.qty" (change)="onChange()"
+                                            class="form-control" id="qty" name="qty">
+                                        <button type="button" class="btn btn-danger" (click)="increment(i)">
+                                            <i class="bi bi-plus-circle"></i>
+                                        </button>
+                                    </div>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-danger" (click)="deleteCart(item)">
@@ -55,7 +65,7 @@
                         <tfoot>
                             <tr>
                                 <th colspan="4" class="text-end">Total QTY:</th>
-                                <td>500</td>
+                                <td>{{totalQty}}</td>
                             </tr>
                         </tfoot>
                     </table>

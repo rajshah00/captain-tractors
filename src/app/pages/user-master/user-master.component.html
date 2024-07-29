@@ -14,9 +14,9 @@
             <form #serchForm="ngForm">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="first_name" class="form-label">Search:</label>
-                        <input type="text" class="form-control" id="first_name" [(ngModel)]="serchObj.name"
-                            name="first_name">
+                        <label for="search" class="form-label">Search:</label>
+                        <input type="text" class="form-control" id="search" [(ngModel)]="serchObj.search"
+                            name="search">
                     </div>
                     <div class="col-md-6">
                         <div class="serch-box">
@@ -209,7 +209,7 @@
                             </select>
                             <div *ngIf="regionCtrl.invalid && (regionCtrl.dirty || regionCtrl.touched || form.submitted)"
                                 class="text-danger invalid-feild">
-                                Country is required.
+                                Region is required.
                             </div>
                         </div>
 

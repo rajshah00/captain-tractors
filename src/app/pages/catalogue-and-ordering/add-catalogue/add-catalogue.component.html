@@ -18,7 +18,8 @@
                         <label for="product_type" class="col-md-4 form-label">Product Type : </label>
                         <div class="col-md-8">
                             <ng-select id="product_type" [items]="productTypeList" bindLabel="name" bindValue="id"
-                                placeholder="Select Product Type" name="product_type_id" [(ngModel)]="formObj.product_type_id">
+                                placeholder="Select Product Type" name="product_type_id"
+                                [(ngModel)]="formObj.product_type_id">
                             </ng-select>
                         </div>
                     </div>
@@ -41,8 +42,8 @@
                         </div>
                     </div>
                     <div class="serch-box">
-                        <button type="button" class="btn btn-secondary" (click)="getCatalogue('Reset')">Reset</button>
                         <button type="submit" class="btn btn-primary" (click)="getCatalogue('Search')">Search</button>
+                        <button type="button" class="btn btn-secondary" (click)="getCatalogue('Reset')">Reset</button>
                     </div>
                 </div>
             </div>
@@ -64,9 +65,9 @@
                         Total Item Qty: {{totalQty}}
                     </div>
 
-                    <div>
+                    <!-- <div>
                         <a (click)="moveTocart()" class="move-to-cart">Move All Item to Cart</a>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered border-dark">
@@ -103,6 +104,7 @@
                                         Remarks
                                     </div>
                                 </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,6 +127,11 @@
                                 </td>
                                 <td> </td>
                                 <td> </td>
+                                <td>
+                                    <div class="table-agliment">
+                                        <i class="bi bi-cart-plus cursor-pointer" (click)="moveTocart(item)"></i>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

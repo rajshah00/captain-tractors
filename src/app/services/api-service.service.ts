@@ -73,6 +73,10 @@ export class ApiServiceService {
   ModalList(data: any) {
     return this.http.post(environment.apiUrl + 'model_master/list', data);
   }
+
+  modalIdPartGet(data: any) {
+    return this.http.post(environment.apiUrl + 'part/model_list', data);
+  }
   //=====// Modal Master End//=====//
 
   //=====// Assembly Master Star //=====//

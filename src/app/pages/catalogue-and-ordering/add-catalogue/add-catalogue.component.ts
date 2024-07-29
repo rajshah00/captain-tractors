@@ -94,25 +94,25 @@ export class AddCatalogueComponent implements OnInit {
     }
   }
 
-  moveTocart() {
+  moveTocart(item: any) {
     let obj: any = {
       "user_id": this.userData.id,
       "parts": []
     }
-    this.partList.forEach((item: any) => {
-      if (item.qty > 0) {
-        obj.parts.push({
-          "part_id": item.id,
-          "qty": item.qty,
-          "price": item.price,
-          "total": item.price
-        })
-      }
-    });
+    if (item.qty > 0) {
+      obj.parts.push({
+        "part_id": item.id,
+        "qty": item.qty,
+        "price": item.price,
+        "total": item.price
+      })
+    }
+
     if (obj.parts && obj.parts.length) {
       this.service.addToCart(obj).subscribe((res: any) => {
         if (res.success) {
           // this.router.navigate(['/add-to-cart'])
+          item.qty = 0
           this.comman.toster('success', res.message);
         } else {
           this.comman.toster('warning', res.message)
@@ -134,7 +134,6 @@ export class AddCatalogueComponent implements OnInit {
     this.partList.forEach((item: any) => {
       this.totalQty += item.qty;
     });
-
   }
 
 }

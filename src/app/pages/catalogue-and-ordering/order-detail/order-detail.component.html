@@ -28,8 +28,9 @@
                                         <input class="form-check-input" type="checkbox" id="selectAll"
                                             [(ngModel)]="selectAll" (change)="selected()">
                                     </th>
-                                    <th>Part</th>
+                                    <th>Sno</th>
                                     <th>Part No</th>
+                                    <th>Part Name</th>
                                     <th>Quantity</th>
                                     <th *ngIf="userData?.role_name == 'CTPL'"
                                         style="max-width: 130px;text-align: center;">Approve QTY</th>
@@ -44,8 +45,9 @@
                                         <input class="form-check-input" type="checkbox" id="selectAll"
                                             [(ngModel)]="item.is_approve">
                                     </td>
-                                    <td>{{item.part?.name}}</td>
+                                    <td>{{item.part?.sno}}</td>
                                     <td>{{item.part?.part_no}}</td>
+                                    <td>{{item.part?.name}}</td>
                                     <td>
                                         {{item.part_qty}}
                                     </td>
@@ -87,10 +89,10 @@
 
                     <address class="mb-0 font-14 address-lg">
                         {{orderDetail.dealer?.address}}<br>
-                        <abbr title="Phone">P:</abbr> {{orderDetail.dealer?.phone}}<br>
-                        <!-- <abbr title="City">City:</abbr> {{orderDetail.dealer?.city}}<br>
-                        <abbr title="State">State:</abbr> {{orderDetail.dealer?.state?.name}}<br>
-                        <abbr title="Country">Country:</abbr> {{orderDetail.dealer?.country?.name}} -->
+                        <abbr title="Phone">Phone:</abbr> {{orderDetail.dealer?.phone}}<br>
+                        <abbr title="City">City:</abbr> {{orderDetail.dealer?.city}}<br>
+                        <abbr title="Country">Country:</abbr> {{orderDetail.dealer?.country?.name}}<br>
+                        <abbr title="State">State:</abbr> {{orderDetail.dealer?.state?.name}}
                     </address>
 
                 </div>
