@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -10,6 +10,7 @@ declare var $: any;
   styleUrls: ['./modal-master.component.scss']
 })
 export class ModalMasterComponent implements OnInit {
+  @ViewChild('model_logo') model_logo: ElementRef | any;
   formObj: any = {};
   serchObj: any = {};
   modalType: any;
@@ -31,6 +32,7 @@ export class ModalMasterComponent implements OnInit {
   }
 
   openPop(type: any, item: any) {
+    this.model_logo.nativeElement.value = '';
     if (type == 'Edit') {
       this.modalId = item.id;
       this.formObj.name = item.name;

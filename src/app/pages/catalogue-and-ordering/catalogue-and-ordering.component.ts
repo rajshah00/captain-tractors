@@ -48,13 +48,6 @@ export class CatalogueAndOrderingComponent implements OnInit {
     });
   }
 
-  // downloadPdf(url: string) {
-  //   this.http.get(url, { responseType: 'blob' }).subscribe((response: Blob) => {
-  //     const blob = new Blob([response], { type: 'application/pdf' });
-  //     FileSaver.saveAs(blob, 'downloadedFile.pdf');
-  //   });
-  // }
-
   downloadPdf(poPdf: string) {
     if (poPdf && poPdf != '') {
       console.log('Downloading PDF:', poPdf);
@@ -71,5 +64,14 @@ export class CatalogueAndOrderingComponent implements OnInit {
   resetForm(form: any) {
     form.resetForm();
     this.getCatalogue({});
+  }
+
+  getTotalQty(item: any) {
+    let total = 0;
+    item.order_details.forEach((it: any) => {
+      total += parseFloat(it.part_qty)
+    });
+
+    return total;
   }
 }

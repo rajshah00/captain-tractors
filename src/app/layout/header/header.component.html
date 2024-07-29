@@ -7,9 +7,41 @@
             <span class="d-none d-lg-block">Captain</span>
             <span class="d-none d-lg-block"> Tractors</span>
         </a>
-        <i class="bi bi-list toggle-sidebar-btn" (click)="toggelSideBar()"></i>
+        <!-- <i class="bi bi-list toggle-sidebar-btn" (click)="toggelSideBar()"></i> -->
     </div>
 
+
+    <nav class="header-nav">
+        <ul class="d-flex align-items-center">
+
+            <!-- Dropdown Menu -->
+            <li class="nav-item dropdown pe-3" *ngFor="let item of menuItems">
+                <a *ngIf="!item.children.length" class="nav-link nav-profile" [routerLink]="item.path">
+                    <span class="ps-2">{{item.title}}</span>
+                </a>
+
+                <a *ngIf="item.children.length" class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
+                    data-bs-toggle="dropdown">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{item.title}}</span>
+                </a>
+
+                <ul *ngIf="item.children.length" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li *ngFor="let child of item.children">
+                        <a class="dropdown-item d-flex align-items-center" [routerLink]="child.path">
+                            <span>{{child.title}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </nav>
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -32,7 +64,7 @@
                     <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{userData?.first_name}}
                         {{userData?.last_name}}</span>
-                </a><!-- End Profile Iamge Icon -->
+                </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">

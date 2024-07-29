@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -9,9 +9,19 @@ import { map } from 'rxjs/operators';
 })
 export class ApiServiceService {
   cartCount: any = 0;
-  notiCount: any = 0;
-
+  notiCount: any = 0; 
+  private spinnerSubject = new BehaviorSubject<boolean>(false);
+  spinnerState$ = this.spinnerSubject.asObservable();
+  
   constructor(private http: HttpClient) { }
+
+  show() {
+    this.spinnerSubject.next(true);
+  }
+
+  hide() {
+    this.spinnerSubject.next(false);
+  }
 
   login(data: any) {
     return this.http.post(environment.apiUrl + 'login', data);
@@ -154,9 +164,14 @@ export class ApiServiceService {
   }
   //=====// E-Catalogue End //=====//
 
-  countryList(data: any) {
-    return this.http.post(environment.apiUrl + 'country/list', data);
+  Region(data: any) {
+    return this.http.post(environment.apiUrl + 'region/list', data);
   }
+
+  countryList(data: any) {
+    return this.http.post(environment.apiUrl + 'region/country_list', data);
+  }
+
 
   stateList(data: any) {
     return this.http.post(environment.apiUrl + 'state/list', data);
@@ -176,7 +191,7 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'order/store', data);
   }
 
-  uploadExcel (data: any) {
+  uploadExcel(data: any) {
     return this.http.post(environment.apiUrl + 'order/import', data);
   }
 
@@ -214,6 +229,14 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + `order/sample_excel`, {});
   }
 
+  approveByDealer(id: any, data: any = {}) {
+    return this.http.post(environment.apiUrl + `back_order/${id}/approve`, data);
+  }
+
+
+  rejectByDealer(id: any) {
+    return this.http.post(environment.apiUrl + `back_order/${id}/reject`, {});
+  }
   //=====// Order End //=====//
 
   //=====// Notifications Start //=====//
@@ -321,5 +344,23 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'service_sop/list', data);
   }
   //=====// Service SOP Master End //=====//
+
+  //=====// I - Catalogue Master Start //=====//
+  addCatalogue(data: any) {
+    return this.http.post(environment.apiUrl + 'i_catalogue/store', data);
+  }
+
+  editCatalogue(data: any, id: any) {
+    return this.http.post(environment.apiUrl + `i_catalogue/${id}/update`, data);
+  }
+
+  deleteCatalogue(id: any) {
+    return this.http.post(environment.apiUrl + `i_catalogue/${id}/delete`, {});
+  }
+
+  catalogueList(data: any) {
+    return this.http.post(environment.apiUrl + 'i_catalogue/list', data);
+  }
+  //=====// I - Catalogue Master End //=====//
 
 }

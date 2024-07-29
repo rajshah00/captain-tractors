@@ -96,7 +96,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="assebmlyPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="assebmlyPop"  tabindex="-1"
     aria-labelledby="assebmlyPopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -135,7 +135,7 @@
 
                         <div class="col-md-6">
                             <label for="modal_image" class="form-label">Image:</label>
-                            <input type="file" class="form-control" id="modal_image" (change)="onFileSelected($event)">
+                            <input type="file" class="form-control" #assembly_logo id="modal_image" (change)="onFileSelected($event)">
                         </div>
 
                         <div class="col-md-12" *ngIf="assemblyType == 'Edit'">

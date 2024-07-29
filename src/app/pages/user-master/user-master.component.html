@@ -10,20 +10,19 @@
 
 <div class="card">
     <div class="card-body">
-        <div>
-            <h5 class="card-title">Search</h5>
+        <div class="pt-3">
             <form #serchForm="ngForm">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="first_name" class="form-label">Name<sup class="text-danger">*</sup>:</label>
+                        <label for="first_name" class="form-label">Search:</label>
                         <input type="text" class="form-control" id="first_name" [(ngModel)]="serchObj.name"
                             name="first_name">
                     </div>
                     <div class="col-md-6">
                         <div class="serch-box">
+                            <button type="submit" class="btn btn-primary" (click)="getUerList()">Search</button>
                             <button type="button" class="btn btn-secondary"
                                 (click)="resetForm(serchForm)">Reset</button>
-                            <button type="submit" class="btn btn-primary" (click)="getUerList()">Search</button>
                         </div>
                     </div>
 
@@ -50,8 +49,8 @@
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Region</th>
                         <th scope="col">Country</th>
-                        <th scope="col">State</th>
                         <th scope="col">Role</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
@@ -63,8 +62,8 @@
                         <td>{{item.first_name}} {{item.last_name}}</td>
                         <td>{{item.phone}}</td>
                         <td>{{item.email}}</td>
+                        <td>{{item.region?.name || '-'}}</td>
                         <td>{{item.country?.name}}</td>
-                        <td>{{item.state?.name}}</td>
                         <td>{{item.role_name}}</td>
                         <td>
                             <span *ngIf="item.is_active" class="badge bg-success">Active</span>
@@ -93,8 +92,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="userPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="userPopLabel" aria-hidden="true">
+<div class="modal fade" id="userPop" tabindex="-1" aria-labelledby="userPopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -188,14 +186,26 @@
                         </div>
 
                         <div class="col-md-6">
+                            <label for="roles" class="form-label">Roles<sup class="text-danger">*</sup>:</label>
+                            <select id="roles" class="form-select" [(ngModel)]="formObj.role_id" name="role_id" required
+                                #rolesCtrl="ngModel">
+                                <ng-container *ngFor="let item of roleList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Role is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <label for="inputregion" class="form-label">Region<sup class="text-danger">*</sup>:</label>
                             <select id="inputregion" class="form-select" [(ngModel)]="formObj.region_id"
-                                name="region_id" required #regionCtrl="ngModel">
-                                <!-- <ng-container *ngFor="let item of allCountryList"> -->
-                                <option value="Africa">Africa</option>
-                                <option value="Asia">Asia</option>
-                                <option value="Central America">Central America</option>
-                                <!-- </ng-container> -->
+                                name="region_id" (change)="getCountryList()" required #regionCtrl="ngModel">
+                                <ng-container *ngFor="let item of allRegionList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
                             </select>
                             <div *ngIf="regionCtrl.invalid && (regionCtrl.dirty || regionCtrl.touched || form.submitted)"
                                 class="text-danger invalid-feild">
@@ -219,41 +229,19 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="inputState" class="form-label">State<sup class="text-danger">*</sup>:</label>
-                            <select id="inputState" class="form-select" [(ngModel)]="formObj.state_id" name="state_id"
-                                required #stateCtrl="ngModel">
+                            <label for="inputState" class="form-label">State:</label>
+                            <select id="inputState" class="form-select" [(ngModel)]="formObj.state_id" name="state_id">
                                 <ng-container *ngFor="let item of allStateList">
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
                             </select>
-                            <div *ngIf="stateCtrl.invalid && (stateCtrl.dirty || stateCtrl.touched || form.submitted)"
-                                class="text-danger invalid-feild">
-                                State is required.
-                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="inputCity" class="form-label">City<sup class="text-danger">*</sup>:</label>
+                            <label for="inputCity" class="form-label">City:</label>
                             <input type="text" class="form-control" id="inputCity" [(ngModel)]="formObj.city"
-                                name="city" required #cityCtrl="ngModel">
-                            <div *ngIf="cityCtrl.invalid && (cityCtrl.dirty || cityCtrl.touched || form.submitted)"
-                                class="text-danger invalid-feild">
-                                City is required.
-                            </div>
-                        </div>
+                                name="city">
 
-                        <div class="col-md-6">
-                            <label for="roles" class="form-label">Roles<sup class="text-danger">*</sup>:</label>
-                            <select id="roles" class="form-select" [(ngModel)]="formObj.role_id" name="role_id" required
-                                #rolesCtrl="ngModel">
-                                <ng-container *ngFor="let item of roleList">
-                                    <option [value]="item.id">{{item.name}}</option>
-                                </ng-container>
-                            </select>
-                            <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || form.submitted)"
-                                class="text-danger invalid-feild">
-                                Role is required.
-                            </div>
                         </div>
 
                         <div class="col-12">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
@@ -12,6 +12,7 @@ declare var $: any;
   styleUrls: ['./brand-master.component.scss']
 })
 export class BrandMasterComponent implements OnInit {
+  @ViewChild('brand_logo') brand_logo: ElementRef | any;
   formData: any = {
     name: '',
     email: '',
@@ -36,11 +37,13 @@ export class BrandMasterComponent implements OnInit {
   }
 
   openPop(type: any, item: any) {
+    this.brand_logo.nativeElement.value = '';
     if (type == 'Edit') {
       this.brand_id = item.id;
       this.formData.name = item.name;
       this.formData.email = item.email;
       this.formData.website = item.website;
+      this.formData.logo = item.logo;
     } else {
       this.formData.name = '';
       this.formData.email = '';
@@ -60,12 +63,14 @@ export class BrandMasterComponent implements OnInit {
             this.comman.toster('success', res.message);
             this.getBrandList();
             $('#brandPop').modal('hide');
+            form.reset();
           } else {
             this.comman.toster('warning', res.message)
           }
         }, (err: any) => {
           this.comman.toster('error', 'ops! something went wrong please try again later');
           $('#brandPop').modal('hide');
+          form.reset();
         })
       } else {
         const formValues = this.appendFormData(this.formData);
@@ -74,12 +79,14 @@ export class BrandMasterComponent implements OnInit {
             this.comman.toster('success', res.message);
             this.getBrandList();
             $('#brandPop').modal('hide');
+            form.reset();
           } else {
             this.comman.toster('warning', res.message)
           }
         }, (err: any) => {
           this.comman.toster('error', 'ops! something went wrong please try again later');
           $('#brandPop').modal('hide');
+          form.reset();
         })
       }
     }

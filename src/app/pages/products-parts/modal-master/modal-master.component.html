@@ -90,8 +90,7 @@
 
 
 <!-- Model -->
-<div class="modal fade" id="modalPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="modalPopLabel" aria-hidden="true">
+<div class="modal fade" id="modalPop" tabindex="-1" aria-labelledby="modalPopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -145,7 +144,16 @@
 
                         <div class="col-md-6">
                             <label for="modal_image" class="form-label">Model Image:</label>
-                            <input type="file" class="form-control" id="modal_image" (change)="onFileSelected($event)">
+                            <input type="file" class="form-control" #model_logo id="modal_image" (change)="onFileSelected($event)">
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group row" *ngIf="modalType == 'Edit'">
+                                <label for="logo" class="col-md-12">Model Preview : </label>
+                                <div class="col-md-12">
+                                    <img [src]="formObj.image" alt="" srcset="" width="100%">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-12">

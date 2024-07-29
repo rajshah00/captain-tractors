@@ -1,4 +1,13 @@
 <router-outlet></router-outlet>
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
     <p style="color: white"> Loading... </p>
-</ngx-spinner>
+</ngx-spinner> -->
+
+<div class="loaders" *ngIf="isLoading">
+    <section class="spinner-container">
+        <div class="spinner"><span class="spinner__leter" letter="C">C</span><span class="spinner__leter"
+                letter="a">a</span><span class="spinner__leter" letter="p">p</span><span class="spinner__leter"
+                letter="t">t</span><span class="spinner__leter" letter="a">a</span><span class="spinner__leter"
+                letter="i">i</span><span class="spinner__leter" letter="n">n</span></div>
+    </section>
+</div>

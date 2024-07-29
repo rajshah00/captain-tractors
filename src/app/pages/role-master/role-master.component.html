@@ -10,23 +10,6 @@
 
 <div class="card">
     <div class="card-body">
-        <div>
-            <h5 class="card-title">Search</h5>
-            <form #serchForm="ngForm">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="name" class="form-label">Name:</label>
-                        <input type="text" class="form-control" id="name" [(ngModel)]="serchObj.name" name="name">
-                    </div>
-
-                    <div class="serch-box col-md-6">
-                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
-                        <button type="submit" class="btn btn-primary" (click)="getRoleList()">Search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <div class="d-flex justify-content-between">
             <h5 class="card-title">Results ({{roleList.length}})</h5>
             <div class="add-box">
@@ -79,7 +62,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="rolePop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="rolePop"  tabindex="-1"
     aria-labelledby="rolePopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">

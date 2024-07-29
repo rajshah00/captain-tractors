@@ -3,21 +3,6 @@
 
 @import 'sweetalert2/src/sweetalert2.scss';
 @import "~@ng-select/ng-select/themes/default.theme.css";
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
-/*--------------------------------------------------------------
-Fonts
---------------------------------------------------------------*/
-@font-face {
-    font-family: 'microgrammabold';
-    src: url('fonts/microgramma-bold-font-webfont.woff2') format('woff2'),
-         url('fonts/microgramma-bold-font-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
 
 /*--------------------------------------------------------------
 # General
@@ -27,9 +12,9 @@ Fonts
 }
 
 body {
-  font-family: "Source Sans 3", sans-serif;
-  background: #f031360a;
-  color: #000000;
+  font-family: "Nunito", sans-serif;
+  background: #f6f9ff;
+  color: #444444;
 }
 
 a {
@@ -48,14 +33,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Source Sans 3", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 /*--------------------------------------------------------------
   # Main
   --------------------------------------------------------------*/
 #main {
-  margin-top: 90px;
+  margin-top: 60px;
   // margin-bottom: 60px;
   padding: 20px 30px;
   transition: all 0.3s;
@@ -76,8 +61,9 @@ h6 {
 
 .pagetitle h1 {
   font-size: 24px;
+  margin-bottom: 0;
   font-weight: 600;
-  color: #ec3237;
+  color: #012970;
 }
 
 /*--------------------------------------------------------------
@@ -249,8 +235,8 @@ h6 {
   padding: 20px 0 15px 0;
   font-size: 18px;
   font-weight: 500;
-  color: #f03036;
-  font-family: "Source Sans 3", sans-serif;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
 }
 
 .card-title span {
@@ -270,7 +256,7 @@ h6 {
 /* Alerts */
 .alert-heading {
   font-weight: 500;
-  font-family: "Source Sans 3", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
 }
 
@@ -319,26 +305,26 @@ h6 {
 /* Breadcrumbs */
 .breadcrumb {
   font-size: 14px;
-  font-family: "Source Sans 3", sans-serif;
-  color: #000000;
+  font-family: "Nunito", sans-serif;
+  color: #899bbd;
   font-weight: 600;
 }
 
 .breadcrumb a {
-  color: #000000;
+  color: #899bbd;
   transition: 0.3s;
 }
 
 .breadcrumb a:hover {
-  color: #ec3237;
+  color: #51678f;
 }
 
 .breadcrumb .breadcrumb-item::before {
-  color: #ec3237;
+  color: #899bbd;
 }
 
 .breadcrumb .active {
-  color: #ec3237;
+  color: #51678f;
   font-weight: 600;
 }
 
@@ -378,7 +364,7 @@ h6 {
 }
 
 .logo img {
-  max-height: 43px;
+  max-height: 26px;
   margin-right: 6px;
 }
 
@@ -386,14 +372,13 @@ h6 {
   font-size: 26px;
   font-weight: 700;
   color: #012970;
-  display:none !important;
-  font-family: "Source Sans 3", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 .header {
   transition: all 0.5s;
   z-index: 997;
-  height: 90px;
+  height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
   padding-left: 20px;
@@ -474,9 +459,7 @@ h6 {
 .header-nav ul {
   list-style: none;
 }
-.header-nav{
-	margin-left:30px;
-}
+
 .header-nav>ul {
   margin: 0;
   padding: 0;
@@ -490,7 +473,7 @@ h6 {
 }
 
 .header-nav .nav-profile {
-  color: #000000;
+  color: #012970;
 }
 
 .header-nav .nav-profile img {
@@ -498,21 +481,16 @@ h6 {
 }
 
 .header-nav .nav-profile span {
-  font-size: 16px;
-  font-weight: 400;
-  text-transform:capitalize;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .header-nav .badge-number {
   position: absolute;
-  inset: -6px -7px auto auto;
+  inset: -2px -5px auto auto;
   font-weight: normal;
   font-size: 12px;
-padding: 0;
-width: 20px;
-height: 20px;
-border-radius: 50%;
-line-height: 20px;
+  padding: 3px 6px;
 }
 
 .header-nav .notifications {
@@ -592,7 +570,7 @@ line-height: 20px;
   font-size: 18px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #ed3035;
+  color: #444444;
 }
 
 .header-nav .profile .dropdown-header span {
@@ -600,7 +578,7 @@ line-height: 20px;
 }
 
 .header-nav .profile .dropdown-item {
-  font-size: 16px;
+  font-size: 14px;
   padding: 10px 15px;
   transition: 0.3s;
 }
@@ -609,34 +587,10 @@ line-height: 20px;
   margin-right: 10px;
   font-size: 18px;
   line-height: 0;
-  color:#ed3035;
 }
 
-.header-nav .profile .dropdown-item:hover, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
-  background-color: #ed313612;
-}
-header .dropdown-toggle::before {
-
-    content: "\f107";
-    font: normal normal normal 14px/1 FontAwesome;
-    right: -14px;
-    position: absolute;
-    left: auto;
-    top: 5px;
-
-}
-header .header-nav ul li{
-	margin-right: 8px !important;
-}
-header .dropdown-toggle{
-	position: relative;
-	margin-right:8px !important;
-}
-header .dropdown-toggle::after{
-	display:none;
-}
-header .badge-number{
-	background-color:#ec3035 !important;
+.header-nav .profile .dropdown-item:hover {
+  background-color: #f6f9ff;
 }
 
 /*--------------------------------------------------------------
@@ -1035,7 +989,7 @@ header .badge-number{
 }
 
 .iconslist .label {
-  font-family: "Source Sans 3", sans-serif;
+  font-family: var(--bs-font-monospace);
   display: inline-block;
   width: 100%;
   overflow: hidden;
@@ -1274,19 +1228,16 @@ header .badge-number{
 
 .footer .copyright {
   text-align: center;
-  color: #000000;
-
+  color: #012970;
 }
 
 .footer .credits {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
-  color: #000000;
+  color: #012970;
 }
-.footer .copyright strong{
-	color: #ec3237;
-}
+
 @media (max-width: 1199px) {
   .footer {
     width: 100% !important;
@@ -1305,7 +1256,7 @@ header .badge-number{
   left: 0;
   width: 100%;
   background-color: #ffffff;
-  z-index: 9999;
+  z-index: 21;
 }
 
 .spinner-container {
@@ -1331,7 +1282,7 @@ header .badge-number{
 .spinner-container .spinner__leter:before {
   content: attr(letter);
   position: absolute;
-  top: -20px;
+  top: 0px;
   left: 0;
   color: #ed3237;
   animation: load-animation 2.8s infinite;
@@ -1482,94 +1433,3 @@ header .badge-number{
     tranform: rotate(-360deg);
   }
 }
-.dashboard {
-  padding-top: 20px;
-}
-
-.btn-primary, .btn-danger, .form-check-input:checked{
-	background-color:#ec3237;
-	border-color:#ec3237;
-}
-.btn-primary:hover{
-	background-color:#333333;
-	border-color:#333333;
-}
-.btn-secondary{
-	background-color:#333333;
-	border-color:#333333;
-}
-.btn-secondary:hover{
-	background-color:#ec3237;
-	border-color:#ec3237;
-}
-body .ngx-pagination .current{
-	background-color:#ec3237;
-	border-radius:5px;
-}
-.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
-  color: #ffffff;
-  background-color:#ec3237;
-  border-color:#ec3237;
-}
-.modal-header h1{
-	color:#ec3237 !important;
-	font-weight:600;
-}
-body .form-label, body .form-check-label {
-  font-weight: 500 !important;
-  color: #000000 !important;
-  margin-bottom: 2px !important;
-}
-body .form-check-input:checked[type="checkbox"]{
-	accent-color:#ec3237 !important;
-}
-.form-check-input:focus {
-  border-color: #ec3237;
-  outline: 0;
-  box-shadow: 0 0 0 0rem rgba(236, 51, 56, 0.25);
-}
-body .add-circle-btn{
-	border-color: #ec3237 !important;
-}
-.btn-close{
-	color: #ec3237 !important;
-	width:2em;
-}
-table th{
-	color: #ec3237 !important;
-	font-weight:600 !important;
-
-}
-body .form-select:focus {
-  border-color: #ec3237;
-  outline: 0;
-  box-shadow: 0 0 0 0rem rgba(13, 110, 253, 0.25) !important;
-}
-.table-dark th{ 
-    background-color: #eeeeee;
-}
-.table-bordered.border-dark > :not(caption) > *{
-    border-color:#b3b3b3;
-}
-body .drop-area{
-	border-color:#ec3237;
-}
-.action-box .btn.btn-light{
-	border-color:#cccccc;
-	background-color:#f2f2f2;
-}
-.nav-tabs .nav-link{
-	color: #000000 !important;
-}
-.nav-tabs .nav-link:hover, .nav-tabs .nav-link.active{
-	color: #ec3237 !important;
-}
-.nav-tabs .nav-link:hover, .nav-tabs, .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link, #myTabContent .tab-pane{
-	 border-color:#f99c9f !important;
-}
-body .offcanvas-header{
-	background-color:#ec3237 !important;
-	}
-.notification-list .notify-icon.bg-info {
-  background-color: #ec3237 !important;
-}	

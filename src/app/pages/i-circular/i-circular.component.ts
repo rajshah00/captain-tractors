@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -11,6 +11,7 @@ declare var $: any;
   styleUrls: ['./i-circular.component.scss']
 })
 export class ICircularComponent implements OnInit {
+  @ViewChild('circular_pdf') circular_pdf: ElementRef | any;
   p: number = 1;
   popupType: any;
   dealers: any = [];
@@ -62,6 +63,7 @@ export class ICircularComponent implements OnInit {
   openPop(type: any, item: any) {
     this.selectedDealers = []
     this.circular_name = '';
+    this.circular_pdf.nativeElement.value = '';
     if (type == 'Edit') {
       this.item_id = item.id;
       this.circular_name = item.name;

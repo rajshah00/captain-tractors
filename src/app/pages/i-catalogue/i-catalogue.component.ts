@@ -6,26 +6,25 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var $: any;
 
 @Component({
-  selector: 'app-service-sop',
-  templateUrl: './service-sop.component.html',
-  styleUrls: ['./service-sop.component.scss']
+  selector: 'app-i-catalogue',
+  templateUrl: './i-catalogue.component.html',
+  styleUrls: ['./i-catalogue.component.scss']
 })
-export class ServiceSOPComponent implements OnInit {
-  @ViewChild('sop_pdf') sop_pdf: ElementRef | any;
+export class ICatalogueComponent implements OnInit {
+  @ViewChild('pdfInput') pdfInput: ElementRef | any;
   p: number = 1;
   popupType: any;
-  dealers: any;
-  sopList: any = [];
+  dealers: any = [];
   selectedDealers: any = [];
-  circular_name: any;
+  pdf: any = null;
+  catalogueList: any = [];
   item_id: any;
-  pdf: any;
-  sopDetail: any = {};
+  catalogueDetail: any = {};
+  catalogue_name: any;
   isPdf: boolean = false;
   pdfUrl: any;
   imageUrl: any;
   userData: any = {};
-  dateSelect: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -33,11 +32,12 @@ export class ServiceSOPComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
 
-
   }
-  ngOnInit(): void {
+
+
+  ngOnInit(): void {  
     this.userData = JSON.parse(localStorage.getItem('profile') || '');
-    this.getSOPList();
+    this.getCircularList();
     this.getDealerList();
   }
 
@@ -50,11 +50,11 @@ export class ServiceSOPComponent implements OnInit {
     })
   }
 
-  //========// get Service SOP List //========//
-  getSOPList() {
-    this.service.sopList({}).subscribe((res: any) => {
+  //========// get Brand List //========//
+  getCircularList() {
+    this.service.catalogueList({}).subscribe((res: any) => {
       if (res.success) {
-        this.sopList = res.data;
+        this.catalogueList = res.data;
       }
     })
   }
@@ -62,19 +62,19 @@ export class ServiceSOPComponent implements OnInit {
   //========// Open Popup  //========//
   openPop(type: any, item: any) {
     this.selectedDealers = []
-    this.circular_name = '';
-    this.dateSelect = '';
-    this.sop_pdf.nativeElement.value = '';
+    this.catalogue_name = '';
+    this.pdfInput.nativeElement.value = '';
     if (type == 'Edit') {
       this.item_id = item.id;
-      this.circular_name = item.name;
-      this.dateSelect = item.date;
-      item.service_sop_dealer.forEach((element: any) => {
+      this.catalogue_name = item.name;
+      item.i_catalogue_dealer.forEach((element: any) => {
         this.selectedDealers.push(element.dealer_id)
       });
     }
+    console.log("this.selectedDealers", this.selectedDealers);
+
     this.popupType = type;
-    $('#serviceSOPPopup').modal('show');
+    $('#circularPopup').modal('show');
   }
 
   //========// File Select Function  //========//
@@ -99,17 +99,17 @@ export class ServiceSOPComponent implements OnInit {
       if (this.popupType == 'Add') {
         const formData = new FormData();
         formData.append('pdf_or_img', this.pdf);
-        formData.append('name', this.circular_name);
-        formData.append('date', this.dateSelect);
+        formData.append('name', this.catalogue_name);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });
 
-        this.service.addSOP(formData).subscribe((res: any) => {
+        this.service.addCatalogue(formData).subscribe((res: any) => {
           if (res.success) {
             this.comman.toster('success', res.message);
-            this.getSOPList();
-            $('#serviceSOPPopup').modal('hide');
+            this.getCircularList();
+            $('#circularPopup').modal('hide');
+            form.reset();
           } else {
             this.comman.toster('warning', res.message)
           }
@@ -117,16 +117,17 @@ export class ServiceSOPComponent implements OnInit {
       } else {
         const formData = new FormData();
         formData.append('pdf_or_img', this.pdf);
-        formData.append('name', this.circular_name);
-        formData.append('date', this.dateSelect);
+        formData.append('name', this.catalogue_name);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });
-        this.service.editSOP(formData, this.item_id).subscribe((res: any) => {
+
+        this.service.editCatalogue(formData, this.item_id).subscribe((res: any) => {
           if (res.success) {
             this.comman.toster('success', res.message);
-            this.getSOPList();
-            $('#serviceSOPPopup').modal('hide');
+            this.getCircularList();
+            $('#circularPopup').modal('hide');
+            form.reset();
           } else {
             this.comman.toster('warning', res.message)
           }
@@ -135,12 +136,12 @@ export class ServiceSOPComponent implements OnInit {
     }
   }
 
-  //========// Delete function //========//
+  //========// Delete function//========//
   delete(item: any) {
-    this.service.deleteSOP(item.id).subscribe((res: any) => {
+    this.service.deleteCatalogue(item.id).subscribe((res: any) => {
       if (res.success) {
         this.comman.toster('success', res.message);
-        this.getSOPList();
+        this.getCircularList();
       } else {
         this.comman.toster('warning', res.message)
       }
@@ -152,9 +153,10 @@ export class ServiceSOPComponent implements OnInit {
 
   //========// Open Veiw Popup  //========//
   openPopVeiw(item: any) {
-    this.sopDetail = item;
+    this.catalogueDetail = item;
     if (item.pdf_or_img && item.pdf_or_img.endsWith('.pdf')) {
       this.isPdf = true;
+      // this.pdfUrl = item.pdf_or_img;
       this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(item.pdf_or_img);
     } else {
       this.isPdf = false;
@@ -162,4 +164,5 @@ export class ServiceSOPComponent implements OnInit {
     }
     $('#exampleModal').modal('show')
   }
+
 }

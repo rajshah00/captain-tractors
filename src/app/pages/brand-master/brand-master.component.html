@@ -10,23 +10,6 @@
 
 <div class="card">
     <div class="card-body">
-        <div>
-            <h5 class="card-title">Search</h5>
-            <form #serchForm="ngForm">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="name" class="form-label">Brand Name :</label>
-                        <input type="text" class="form-control" id="name" [(ngModel)]="serchObj.name" name="name">
-                    </div>
-
-                    <div class="serch-box col-md-6">
-                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
-                        <button type="submit" class="btn btn-primary" (click)="getBrandList()">Search</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <div class="d-flex justify-content-between">
             <h5 class="card-title">Results ({{brandList.length}})</h5>
             <div class="add-box">
@@ -79,8 +62,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="brandPop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="rolePopLabel" aria-hidden="true">
+<div class="modal fade" id="brandPop" tabindex="-1" aria-labelledby="rolePopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
@@ -108,8 +90,15 @@
                     <div class="form-group row">
                         <label for="logo" class="col-md-3">Logo <sup class="text-danger">*</sup> : </label>
                         <div class="col">
-                            <input type="file" id="logo" name="logo" class="form-control"
+                            <input type="file" id="logo" name="logo" #brand_logo class="form-control"
                                 (change)="onFileSelected($event)" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="form-group row" *ngIf="brandType == 'Edit'">
+                        <label for="logo" class="col-md-12">Logo Preview : </label>
+                        <div class="col-md-12">
+                            <img [src]="formData.logo" alt="" srcset="" width="200px">
                         </div>
                     </div>
 

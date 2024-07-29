@@ -28,10 +28,21 @@
                     </div>
 
                     <div class="col-md-4">
+                        <label for="dealer" class="form-label mb-0">Brand:</label>
+                        <select class="form-select" id="dealer" [(ngModel)]="serchObj.dealer_name" name="dealer">
+                            <ng-container *ngFor="let item of dealerList">
+                                <option [value]="item.first_name +' '+ item.last_name">{{item.first_name}}
+                                    {{item.last_name}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
                         <label for="dealer" class="form-label mb-0">Dealer:</label>
                         <select class="form-select" id="dealer" [(ngModel)]="serchObj.dealer_name" name="dealer">
                             <ng-container *ngFor="let item of dealerList">
-                                <option [value]="item.first_name +' '+ item.last_name">{{item.first_name}} {{item.last_name}}</option>
+                                <option [value]="item.first_name +' '+ item.last_name">{{item.first_name}}
+                                    {{item.last_name}}</option>
                             </ng-container>
                         </select>
                     </div>
@@ -55,7 +66,7 @@
                         </select>
                     </div>
 
-                    <div class="serch-box col-md-4">
+                    <div class="serch-box col-md-12">
                         <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
                         <button type="submit" class="btn btn-primary" (click)="getCatalogue(serchObj)">Search</button>
                     </div>
@@ -71,7 +82,7 @@
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between">
-            <h5 class="card-title">Results (1)</h5>
+            <h5 class="card-title">Results ({{getAllBackOrder.length || '0'}})</h5>
             <div class="add-box">
                 <button type="button" class="btn btn-primary" (click)="export()">
                     Export to EXCEL
@@ -84,10 +95,13 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Dealer</th>
                         <th scope="col">Order Number</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Order date</th>
                         <th scope="col">Order Type</th>
                         <th scope="col">Quantity</th>
-                        <th scope="col">Creat Date</th>
                         <th scope="col">Order Status</th>
                     </tr>
                 </thead>
@@ -95,11 +109,17 @@
                     <ng-container
                         *ngFor="let item of getAllBackOrder | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
                         <tr (click)="selectedRow(item)">
-                            <td scope="col">{{i + 1}}</td>
-                            <td scope="col">{{item.order_number}}</td>
-                            <td scope="col">{{item.order_type}}</td>
-                            <td scope="col">{{item.total_qty}}</td>
-                            <td scope="col">{{item.created_at | date:'dd-MMM-yyyy'}}</td>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>
+                                {{ item.dealer ? item.dealer?.first_name : ''}} {{ item.dealer ? item.dealer?.last_name
+                                :''}}
+                            </td>
+                            <td>{{ item.order_number }}</td>
+                            <td>{{ item.dealer ? item.dealer.country.name : '' }}</td>
+                            <td>-</td>
+                            <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
+                            <td>{{ item.order_type }}</td>
+                            <td scope="col">{{ getTotalQty(item) }}</td>
                             <td scope="col">{{item.approval_status}}</td>
                         </tr>
                     </ng-container>

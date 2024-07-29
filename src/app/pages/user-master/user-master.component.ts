@@ -21,6 +21,7 @@ export class UserMasterComponent implements OnInit {
   allCountryList: any;
   allStateList: any;
   brandList: any = [];
+  allRegionList: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -30,8 +31,8 @@ export class UserMasterComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem('profile') || '')
     this.getUerList();
     this.getRoleList();
-    this.getCountryList();
     this.getBrandList();
+    this.getRegionList();
   }
 
 
@@ -55,6 +56,8 @@ export class UserMasterComponent implements OnInit {
       this.formObj.email = item.email;
       this.formObj.password = item.password || '';
       this.formObj.address = item.address;
+      this.formObj.region_id = item.region_id;
+      this.getCountryList()
       this.formObj.country_id = item.country_id;
       this.selectCountry()
       this.formObj.state_id = item.state_id;
@@ -131,9 +134,18 @@ export class UserMasterComponent implements OnInit {
   }
 
   getCountryList() {
-    this.service.countryList({}).subscribe((res: any) => {
+    let obj = { region_id: this.formObj.region_id }
+    this.service.countryList(obj).subscribe((res: any) => {
       if (res.success) {
-        this.allCountryList = res.data;
+        this.allCountryList = res.data.country;
+      }
+    })
+  }
+
+  getRegionList() {
+    this.service.Region({}).subscribe((res: any) => {
+      if (res.success) {
+        this.allRegionList = res.data;
       }
     })
   }

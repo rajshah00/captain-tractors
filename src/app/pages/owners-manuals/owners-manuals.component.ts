@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -11,6 +11,7 @@ declare var $: any;
   styleUrls: ['./owners-manuals.component.scss']
 })
 export class OwnersManualsComponent implements OnInit {
+  @ViewChild('owners_pdf') owners_pdf: ElementRef | any;
   p: number = 1;
   popupType: any;
   dealers: any;
@@ -24,6 +25,7 @@ export class OwnersManualsComponent implements OnInit {
   pdfUrl: any;
   imageUrl: any;
   userData: any = {};
+  dateSelect: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -60,13 +62,17 @@ export class OwnersManualsComponent implements OnInit {
   //========// Open Popup  //========//
   openPop(type: any, item: any) {
     this.selectedDealers = []
-    this.circular_name = '';
+    this.owners_pdf.nativeElement.value = '';
     if (type == 'Edit') {
       this.item_id = item.id;
       this.circular_name = item.name;
+      this.dateSelect = item.date;
       item.owners_manual_dealer.forEach((element: any) => {
         this.selectedDealers.push(element.dealer_id)
       });
+    } else {
+      this.circular_name = '';
+      this.dateSelect = '';
     }
     console.log("this.selectedDealers", this.selectedDealers);
 
@@ -97,6 +103,7 @@ export class OwnersManualsComponent implements OnInit {
         const formData = new FormData();
         formData.append('pdf_or_img', this.pdf);
         formData.append('name', this.circular_name);
+        formData.append('date', this.dateSelect);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });
@@ -114,6 +121,7 @@ export class OwnersManualsComponent implements OnInit {
         const formData = new FormData();
         formData.append('pdf_or_img', this.pdf);
         formData.append('name', this.circular_name);
+        formData.append('date', this.dateSelect);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });

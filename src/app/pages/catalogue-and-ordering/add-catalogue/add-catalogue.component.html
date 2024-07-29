@@ -15,38 +15,29 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-md-4 form-label">Product Type : </label>
+                        <label for="product_type" class="col-md-4 form-label">Product Type : </label>
                         <div class="col-md-8">
-                            <select id="roles" class="form-select" [(ngModel)]="formObj.product_type_id" name="roles"
-                                required #rolesCtrl="ngModel">
-                                <ng-container *ngFor="let item of productTypeList">
-                                    <option [value]="item.id">{{item.name}}</option>
-                                </ng-container>
-                            </select>
+                            <ng-select id="product_type" [items]="productTypeList" bindLabel="name" bindValue="id"
+                                placeholder="Select Product Type" name="product_type_id" [(ngModel)]="formObj.product_type_id">
+                            </ng-select>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-md-4 form-label">Assembly : </label>
+                        <label for="Assembly" class="col-md-4 form-label">Assembly : </label>
                         <div class="col-md-8">
-                            <select id="roles" class="form-select" [(ngModel)]="formObj.assembly_id" name="roles"
-                                required #rolesCtrl="ngModel">
-                                <ng-container *ngFor="let item of assemblyList">
-                                    <option [value]="item.id">{{item.name}}</option>
-                                </ng-container>
-                            </select>
+                            <ng-select id="Assembly" [items]="assemblyList" bindLabel="name" bindValue="id"
+                                placeholder="Select Assembly" name="assembly_id" [(ngModel)]="formObj.assembly_id">
+                            </ng-select>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-md-3 form-label">Product Model : </label>
+                        <label for="product_model" class="col-md-3 form-label">Product Model : </label>
                         <div class="col-md-9">
-                            <select id="roles" class="form-select" [(ngModel)]="formObj.model_id" name="roles" required
-                                #rolesCtrl="ngModel">
-                                <ng-container *ngFor="let item of modaldataList">
-                                    <option [value]="item.id">{{item.name}}</option>
-                                </ng-container>
-                            </select>
+                            <ng-select id="product_model" [items]="modaldataList" bindLabel="name" bindValue="id"
+                                placeholder="Select Product Model" name="model_id" [(ngModel)]="formObj.model_id">
+                            </ng-select>
                         </div>
                     </div>
                     <div class="serch-box">
@@ -62,15 +53,17 @@
 <div class="card">
     <div class="card-body">
         <div class="row" *ngIf="partList && partList.length">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <h2 class="img-title">{{partList[0].assembly.name}}</h2>
                 <img class="img-box" [src]="partList[0].assembly.image" alt="" srcset="">
             </div>
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <div class="table-hed">
                     <div>
-                        Total Selected Line Item : {{lineCount}}
+                        Total Selected Line Item : {{lineCount}}<br>
+                        Total Item Qty: {{totalQty}}
                     </div>
+
                     <div>
                         <a (click)="moveTocart()" class="move-to-cart">Move All Item to Cart</a>
                     </div>
@@ -79,43 +72,41 @@
                     <table class="table table-bordered border-dark">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col" rowspan="2">
+                                <th scope="col">
                                     <div class="table-agliment">
                                         Sno
                                     </div>
                                 </th>
-                                <th scope="col" rowspan="2">
+                                <th scope="col">
                                     <div class="table-agliment">
                                         PartNo
                                     </div>
                                 </th>
-                                <th scope="col" rowspan="2">
+                                <th scope="col">
                                     <div class="table-agliment">
                                         PartDesc
                                     </div>
                                 </th>
-                                <th scope="col" rowspan="2">
+                                <th scope="col">
                                     <div class="table-agliment">
-                                        Item Selected {{totalQty}}
+                                        Qty
                                     </div>
                                 </th>
-                                <th scope="col" class="text-center">Qty</th>
+                                <th scope="col" class="text-center">
+                                    <div class="table-agliment">
+                                        2WD 4WD
+                                    </div>
+                                </th>
 
-                                <th scope="col" rowspan="2">
+                                <th scope="col">
                                     <div class="table-agliment">
                                         Remarks
                                     </div>
                                 </th>
                             </tr>
-                            <tr>
-                                <th scope="col" class="text-center">
-                                    2WD 4WD
-                                </th>
-                            </tr>
                         </thead>
                         <tbody>
-                            <tr
-                                *ngFor="let item of partList | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
+                            <tr *ngFor="let item of partList ; let i = index">
                                 <th scope="row">{{item.sno}}</th>
                                 <td>{{item.part_no}}</td>
                                 <td>{{item.description}}</td>
@@ -124,8 +115,8 @@
                                         <button type="button" class="btn btn-danger" (click)="decrement(i)">
                                             <i class="bi bi-dash-circle"></i>
                                         </button>
-                                        <input type="number" [(ngModel)]="item.qty" class="form-control" id="qty"
-                                            name="qty">
+                                        <input type="number" [(ngModel)]="item.qty" (change)="onChange()"
+                                            class="form-control" id="qty" name="qty">
                                         <button type="button" class="btn btn-danger" (click)="increment(i)">
                                             <i class="bi bi-plus-circle"></i>
                                         </button>
@@ -138,10 +129,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex justify-content-end">
-                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                </div>
-
 
             </div>
         </div>

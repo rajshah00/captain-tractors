@@ -11,7 +11,7 @@ import { CommanService } from 'src/app/services/comman.service';
 export class PurchaseOrderComponent implements OnInit {
 
   formObj: any = {
-    order_type: 'VOR',
+    order_type: '',
     entry_type: 'Manual Entry',
     mode_of_dispatch: '',
     chassis_number: ''
@@ -132,6 +132,8 @@ export class PurchaseOrderComponent implements OnInit {
       this.service.uploadExcel(formData).subscribe((res: any) => {
         if (res.success) {
           this.missing_parts = res.data.missing_parts;
+          this.progress = 0;
+          this.showProgress = false;
           this.comman.toster('success', res.message);
         } else {
           this.comman.toster('warning', res.message)

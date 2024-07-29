@@ -24,6 +24,7 @@ import { ICircularComponent } from './pages/i-circular/i-circular.component';
 import { ServiceManualsComponent } from './pages/service-manuals/service-manuals.component';
 import { OwnersManualsComponent } from './pages/owners-manuals/owners-manuals.component';
 import { ServiceSOPComponent } from './pages/service-sop/service-sop.component';
+import { ICatalogueComponent } from './pages/i-catalogue/i-catalogue.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,7 @@ const routes: Routes = [
       { path: 'spare-parts-billing-report', component: SparePartsBillingReportComponent },
       { path: 'back-order-report', component: BackOrderReportComponent },
 
+      { path: 'i-catalogue', component: ICatalogueComponent },
       { path: 'i-circular', component: ICircularComponent },
       { path: 'service-manuals', component: ServiceManualsComponent },
       { path: 'owners-manuals', component: OwnersManualsComponent },

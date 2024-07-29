@@ -10,7 +10,7 @@ import { CommanService } from 'src/app/services/comman.service';
 })
 export class BackOrderReportComponent implements OnInit {
   serchObj: any = {};
-  getAllBackOrder: any;
+  getAllBackOrder: any = [];
   p: number = 1;
   allCountryList: any;
   dealerList: any;
@@ -81,5 +81,14 @@ export class BackOrderReportComponent implements OnInit {
         this.comman.toster('warning', res.message)
       }
     })
+  }
+
+  getTotalQty(item: any) {
+    let total = 0;
+    item.backorder_details.forEach((it: any) => {
+      total += parseFloat(it.part_qty)
+    });
+
+    return total;
   }
 }

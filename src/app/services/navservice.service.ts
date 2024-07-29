@@ -18,26 +18,58 @@ export class NavserviceService {
       children: []
     },
     {
-      path: '/user-master',
-      title: 'User Master',
+      path: '',
+      title: 'Masters',
       type: 'link',
-      icon: 'bi bi-people',
-      children: []
+      icon: 'bi bi-menu-button-wide',
+      children: [
+        {
+          path: '/user-master',
+          title: 'User Master',
+          type: 'link',
+          icon: 'bi bi-people',
+        },
+        {
+          path: '/role-master',
+          title: 'Role Master',
+          type: 'link',
+          icon: 'bi bi-person-gear',
+        },
+        {
+          path: '/brand-master',
+          title: 'Brand Master',
+          type: 'link',
+          icon: 'bi bi-person-gear',
+        },
+      ]
     },
     {
-      path: '/role-master',
-      title: 'Role Master',
+      path: '',
+      title: 'Ordering',
       type: 'link',
-      icon: 'bi bi-person-gear',
-      children: []
+      icon: 'bi bi-menu-button-wide',
+      children: [
+        {
+          path: '/catalogue-and-ordering',
+          title: 'Order List',
+          type: 'link',
+          icon: 'bi bi-cart4',
+        },
+        {
+          path: '/add-catalogue',
+          title: 'I - Partes & Catalogue',
+          type: 'link',
+          icon: 'bi bi-cart4',
+        },
+        {
+          path: '/purchase-order',
+          title: 'Purchase Order',
+          type: 'link',
+          icon: 'bi bi-grid',
+        },
+      ]
     },
-    {
-      path: '/brand-master',
-      title: 'Brand Master',
-      type: 'link',
-      icon: 'bi bi-person-gear',
-      children: []
-    },
+
     {
       path: '',
       title: 'Products Parts',
@@ -65,43 +97,47 @@ export class NavserviceService {
       ]
     },
     {
-      path: '/catalogue-and-ordering',
-      title: 'Catalogue & Ordering',
+      path: '',
+      title: 'Services',
       type: 'link',
-      icon: 'bi bi-cart4',
-      children: []
-    },
-    {
-      path: '/i-circular',
-      title: 'I-Circular',
-      type: 'link',
-      icon: 'bi bi-bullseye',
-      children: []
-    },
-    {
-      path: '/service-manuals',
-      title: 'Service Manuals',
-      type: 'link',
-      icon: 'bi bi-ui-checks-grid',
-      children: []
-    },
-    {
-      path: '/owners-manuals',
-      title: 'Owners Manuals',
-      type: 'link',
-      icon: 'bi bi-person-lines-fill',
-      children: []
-    },
-    {
-      path: '/service-sop',
-      title: 'Service SOP',
-      type: 'link',
-      icon: 'bi bi-person-lines-fill',
-      children: []
+      icon: 'bi bi-menu-button-wide',
+      children: [
+        {
+          path: '/i-catalogue',
+          title: 'I-Catalogue',
+          type: 'link',
+          icon: 'bi bi-bullseye',
+        },
+        {
+          path: '/i-circular',
+          title: 'I-Circular',
+          type: 'link',
+          icon: 'bi bi-bullseye',
+        },
+        {
+          path: '/service-manuals',
+          title: 'Service Manuals',
+          type: 'link',
+          icon: 'bi bi-ui-checks-grid',
+        },
+        {
+          path: '/owners-manuals',
+          title: 'Owners Manuals',
+          type: 'link',
+          icon: 'bi bi-person-lines-fill',
+        },
+        {
+          path: '/service-sop',
+          title: 'Service SOP',
+          type: 'link',
+          icon: 'bi bi-person-lines-fill',
+          children: []
+        },
+      ]
     },
     {
       path: '/dealer-assign-model',
-      title: 'Dealer Assign Model',
+      title: 'Assign Model',
       type: 'link',
       icon: 'bi bi-person-lines-fill',
       children: []
@@ -126,13 +162,7 @@ export class NavserviceService {
         }
       ]
     },
-    {
-      path: '/purchase-order',
-      title: 'Purchase Order',
-      type: 'link',
-      icon: 'bi bi-grid',
-      children: []
-    },
+
   ]
 
   role_Menu = new BehaviorSubject<any[]>(this.ROLEMENU);

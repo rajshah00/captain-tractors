@@ -173,11 +173,12 @@
                             <textarea type="text" rows="1" class="form-control" [(ngModel)]="item.description"
                                 name="description"></textarea>
                         </td>
-                        <td>
-                            <div class="d-flex justify-content-center">
+                        <td class="text-center">
+                            <!-- <div class="d-flex justify-content-center">
                                 <input type="number" class="form-control" style="max-width: 114px;"
                                     [(ngModel)]="item.moq" name="moq">
-                            </div>
+                            </div> -->
+                            {{item.moq}}
                         </td>
                         <td style="max-width: 130px;">
                             <div class="qty-box">
@@ -192,16 +193,18 @@
 
                         </td>
                         <td class="text-center">
-                            <button *ngIf="i == 0" type="button" class="btn btn-success" (click)="addRow()">
-                                <i class="bi bi-plus-circle"></i>
-                            </button>
-                            <button *ngIf="i > 0" type="button" class="btn btn-danger" (click)="removeRow(i)">
+                            <button type="button" class="btn btn-danger" (click)="removeRow(i)">
                                 <i class="bi bi-dash-circle"></i>
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <div class="text-end">
+                <button type="button" class="btn btn-primary mb-2" (click)="addRow()">
+                    Add Row
+                </button>
+            </div>
         </div>
 
         <div class="upload-container" *ngIf="formObj.entry_type == 'Excel Sheet Upload'">

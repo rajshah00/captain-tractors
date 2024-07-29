@@ -15,6 +15,7 @@ export class OrderDetailComponent implements OnInit {
   orderDetail: any = {};
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   file: any;
+  ordertype: any;
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
@@ -28,8 +29,8 @@ export class OrderDetailComponent implements OnInit {
 
       if (this.order_id) {
         this.route.queryParams.subscribe(params => {
-          const type = params['type'];
-          if (type == 'Order') {
+          this.ordertype = params['type'];
+          if (this.ordertype == 'Order') {
             this.getDetail();
           } else {
             this.getBackOrderDetail();
@@ -165,6 +166,37 @@ export class OrderDetailComponent implements OnInit {
       }
     })
 
+  }
+
+  approveOrderDealer() {
+    let obj: any = {
+      order_detail: []
+    };
+    this.partList.forEach((item: any) => {
+      obj.order_detail.push({
+        order_detail_id: item.id,
+        approve_qty: item.part_qty
+      })
+    });
+
+    this.service.approveByDealer(this.order_id, obj).subscribe((res: any) => {
+      if (res.success) {
+        this.router.navigate(['/order-detail', res.data.id], {
+          queryParams: { type: 'Order' }
+        });
+        this.comman.toster('success', res.message);
+      } else {
+        this.comman.toster('warning', res.message)
+      }
+    })
+  }
+
+  onQuantityChange(item: any): void {
+    if (item.approve_qty > item.part_qty) {
+      item.approve_qty = item.part_qty;  // Set to maximum allowed value
+    } else if (item.approve_qty < 1) {
+      item.approve_qty = 1;  // Set to minimum allowed value
+    }
   }
 
 }

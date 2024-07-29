@@ -40,3 +40,8 @@
 .poiter {
     cursor: pointer;
 }
+
+
+.table-hover > tbody > tr.highlights > *  {
+    background-color: #fdf5cb69;
+}

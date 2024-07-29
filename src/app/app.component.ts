@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { ApiServiceService } from './services/api-service.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'captain-tractors';
+  isLoading = false;
+  constructor(private spinnerService: ApiServiceService, private cdr: ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+    this.spinnerService.spinnerState$.subscribe((isLoading: any) => {
+      this.isLoading = isLoading;
+      this.cdr.detectChanges();
+    });
+  }
 }

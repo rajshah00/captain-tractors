@@ -124,4 +124,17 @@ export class AddCatalogueComponent implements OnInit {
 
   }
 
+  onNumberClick(number: number): void {
+    console.log('Clicked number:', number);
+    // Add any additional logic you need here
+  }
+
+  onChange() {
+    this.totalQty = 0;
+    this.partList.forEach((item: any) => {
+      this.totalQty += item.qty;
+    });
+
+  }
+
 }
