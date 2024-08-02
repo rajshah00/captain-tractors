@@ -39,6 +39,9 @@ import { ServiceManualsComponent } from './pages/service-manuals/service-manuals
 import { OwnersManualsComponent } from './pages/owners-manuals/owners-manuals.component';
 import { ServiceSOPComponent } from './pages/service-sop/service-sop.component';
 import { ICatalogueComponent } from './pages/i-catalogue/i-catalogue.component';
+import { PendingOrderReportComponent } from './pages/pending-order-report/pending-order-report.component';
+import { ApprovalOrderReportComponent } from './pages/approval-order-report/approval-order-report.component';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,10 @@ import { ICatalogueComponent } from './pages/i-catalogue/i-catalogue.component';
     ServiceManualsComponent,
     OwnersManualsComponent,
     ServiceSOPComponent,
-    ICatalogueComponent
+    ICatalogueComponent,
+    PendingOrderReportComponent,
+    ApprovalOrderReportComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule,

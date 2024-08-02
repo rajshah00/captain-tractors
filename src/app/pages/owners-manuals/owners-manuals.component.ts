@@ -45,9 +45,20 @@ export class OwnersManualsComponent implements OnInit {
   getDealerList() {
     this.service.DealerList({}).subscribe((res: any) => {
       if (res.success) {
-        this.dealers = res.data
+        this.dealers = res.data;
+        this.selectAllForDropdownItems(this.dealers);
       }
     })
+  }
+
+  selectAllForDropdownItems(items: any[]) {
+    let allSelect = (items: any[]) => {
+      items.forEach(element => {
+        element['selectedAllGroup'] = 'selectedAllGroup';
+      });
+    };
+
+    allSelect(items);
   }
 
   //========// get Owners Manuals List //========//
@@ -119,12 +130,14 @@ export class OwnersManualsComponent implements OnInit {
         });
       } else {
         const formData = new FormData();
-        formData.append('pdf_or_img', this.pdf);
         formData.append('name', this.circular_name);
         formData.append('date', this.dateSelect);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });
+        if (this.pdf) {
+          formData.append('pdf_or_img', this.pdf);
+        }
 
         this.service.editOM(formData, this.item_id).subscribe((res: any) => {
           if (res.success) {

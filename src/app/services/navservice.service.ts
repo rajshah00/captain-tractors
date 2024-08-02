@@ -57,7 +57,7 @@ export class NavserviceService {
         },
         {
           path: '/add-catalogue',
-          title: 'I - Partes & Catalogue',
+          title: 'E-Catalogue',
           type: 'link',
           icon: 'bi bi-cart4',
         },
@@ -104,13 +104,13 @@ export class NavserviceService {
       children: [
         {
           path: '/i-catalogue',
-          title: 'I-Catalogue',
+          title: 'E - Catalogue',
           type: 'link',
           icon: 'bi bi-bullseye',
         },
         {
           path: '/i-circular',
-          title: 'I-Circular',
+          title: 'E - Technical Circular',
           type: 'link',
           icon: 'bi bi-bullseye',
         },
@@ -136,13 +136,6 @@ export class NavserviceService {
       ]
     },
     {
-      path: '/dealer-assign-model',
-      title: 'Assign Model',
-      type: 'link',
-      icon: 'bi bi-person-lines-fill',
-      children: []
-    },
-    {
       path: '',
       title: 'Reports',
       type: 'link',
@@ -155,17 +148,42 @@ export class NavserviceService {
           icon: 'bi bi-circle',
         },
         {
-          path: '/spare-parts-billing-report',
+          path: '/pending-order-report',
           title: 'Pending Order Report',
           type: 'link',
           icon: 'bi bi-circle',
-        },
-        {
-          path: '/spare-parts-billing-report',
-          title: 'Spare Parts Billing Report',
+        }, {
+          path: '/approval-order-report',
+          title: 'Approval Order Report',
           type: 'link',
           icon: 'bi bi-circle',
-        }
+        },
+        // {
+        //   path: '/spare-parts-billing-report',
+        //   title: 'Spare Parts Billing Report',
+        //   type: 'link',
+        //   icon: 'bi bi-circle',
+        // }
+      ]
+    },
+    {
+      path: '',
+      title: 'More',
+      type: 'link',
+      icon: 'bi bi-menu-button-wide',
+      children: [
+        {
+          path: '/dealer-assign-model',
+          title: 'Assign Model',
+          type: 'link',
+          icon: 'bi bi-person-lines-fill',
+        },
+        {
+          path: '/feedback',
+          title: 'Feedback',
+          type: 'link',
+          icon: 'bi bi-person-lines-fill',
+        },
       ]
     },
 

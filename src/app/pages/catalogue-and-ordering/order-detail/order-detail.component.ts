@@ -150,14 +150,14 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    if (!this.file) {
-      this.comman.toster('warning', "Please select pdf and upload")
-      return;
+  onSubmit(type:any): void {
+    const formData = new FormData();
+    if(type == 'reset'){
+      formData.append('po_pdf', "");
+    }else{
+      formData.append('po_pdf', this.file, this.file.name);
     }
 
-    const formData = new FormData();
-    formData.append('po_pdf', this.file, this.file.name);
     this.service.poUpload(this.order_id, formData).subscribe((res: any) => {
       if (res.success) {
         this.comman.toster('success', res.message);

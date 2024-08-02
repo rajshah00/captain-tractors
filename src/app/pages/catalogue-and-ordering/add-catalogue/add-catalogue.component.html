@@ -19,7 +19,7 @@
                         <div class="col-md-8">
                             <ng-select id="product_type" [items]="productTypeList" bindLabel="name" bindValue="id"
                                 placeholder="Select Product Type" name="product_type_id"
-                                [(ngModel)]="formObj.product_type_id">
+                                [(ngModel)]="formObj.product_type_id" (change)="onChangeProduct($event)">
                             </ng-select>
                         </div>
                     </div>
@@ -37,7 +37,8 @@
                         <label for="product_model" class="col-md-3 form-label">Product Model : </label>
                         <div class="col-md-9">
                             <ng-select id="product_model" [items]="modaldataList" bindLabel="name" bindValue="id"
-                                placeholder="Select Product Model" name="model_id" [(ngModel)]="formObj.model_id">
+                                placeholder="Select Product Model" name="model_id" [(ngModel)]="formObj.model_id"
+                                (change)="onChangeModel(formObj.model_id)">
                             </ng-select>
                         </div>
                     </div>
@@ -56,7 +57,12 @@
         <div class="row" *ngIf="partList && partList.length">
             <div class="col-md-6">
                 <h2 class="img-title">{{partList[0].assembly.name}}</h2>
-                <img class="img-box" [src]="partList[0].assembly.image" alt="" srcset="">
+                <!-- <img class="img-box" [src]="partList[0].assembly.image" alt="" srcset=""> -->
+                <div id="img-zoomer-box" (mousemove)="onMouseMove($event)" (mouseleave)="onMouseLeave()">
+                    <img [src]="partList[0].assembly.image" id="img-1" />
+                    <div id="img-2" [ngStyle]="magnifiedStyles"></div>
+                </div>
+
             </div>
             <div class="col-md-6">
                 <div class="table-hed">

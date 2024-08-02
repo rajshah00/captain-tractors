@@ -25,6 +25,10 @@ import { ServiceManualsComponent } from './pages/service-manuals/service-manuals
 import { OwnersManualsComponent } from './pages/owners-manuals/owners-manuals.component';
 import { ServiceSOPComponent } from './pages/service-sop/service-sop.component';
 import { ICatalogueComponent } from './pages/i-catalogue/i-catalogue.component';
+import { PendingOrderReportComponent } from './pages/pending-order-report/pending-order-report.component';
+import { ApprovalOrderReportComponent } from './pages/approval-order-report/approval-order-report.component';
+import { FeedbackComponent } from './pages/feedback/feedback.component';
+import { PurchaseOrderGuard } from './auth/purchase-order.guard';
 
 const routes: Routes = [
   {
@@ -49,15 +53,18 @@ const routes: Routes = [
       { path: 'dealer-assign-model', component: DealerAssignModelComponent },
       { path: 'add-catalogue', component: AddCatalogueComponent },
       { path: 'add-to-cart', component: AddToCartComponent },
-      { path: 'purchase-order', component: PurchaseOrderComponent },
+      { path: 'purchase-order', component: PurchaseOrderComponent, canActivate: [PurchaseOrderGuard] },
       { path: 'spare-parts-billing-report', component: SparePartsBillingReportComponent },
       { path: 'back-order-report', component: BackOrderReportComponent },
+      { path: 'pending-order-report', component: PendingOrderReportComponent },
+      { path: 'approval-order-report', component: ApprovalOrderReportComponent },
 
       { path: 'i-catalogue', component: ICatalogueComponent },
       { path: 'i-circular', component: ICircularComponent },
       { path: 'service-manuals', component: ServiceManualsComponent },
       { path: 'owners-manuals', component: OwnersManualsComponent },
       { path: 'service-sop', component: ServiceSOPComponent },
+      { path: 'feedback', component: FeedbackComponent },
     ],
     canActivate: [AuthGuard]
   },

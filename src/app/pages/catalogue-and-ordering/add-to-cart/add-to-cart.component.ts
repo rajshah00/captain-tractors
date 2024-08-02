@@ -13,6 +13,7 @@ export class AddToCartComponent implements OnInit {
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   finalTotal: any;
   totalQty: number = 0;
+  orderDetail: any = JSON.parse(localStorage.getItem('order_detail') || '');
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -104,4 +105,34 @@ export class AddToCartComponent implements OnInit {
     });
 
   }
+
+
+  submitOrder() {
+    let obj: any = {
+      "dealer_id": this.userData.id,
+      "order_type": this.orderDetail.order_type,
+      "entry_type": this.orderDetail.entry_type,
+      "mode_of_dispatch": this.orderDetail.mode_of_dispatch,
+      "chassis_number": this.orderDetail.chassis_number,
+      "parts": []
+    }
+
+    this.cartList.forEach((item: any) => {
+      obj.parts.push({
+        "part_id": item.part_id,
+        "qty": item.qty,
+      })
+    });
+    this.service.saveOrder(obj).subscribe((res: any) => {
+      if (res.success) {
+        localStorage.removeItem('order_detail');
+        this.router.navigate(['/catalogue-and-ordering'])
+        this.getCartList();
+        this.comman.toster('success', res.message);
+      } else {
+        this.comman.toster('warning', res.message)
+      }
+    })
+  }
+
 }

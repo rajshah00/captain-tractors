@@ -18,8 +18,8 @@
                         <input type="text" class="form-control" id="search" [(ngModel)]="serchObj.search" name="search">
                     </div>
                     <div class="serch-box col-md-6">
-                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
                         <button type="submit" class="btn btn-primary" (click)="getCatalogue(serchObj)">Search</button>
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
                     </div>
                 </div>
             </form>
@@ -47,7 +47,7 @@
                         <th scope="col">Brand</th>
                         <th scope="col">Order date</th>
                         <th scope="col">Order Type</th>
-                        <th scope="col">Quantity</th>
+                        <!-- <th scope="col">Quantity</th> -->
                         <th scope="col">Order Status</th>
                         <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Current Stage</th>
                         <th scope="col" *ngIf="userData?.role_name == 'Dealer'">Action</th>
@@ -68,7 +68,7 @@
                             <td>-</td>
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
                             <td>{{ item.order_type }}</td>
-                            <td>{{ getTotalQty(item) }}</td>
+                            <!-- <td>{{ getTotalQty(item) }}</td> -->
 
                             <td *ngIf="userData?.role_name == 'Dealer'">{{ item.dealer_show_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.approval_status }}</td>

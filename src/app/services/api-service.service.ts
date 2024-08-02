@@ -9,10 +9,10 @@ import { map } from 'rxjs/operators';
 })
 export class ApiServiceService {
   cartCount: any = 0;
-  notiCount: any = 0; 
+  notiCount: any = 0;
   private spinnerSubject = new BehaviorSubject<boolean>(false);
   spinnerState$ = this.spinnerSubject.asObservable();
-  
+
   constructor(private http: HttpClient) { }
 
   show() {
@@ -74,8 +74,16 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'model_master/list', data);
   }
 
+  productTypeModal(data: any) {
+    return this.http.post(environment.apiUrl + 'model_master/product_type/list', data);
+  }
+  
   modalIdPartGet(data: any) {
     return this.http.post(environment.apiUrl + 'part/model_list', data);
+  }
+
+  dealerwiseModal(data: any) {
+    return this.http.post(environment.apiUrl + 'dealer/model/list', data);
   }
   //=====// Modal Master End//=====//
 
@@ -93,6 +101,10 @@ export class ApiServiceService {
   }
 
   AssemblyList(data: any) {
+    return this.http.post(environment.apiUrl + 'assembly_master/list', data);
+  }
+
+  ModeleAssembly(data: any) {
     return this.http.post(environment.apiUrl + 'assembly_master/list', data);
   }
   //=====// Assembly Master End //=====//
@@ -206,6 +218,11 @@ export class ApiServiceService {
 
   getBackOrder(data: any) {
     return this.http.post(environment.apiUrl + 'back_order/list', data);
+  }
+
+
+  getPendingOrder(data: any) {
+    return this.http.post(environment.apiUrl + 'report/list', data);
   }
 
 
@@ -366,5 +383,11 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'i_catalogue/list', data);
   }
   //=====// I - Catalogue Master End //=====//
+
+  //=====// Feedback Start //=====//
+  feedback(data: any) {
+    return this.http.post(environment.apiUrl + 'feedback/store', data);
+  }
+  //=====// Feedback End //=====//
 
 }

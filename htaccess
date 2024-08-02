@@ -1,0 +1,15 @@
+# RewriteEngine on
+# RewriteCond %{REQUEST_FILENAME} -s [OR]
+# RewriteCond %{REQUEST_FILENAME} -l [OR]
+# RewriteCond %{REQUEST_FILENAME} -d
+# RewriteRule ^.*$ - [NC,L]
+
+# RewriteRule ^(.*) ./index.html [NC,L]
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Redirect requests to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

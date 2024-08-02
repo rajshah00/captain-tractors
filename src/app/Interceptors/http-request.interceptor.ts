@@ -14,7 +14,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(private spinner: ApiServiceService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.spinner.show();
+    // Show spinner for requests except for `/all_list`
+    if (!request.url.includes('/all_list') && !request.url.includes('/chassis_number/list')) {
+      this.spinner.show();
+    }
     const authToken = localStorage.getItem('token');
     if (authToken) {
       const modified = request.clone({

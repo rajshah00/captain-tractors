@@ -37,6 +37,7 @@ export class AssemblyMasterComponent implements OnInit {
       this.assemblyId = item.id;
       this.formObj.name = item.name;
       this.formObj.model_id = item.model_id;
+      this.formObj.assembly_no = item.assembly_no;
       this.formObj.image = item.image;
       this.formObj.description = item.description;
       this.formObj.is_active = item.is_active;
@@ -55,6 +56,7 @@ export class AssemblyMasterComponent implements OnInit {
         const formData = new FormData();
         formData.append('name', this.formObj.name);
         formData.append('model_id', this.formObj.model_id);
+        formData.append('assembly_no', this.formObj.assembly_no);
         formData.append('description', this.formObj.description);
         formData.append('is_active', this.formObj.is_active.toString());
 
@@ -79,6 +81,7 @@ export class AssemblyMasterComponent implements OnInit {
         const formData = new FormData();
         formData.append('name', this.formObj.name);
         formData.append('model_id', this.formObj.model_id);
+        formData.append('assembly_no', this.formObj.assembly_no);
         formData.append('description', this.formObj.description);
         formData.append('is_active', this.formObj.is_active.toString());
 

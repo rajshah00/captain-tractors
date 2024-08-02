@@ -1,0 +1,24 @@
+<div class="pagetitle">
+    <h1>Feedback</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Feedback</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form #feedbackForm="ngForm" (ngSubmit)="onSubmit(feedbackForm)" class="container mt-4">
+            <div class="mb-3">
+                <label for="message" class="form-label">Message:</label>
+                <textarea id="message" name="message" [(ngModel)]="message" rows="5" class="form-control"
+                    required></textarea>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary" [disabled]="feedbackForm.invalid">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

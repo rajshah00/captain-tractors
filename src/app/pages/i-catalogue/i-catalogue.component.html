@@ -84,8 +84,17 @@
 
                     <div class="form-group mb-3">
                         <label for="dealers">Select Dealers<sup class="text-danger">*</sup></label>
-                        <ng-select [items]="dealers" bindLabel="first_name" bindValue="id" placeholder="Select Dealers"
-                            [(ngModel)]="selectedDealers" [multiple]="true" name="dealers" required>
+                        <ng-select [items]="dealers" bindLabel="name" bindValue="id" placeholder="Select Dealers"
+                            [(ngModel)]="selectedDealers" [multiple]="true" name="dealers" required
+                            groupBy="selectedAllGroup" [selectableGroup]="true" [selectableGroupAsModel]="false"
+                            [closeOnSelect]="true">
+                            <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                Select All
+                            </ng-template>
+
+                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                {{ item.name }}
+                            </ng-template>
                         </ng-select>
                     </div>
 
@@ -120,7 +129,11 @@
                     </div>
 
                     <ng-template #imageTemplate>
-                        <h5>IMG</h5>
+                        <div class="text-end">
+                            <button class="btn btn-primary mb-2"
+                                (click)="comman.downloadFile(imageUrl)">Download</button>
+                        </div>
+                        <!-- <h5>IMG</h5> -->
                         <img [src]="imageUrl" alt="Image" width="100%" height="auto">
                     </ng-template>
 

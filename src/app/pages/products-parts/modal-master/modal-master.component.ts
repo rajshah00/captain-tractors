@@ -34,6 +34,7 @@ export class ModalMasterComponent implements OnInit {
   openPop(type: any, item: any) {
     this.model_logo.nativeElement.value = '';
     if (type == 'Edit') {
+      this.formObj.product_type_master_id = item.product_type_master_id;
       this.modalId = item.id;
       this.formObj.name = item.name;
       this.formObj.number = item.number;
@@ -53,6 +54,7 @@ export class ModalMasterComponent implements OnInit {
       this.formObj.is_active = this.formObj.is_active ? 1 : 0;
       if (this.modalType == 'Add') {
         const formData = new FormData();
+        formData.append('product_type_master_id', this.formObj.product_type_master_id);
         formData.append('name', this.formObj.name);
         formData.append('number', this.formObj.number);
         formData.append('description', this.formObj.description);
@@ -77,6 +79,7 @@ export class ModalMasterComponent implements OnInit {
       } else {
         //========// Edit modal code //========//
         const formData = new FormData();
+        formData.append('product_type_master_id', this.formObj.product_type_master_id);
         formData.append('name', this.formObj.name);
         formData.append('number', this.formObj.number);
         formData.append('description', this.formObj.description);

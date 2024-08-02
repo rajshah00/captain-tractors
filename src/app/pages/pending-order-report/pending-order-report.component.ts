@@ -4,19 +4,20 @@ import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
 
 @Component({
-  selector: 'app-back-order-report',
-  templateUrl: './back-order-report.component.html',
-  styleUrls: ['./back-order-report.component.scss']
+  selector: 'app-pending-order-report',
+  templateUrl: './pending-order-report.component.html',
+  styleUrls: ['./pending-order-report.component.scss']
 })
-export class BackOrderReportComponent implements OnInit {
+export class PendingOrderReportComponent implements OnInit {
   serchObj: any = {};
-  getAllBackOrder: any = [];
+  getAllPendingOrder: any = [];
   p: number = 1;
   allCountryList: any = [];
   dealerList: any;
   brandList: any;
   allRegionList: any;
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
+  
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -25,7 +26,6 @@ export class BackOrderReportComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.getCatalogue(this.serchObj);
     this.getCatalogue({});
     this.getDealerList();
     this.getRegionList()
@@ -33,24 +33,22 @@ export class BackOrderReportComponent implements OnInit {
   }
 
   getCatalogue(obj: any) {
-    if (this.userData?.role_name == 'Dealer') {
-      obj.dealer_id = this.userData.id;
-    }
-    this.service.getBackOrder(obj).subscribe((res: any) => {
+    obj.current_stage = ["Pending"]
+    this.service.getPendingOrder(obj).subscribe((res: any) => {
       if (res.success) {
-        this.getAllBackOrder = res.data;
+        this.getAllPendingOrder = res.data;
       } else {
         this.comman.toster('warning', res.message)
       }
     })
   }
 
-  selectedRow(item: any) {
-    console.log(item);
-    this.router.navigate(['/order-detail', item.id], {
-      queryParams: { type: 'Back Order' }
-    });
-  }
+  // selectedRow(item: any) {
+  //   console.log(item);
+  //   this.router.navigate(['/order-detail', item.id], {
+  //     queryParams: { type: 'Back Order' }
+  //   });
+  // }
 
   //========// Get All Country //========//
   getCountryList() {

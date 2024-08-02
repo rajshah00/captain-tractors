@@ -80,3 +80,42 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+
+
+#img-zoomer-box {
+    height: auto;
+    position: relative;
+    margin-top: 10px;
+}
+
+#img-1 {
+    width: 100%;
+    height: auto;
+}
+
+#img-zoomer-box:hover,
+#img-zoomer-box:active {
+    cursor: zoom-in;
+    display: block;
+}
+
+#img-zoomer-box:hover #img-2,
+#img-zoomer-box:active #img-2 {
+    opacity: 1;
+}
+
+#img-2 {
+    width: 200px;
+    height: 200px;
+    // background: url('https://images.unsplash.com/photo-1624211904722-c10788db74de?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat #FFF;
+    box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    border: 4px solid whitesmoke;
+    z-index: 99;
+    border-radius: 100%;
+    display: block;
+    transition: opacity .2s;
+}

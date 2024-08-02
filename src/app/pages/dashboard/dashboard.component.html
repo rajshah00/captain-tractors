@@ -41,69 +41,81 @@
                     <h6>Model List</h6>
                 </div>
                 <div class="accordion" id="accordionExample">
-                    <ng-container *ngFor="let item of modalList; let i = index">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" [id]="'heading' + i">
-                                <button (click)="getParts(item)" class="accordion-button collapsed" type="button"
-                                    [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
-                                    [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
-                                    {{item.name}}
-                                </button>
-                            </h2>
-                            <div [id]="'collapse' + i" class="accordion-collapse collapse"
-                                [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <ng-container *ngIf="partList.length;else noParts">
-                                        <table class="table table-bordered border-dark">
-                                            <thead class="table-dark">
-                                                <tr>
-                                                    <th scope="col">
-                                                        <div class="table-agliment">
-                                                            #
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="table-agliment">
-                                                            PartNo
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="table-agliment">
-                                                            PartDesc
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col" class="text-center">
-                                                        <div class="table-agliment">
-                                                            2WD 4WD
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        <div class="table-agliment">
-                                                            Remarks
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr
-                                                    *ngFor="let part of partList | paginate: { itemsPerPage: 10, currentPage: p }; let j = index">
-                                                    <th scope="row">{{j + 1}}</th>
-                                                    <td>{{part.part_no}}</td>
-                                                    <td>{{part.description}}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <div class="d-flex justify-content-end">
-                                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    <ng-container *ngIf="modalList && modalList.length">
+                        <ng-container *ngFor="let item of modalList; let i = index">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" [id]="'heading' + i">
+                                    <button class="accordion-button collapsed" type="button"
+                                        [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
+                                        [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
+                                        {{userData.role_name == 'Dealer' ? item.model_name : item.name}}
+                                    </button>
+                                </h2>
+                                <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                                    [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="text-end">
+                                            <button class="btn btn-primary"
+                                                (click)="comman.downloadFile(item.download_pdf)">Download PDF</button>
                                         </div>
-                                    </ng-container>
-                                    <ng-template #noParts>
-                                        <p class="text-center fw-blod">No parts available.</p>
-                                    </ng-template>
+                                        <!-- <ng-container *ngIf="partList.length;else noParts">
+                                            <table class="table table-bordered border-dark">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">
+                                                            <div class="table-agliment">
+                                                                #
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="table-agliment">
+                                                                PartNo
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="table-agliment">
+                                                                PartDesc
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col" class="text-center">
+                                                            <div class="table-agliment">
+                                                                2WD 4WD
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="table-agliment">
+                                                                Remarks
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let part of partList | paginate: { itemsPerPage: 10, currentPage: p }; let j = index">
+                                                        <th scope="row">{{j + 1}}</th>
+                                                        <td>{{part.part_no}}</td>
+                                                        <td>{{part.description}}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="d-flex justify-content-end">
+                                                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #noParts>
+                                            <p class="text-center fw-blod">No parts available.</p>
+                                        </ng-template> -->
+                                    </div>
                                 </div>
                             </div>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="!modalList.length">
+                        <div class="not-found">
+                            Model Not Available
                         </div>
                     </ng-container>
                 </div>

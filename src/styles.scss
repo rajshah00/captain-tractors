@@ -626,7 +626,11 @@ header .dropdown-toggle::before {
 
 }
 header .header-nav ul li{
-	margin-right: 8px !important;
+	margin-right: 8px ;
+}
+
+header .header-nav .dropdown-menu li{
+	margin-right: 0px !important;
 }
 header .dropdown-toggle{
 	position: relative;

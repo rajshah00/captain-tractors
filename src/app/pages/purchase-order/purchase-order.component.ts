@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
 
@@ -9,21 +10,34 @@ import { CommanService } from 'src/app/services/comman.service';
   styleUrls: ['./purchase-order.component.scss']
 })
 export class PurchaseOrderComponent implements OnInit {
+  // @ViewChild(NgSelectComponent) ngSelect!: NgSelectComponent;
+  @ViewChild('ngSelectContainer', { static: false }) ngSelectContainer!: ElementRef;
+  @ViewChild('ngSelect', { static: false }) ngSelect: ElementRef | any;
 
   formObj: any = {
     order_type: '',
     entry_type: 'Manual Entry',
     mode_of_dispatch: '',
-    chassis_number: ''
+    chassis_number: null
   };
   partList: any = [];
   missing_parts: any = [];
   progress: number = 0;
   showProgress: boolean = false;
-  chassisList: any;
+  chassisList: any = [];
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   todayDate: any = new Date();
-  partListOption: any;
+
+  partListOption: any = [];
+  bufferSize = 10;
+  allParts: any;
+  loading = false;
+  isLoading = false;
+  page = 1;
+  pageNum = 1;
+  pageSize = 10; // Number of items per page
+  query = '';
+  endReached = false;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -34,9 +48,11 @@ export class PurchaseOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.addRow();
-    this.getModalList();
-    this.getPartList();
+    this.getChassisList();
+    this.fetchParts();
+    // this.getPartList();
   }
+
 
   addRow() {
     this.partList.push({ part_id: null, description: '', moq: '', qty: 0 })
@@ -143,19 +159,41 @@ export class PurchaseOrderComponent implements OnInit {
   }
 
   //========// Get All Modal //========//
-  getModalList() {
-    this.service.ChassisNumberList({}).subscribe((res: any) => {
-      if (res.success) {
-        this.chassisList = res.data
+  getChassisList(query: string = '', page: number = 1) {
+    this.isLoading = true;
+    let obj = {
+      search: query,
+      page: page,
+      size: this.pageSize
+    };
+
+    this.service.ChassisNumberList(obj).subscribe((response: any) => {
+      if (response.success) {
+        if (response.data.length === 0) {
+          this.endReached = true;
+        } else {
+          this.chassisList = [...this.chassisList, ...response.data];
+          this.pageNum++;
+        }
       }
-    })
+      this.isLoading = false;
+    });
   }
+
+
+  fetchMoreChassis() {
+    if (!this.isLoading && !this.endReached) {
+      this.getChassisList(this.query, this.pageNum);
+    }
+  }
+
 
   //========// Get All Parts //========//
   getPartList() {
     this.service.getAllParts({}).subscribe((res: any) => {
       if (res.success) {
-        this.partListOption = res.data
+        this.allParts = res.data;
+        this.partListOption = this.allParts.slice(0, this.bufferSize);
       }
     })
   }
@@ -164,24 +202,34 @@ export class PurchaseOrderComponent implements OnInit {
   sapeParts(form: any) {
     form.submitted = true
     if (form.form.valid) {
-      this.formObj.dealer_id = this.userData?.id;
-      this.formObj.parts = this.partList;
-      console.log("this.formObj", this.formObj);
-      this.service.saveOrder(this.formObj).subscribe((res: any) => {
-        if (res.success) {
-          this.formObj.order_type = 'VOR';
-          this.formObj.entry_type = 'Manual Entry';
-          this.partList = []
-          this.addRow();
-          this.comman.toster('success', res.message);
-        } else {
-          this.comman.toster('warning', res.message)
+      let obj: any = {
+        "user_id": this.userData.id,
+        "parts": []
+      }
+      this.partList.forEach((item: any) => {
+        if (item.qty > 0) {
+          obj.parts.push(item)
         }
-      })
+      });
+
+      if (obj.parts && obj.parts.length) {
+        this.service.addToCart(obj).subscribe((res: any) => {
+          if (res.success) {
+            localStorage.setItem('order_detail', JSON.stringify(this.formObj));
+            this.router.navigate(['/add-to-cart'])
+            this.comman.toster('success', res.message);
+          } else {
+            this.comman.toster('warning', res.message)
+          }
+        })
+      } else {
+        this.comman.toster('warning', "Plese select quantities and move items to a cart")
+      }
     } else {
       this.comman.toster('error', 'Please enter all valid feilds')
     }
   }
+
 
   //========// Get All Cart List //========//
   getCartList() {
@@ -206,7 +254,7 @@ export class PurchaseOrderComponent implements OnInit {
 
   onChangePart(partNo: any, ind: any) {
     if (partNo) {
-      let part = this.partListOption.find((part: any) => part.id === partNo);
+      let part: any = this.partListOption.find((part: any) => part.id === partNo);
       this.partList[ind].description = part.description;
       this.partList[ind].moq = part.moq;
     } else {
@@ -228,4 +276,36 @@ export class PurchaseOrderComponent implements OnInit {
     })
   }
 
+  fetchMore() {
+    if (!this.loading && !this.endReached) {
+      this.fetchParts(this.query, this.page);
+    }
+  }
+
+  fetchParts(query: string = '', page: number = 1) {
+    this.loading = true;
+    let obj = {
+      serch: query,
+      page: page,
+      size: this.pageSize
+    }
+
+    this.service.getAllParts(obj).subscribe((response: any) => {
+      if (response.success) {
+        if (response.data.length === 0) {
+          this.endReached = true;
+        } else {
+          this.partListOption = [...this.partListOption, ...response.data];
+          this.page++;
+        }
+      }
+      this.loading = false;
+    });
+  }
+
+  onSearch(event: any) {
+    if (event.term.length >= 1) {
+      this.fetchParts(event.term);
+    }
+  }
 }

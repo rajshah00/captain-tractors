@@ -1,5 +1,5 @@
 <div class="pagetitle">
-    <h1>Back Order Report</h1>
+    <h1>Approval Order Report</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
@@ -80,9 +80,9 @@
 
 
 <div class="card">
-    <div class="card-body">
+    <div class="card-body" *ngIf="getAllApprovalOrder.length">
         <div class="d-flex justify-content-between">
-            <h5 class="card-title">Results ({{getAllBackOrder.length || '0'}})</h5>
+            <h5 class="card-title">Results ({{getAllApprovalOrder.length || '0'}})</h5>
             <div class="add-box">
                 <button type="button" class="btn btn-primary" (click)="export()">
                     Export to EXCEL
@@ -107,8 +107,8 @@
                 </thead>
                 <tbody>
                     <ng-container
-                        *ngFor="let item of getAllBackOrder | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
-                        <tr (click)="selectedRow(item)">
+                        *ngFor="let item of getAllApprovalOrder | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        <tr>
                             <th scope="row">{{ i + 1 }}</th>
                             <td>
                                 {{ item.dealer ? item.dealer?.first_name : ''}} {{ item.dealer ? item.dealer?.last_name
@@ -130,5 +130,8 @@
         <div class="d-flex justify-content-end">
             <pagination-controls (pageChange)="p = $event"></pagination-controls>
         </div>
+    </div>
+    <div class="card-body text-center" *ngIf="!getAllApprovalOrder.length">
+        No record found
     </div>
 </div>

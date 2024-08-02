@@ -96,8 +96,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="assebmlyPop"  tabindex="-1"
-    aria-labelledby="assebmlyPopLabel" aria-hidden="true">
+<div class="modal fade" id="assebmlyPop" tabindex="-1" aria-labelledby="assebmlyPopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -134,12 +133,28 @@
                         </div>
 
                         <div class="col-md-6">
+                            <label for="name" class="form-label">Assembly No<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.assembly_no" name="assembly_no"
+                                required #assembly_noCtrl="ngModel">
+                            <div *ngIf="assembly_noCtrl.invalid && (assembly_noCtrl.dirty || assembly_noCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Assembly No is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <label for="modal_image" class="form-label">Image:</label>
-                            <input type="file" class="form-control" #assembly_logo id="modal_image" (change)="onFileSelected($event)">
+                            <input type="file" class="form-control" #assembly_logo id="modal_image"
+                                (change)="onFileSelected($event)">
                         </div>
 
                         <div class="col-md-12" *ngIf="assemblyType == 'Edit'">
-                            <img [src]="formObj.image" alt="assembly Img" srcset="" width="367px" height="367">
+                            <div class="form-group row">
+                                <label for="logo" class="col-md-12">Assembly Preview : </label>
+                                <div class="col-md-12">
+                                    <img [src]="formObj.image" alt="assembly Img" srcset="" width="367px" height="367">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-12">

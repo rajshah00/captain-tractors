@@ -39,7 +39,7 @@
                                     {{item.part.name}}
                                 </td>
                                 <td>
-                                    {{item.part.model.name}}
+                                    {{item.part.model ? item.part.model.name : '-'}}
                                 </td>
                                 <td>
                                     <!-- <input type="number" [(ngModel)]="item.qty" (change)="onChange(item)" class="form-control" placeholder="Qty"
@@ -89,8 +89,12 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="text-sm-end">
-                            <a (click)="updateCart()" class="btn btn-primary">
+                            <a (click)="updateCart()" class="btn btn-primary me-2">
                                 <i class="bi bi-cart-plus me-1"></i> Update
+                            </a>
+
+                            <a (click)="submitOrder()" class="btn btn-primary">
+                                Place Order
                             </a>
                         </div>
                     </div>
