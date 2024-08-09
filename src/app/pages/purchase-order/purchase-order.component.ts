@@ -241,6 +241,7 @@ export class PurchaseOrderComponent implements OnInit {
         console.log("res", res);
         this.partList = []
         for (let i in res.data) {
+          this.partListOption.push(res.data[i].part);
           this.partList.push({
             part_id: res.data[i].part?.id,
             description: res.data[i].part?.description,

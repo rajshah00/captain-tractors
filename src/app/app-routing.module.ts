@@ -29,6 +29,7 @@ import { PendingOrderReportComponent } from './pages/pending-order-report/pendin
 import { ApprovalOrderReportComponent } from './pages/approval-order-report/approval-order-report.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { PurchaseOrderGuard } from './auth/purchase-order.guard';
+import { PendingFormGuard } from './auth/pending-form.guard';
 
 const routes: Routes = [
   {
@@ -52,9 +53,9 @@ const routes: Routes = [
       { path: 'order-detail/:id', component: OrderDetailComponent },
       { path: 'dealer-assign-model', component: DealerAssignModelComponent },
       { path: 'add-catalogue', component: AddCatalogueComponent },
-      { path: 'add-to-cart', component: AddToCartComponent },
+      { path: 'add-to-cart', component: AddToCartComponent, canActivate: [PendingFormGuard] },
       { path: 'purchase-order', component: PurchaseOrderComponent, canActivate: [PurchaseOrderGuard] },
-      { path: 'spare-parts-billing-report', component: SparePartsBillingReportComponent },
+      { path: 'spare-parts-sales-report', component: SparePartsBillingReportComponent },
       { path: 'back-order-report', component: BackOrderReportComponent },
       { path: 'pending-order-report', component: PendingOrderReportComponent },
       { path: 'approval-order-report', component: ApprovalOrderReportComponent },

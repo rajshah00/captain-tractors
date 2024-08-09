@@ -158,12 +158,12 @@ export class NavserviceService {
           type: 'link',
           icon: 'bi bi-circle',
         },
-        // {
-        //   path: '/spare-parts-billing-report',
-        //   title: 'Spare Parts Billing Report',
-        //   type: 'link',
-        //   icon: 'bi bi-circle',
-        // }
+        {
+          path: '/spare-parts-sales-report',
+          title: 'Spare Parts Sales Report',
+          type: 'link',
+          icon: 'bi bi-circle',
+        }
       ]
     },
     {

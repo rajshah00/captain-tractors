@@ -182,7 +182,8 @@ export class AddCatalogueComponent implements OnInit, AfterViewInit {
     if (obj.parts && obj.parts.length) {
       this.service.addToCart(obj).subscribe((res: any) => {
         if (res.success) {
-          item.qty = 0
+          item.qty = 0;
+          this.getCartList();
           this.comman.toster('success', res.message);
         } else {
           this.comman.toster('warning', res.message)
@@ -191,6 +192,17 @@ export class AddCatalogueComponent implements OnInit, AfterViewInit {
     } else {
       this.comman.toster('warning', "Plese select quantities and move items to a cart")
     }
+  }
+
+  getCartList() {
+    let obj = {
+      user_id: this.userData.id
+    }
+    this.service.cartList(obj).subscribe((res: any) => {
+      if (res.success && res.data.length) {
+        console.log("res", res);
+      }
+    })
   }
 
   onChange() {
@@ -204,11 +216,15 @@ export class AddCatalogueComponent implements OnInit, AfterViewInit {
     this.modalList($event.id);
     this.formObj.assembly_id = null;
     this.formObj.model_id = null;
+    this.assemblyList = [];
+    this.modaldataList = []
   }
 
   onChangeModel(model_id: any) {
     this.service.ModeleAssembly({ model_id: model_id }).subscribe((res: any) => {
       if (res.success) {
+        this.formObj.assembly_id = null;
+        this.assemblyList = [];
         this.assemblyList = res.data
       }
     })

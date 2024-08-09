@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -9,6 +9,7 @@ import { CommanService } from 'src/app/services/comman.service';
   styleUrls: ['./order-detail.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
+  @ViewChild('po_pdf') po_pdf: ElementRef | any;
   selectAll: any;
   partList: any = [];
   order_id: any;
@@ -16,6 +17,7 @@ export class OrderDetailComponent implements OnInit {
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   file: any;
   ordertype: any;
+  tracking_number: any
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
@@ -58,7 +60,9 @@ export class OrderDetailComponent implements OnInit {
     this.service.getOrderDetail(this.order_id).subscribe((res: any) => {
       if (res.success && res.data) {
         this.orderDetail = res.data;
+        this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
         this.partList = res.data.order_details;
+        this.orderDetail.total_qty = this.getTotalQty(this.partList);
         this.partList.forEach((item: any) => {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;
@@ -75,7 +79,9 @@ export class OrderDetailComponent implements OnInit {
     this.service.getBackOrderDetail(this.order_id).subscribe((res: any) => {
       if (res.success && res.data) {
         this.orderDetail = res.data;
+        this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
         this.partList = res.data.backorder_details;
+        this.orderDetail.total_qty = this.getTotalQty(this.partList);
         this.partList.forEach((item: any) => {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;
@@ -150,16 +156,26 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  onSubmit(type:any): void {
+  onSubmit(type: any): void {
     const formData = new FormData();
-    if(type == 'reset'){
+    if (type == 'Reset') {
       formData.append('po_pdf', "");
-    }else{
+      formData.append('type', "reset");
+      formData.append('tracking_number', this.tracking_number);
+    } else {
       formData.append('po_pdf', this.file, this.file.name);
+      formData.append('type', "upload");
+      formData.append('tracking_number', this.tracking_number);
     }
 
     this.service.poUpload(this.order_id, formData).subscribe((res: any) => {
       if (res.success) {
+        this.po_pdf.nativeElement.value = '';
+        if (this.ordertype == 'Order') {
+          this.getDetail();
+        } else {
+          this.getBackOrderDetail();
+        }
         this.comman.toster('success', res.message);
       } else {
         this.comman.toster('warning', res.message)
@@ -197,6 +213,15 @@ export class OrderDetailComponent implements OnInit {
     } else if (item.approve_qty < 1) {
       item.approve_qty = 1;  // Set to minimum allowed value
     }
+  }
+
+  getTotalQty(item: any) {
+    let total = 0;
+    item.forEach((it: any) => {
+      total += parseFloat(it.part_qty)
+    });
+
+    return total;
   }
 
 }

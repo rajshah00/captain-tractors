@@ -50,7 +50,7 @@
                         <!-- <th scope="col">Quantity</th> -->
                         <th scope="col">Order Status</th>
                         <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Current Stage</th>
-                        <th scope="col" *ngIf="userData?.role_name == 'Dealer'">Action</th>
+                        <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +73,7 @@
                             <td *ngIf="userData?.role_name == 'Dealer'">{{ item.dealer_show_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.approval_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.current_stage }}</td>
-                            <td *ngIf="userData?.role_name == 'Dealer'">
+                            <td *ngIf="userData?.role_name != 'CTPL'">
                                 <div class="action-box" *ngIf="item.po_pdf">
                                     <button type="button" class="btn btn-success"
                                         (click)="downloadPdf(item.po_pdf); $event.stopPropagation()">

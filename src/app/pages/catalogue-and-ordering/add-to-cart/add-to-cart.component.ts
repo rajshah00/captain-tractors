@@ -13,7 +13,7 @@ export class AddToCartComponent implements OnInit {
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   finalTotal: any;
   totalQty: number = 0;
-  orderDetail: any = JSON.parse(localStorage.getItem('order_detail') || '');
+  orderDetail: any = localStorage.getItem('order_detail') ? JSON.parse(localStorage.getItem('order_detail') || '') : '';
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,

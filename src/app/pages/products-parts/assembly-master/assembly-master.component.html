@@ -133,13 +133,9 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="name" class="form-label">Assembly No<sup class="text-danger">*</sup>:</label>
-                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.assembly_no" name="assembly_no"
-                                required #assembly_noCtrl="ngModel">
-                            <div *ngIf="assembly_noCtrl.invalid && (assembly_noCtrl.dirty || assembly_noCtrl.touched || form.submitted)"
-                                class="text-danger invalid-feild">
-                                Assembly No is required.
-                            </div>
+                            <label for="name" class="form-label">Assembly No:</label>
+                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.assembly_no"
+                                name="assembly_no">
                         </div>
 
                         <div class="col-md-6">
