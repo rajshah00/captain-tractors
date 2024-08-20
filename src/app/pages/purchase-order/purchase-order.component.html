@@ -61,8 +61,10 @@
                                 name="mode_of_dispatch" required #mode_of_dispatchCtrl="ngModel">
                                 <ng-container *ngIf="formObj.order_type == 'VOR'">
                                     <option value="" disabled selected>Select option</option>
-                                    <option value="By Air">By Air</option>
-                                    <option value="By Courier">By Courier</option>
+                                    <option value="By Air Courier">By Air Courier</option>
+                                    <option value="By Air Cargo">By Air Cargo</option>
+                                    <option value="By Sea Cargo (LCL Shipment)">By Sea Cargo (LCL Shipment)</option>
+                                    <option value="With Tractor Container">With Tractor Container</option>
                                 </ng-container>
                                 <ng-container *ngIf="formObj.order_type == 'STD'">
                                     <option value="" disabled selected>Select option</option>
@@ -99,13 +101,39 @@
                 <div class="col-md-6 mt-3" *ngIf="formObj.order_type == 'VOR'">
                     <div class="mb-3 grid-item">
                         <label for="chassis_number" class="form-label lable-box">Chassis Number<sup
-                                class="text-danger">*</sup> : </label>
+                                class="text-danger">*</sup>:</label>
                         <div style="width: 65%;">
-                            <ng-select id="chassis_number" [(ngModel)]="formObj.chassis_number" name="chassis_number"
-                                [items]="chassisList" bindLabel="number" bindValue="id" placeholder="Select option"
-                                required #chassis_numberCtrl="ngModel" [virtualScroll]="true" [loading]="isLoading"
-                                (scrollToEnd)="fetchMoreChassis()">
-                            </ng-select>
+                            <div class="row">
+                                <div class="col-md-9">
+
+                                    <ng-select id="chassis_number" #chassisSelect [(ngModel)]="formObj.chassis_number"
+                                        name="chassis_number" [items]="chassisList" bindLabel="number" bindValue="id"
+                                        placeholder="Select option" required #chassis_numberCtrl="ngModel"
+                                        [virtualScroll]="true" (change)="onChangeChassisNumber($event)"
+                                        [loading]="isLoading" (scrollToEnd)="fetchMoreChassis()" [searchable]="false"
+                                        (clear)="onClear()">
+                                        <ng-template ng-header-tmp>
+                                            <div class="form-group has-feedback grid-item">
+                                                <input style="width: 100%; line-height: 24px;" [(ngModel)]="serchBox"
+                                                    name="serchBox" type="text" class="form-control"
+                                                    placeholder="Search" (input)="onSearchInput($event)" />
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="onSearchClick()">
+                                                    <i class="bi bi-search"></i>
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="grid-item">
+                                        <button type="button" class="btn btn-success"
+                                            (click)="copyText(ChassisNumber.number)">
+                                            <i class="bi bi-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div *ngIf="chassis_numberCtrl.invalid && (chassis_numberCtrl.dirty || chassis_numberCtrl.touched || purchsForm.submitted)"
                                 class="text-danger invalid-feild">
@@ -113,6 +141,8 @@
                             </div>
                         </div>
                     </div>
+
+
                 </div>
                 <div class="mt-3 text-end" [ngClass]="formObj.order_type != 'VOR' ? 'col-md-12' : 'col-md-6' "
                     *ngIf="formObj.entry_type == 'Manual Entry'">
@@ -159,11 +189,17 @@
                     <tr *ngFor="let item of partList;let i = index">
                         <th scope="row">{{i + 1}}</th>
                         <td>
-                            <ng-select [items]="partListOption" bindLabel="part_no" bindValue="id"
-                                placeholder="Select Part" [(ngModel)]="item.part_id"
-                                (change)="onChangePart(item.part_id, i)" (scrollToEnd)="fetchMore()"
-                                [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select>
-                            </ng-select>
+                            <div class="grid-item">
+                                <ng-select class="w-100" [items]="partListOption" bindLabel="part_no" bindValue="id"
+                                    placeholder="Select Part" [(ngModel)]="item.part_id"
+                                    (change)="onChangePart(item.part_id, i,$event)" (scrollToEnd)="fetchMore()"
+                                    [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select>
+                                </ng-select>
+                                <button type="button" class="btn btn-success" (click)="copyText(partNumber.part_no)">
+                                    <i class="bi bi-copy"></i>
+                                </button>
+                            </div>
+
                             <!-- <div class="d-flex justify-content-center">
                                 <input type="text" class="form-control" style="max-width: 114px;"
                                     [(ngModel)]="item.part_no" name="part_no">
@@ -221,7 +257,7 @@
             </div>
         </div>
 
-        <div *ngIf="formObj.entry_type == 'Excel Sheet Upload' && missing_parts.length">
+        <!-- <div *ngIf="formObj.entry_type == 'Excel Sheet Upload' && missing_parts.length">
             <h6 class="deler-detial">Not Found Parts</h6>
             <table class="table table-bordered border-dark">
                 <thead class="table-dark">
@@ -246,7 +282,7 @@
                     </ng-container>
                 </tbody>
             </table>
-        </div>
+        </div> -->
 
         <div class="serch-box" *ngIf="formObj.entry_type == 'Manual Entry'">
             <!-- <button type="button" class="btn btn-secondary">Draft</button> -->

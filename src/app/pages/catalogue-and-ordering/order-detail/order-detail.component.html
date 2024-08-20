@@ -114,7 +114,7 @@
             <div class="">
                 <label for="example-textarea" class="form-label">Add a Note:</label>
                 <textarea class="form-control" id="example-textarea" rows="3"
-                    placeholder="Write some note.."></textarea>
+                    placeholder="Write some note.." [(ngModel)]="any_comment"></textarea>
             </div>
         </div>
         <div class="col-md-9" *ngIf="userData?.role_name == 'Camel' && orderDetail.approval_status == 'Updated'">
@@ -132,7 +132,7 @@
                             <label for="tracking" class="form-label">Tracking Number<sup
                                     class="text-danger">*</sup>:</label>
                             <input type="text" class="form-control" id="tracking" [(ngModel)]="tracking_number"
-                                name="tracking_number" required #nameCtrl="ngModel" [disabled]="tracking_number">
+                                name="tracking_number" required #nameCtrl="ngModel" [disabled]="isDesibled">
                             <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched )"
                                 class="text-danger invalid-feild">
                                 Tracking Number is required.
@@ -167,10 +167,10 @@
                 <button type="button" class="btn btn-danger" (click)="rejectOrder()">Reject</button>
                 <button type="submit" class="btn btn-success" (click)="approveOrderCtpl()">Approve</button>
             </ng-container>
-            <ng-container *ngIf="ordertype == 'Back Order'  &&  userData?.role_name == 'Dealer'">
+            <!-- <ng-container *ngIf="ordertype == 'Back Order'  &&  userData?.role_name == 'Dealer'">
                 <button type="button" class="btn btn-danger">Reject</button>
                 <button type="submit" class="btn btn-success" (click)="approveOrderDealer()">Approve</button>
-            </ng-container>
+            </ng-container> -->
         </div>
     </div>
     <!-- end row -->

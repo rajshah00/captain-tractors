@@ -17,7 +17,9 @@ export class OrderDetailComponent implements OnInit {
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   file: any;
   ordertype: any;
-  tracking_number: any
+  tracking_number: any = '';
+  isDesibled: boolean = false;
+  any_comment: any;
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
@@ -61,6 +63,7 @@ export class OrderDetailComponent implements OnInit {
       if (res.success && res.data) {
         this.orderDetail = res.data;
         this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
+        this.isDesibled = this.tracking_number ? true : false;
         this.partList = res.data.order_details;
         this.orderDetail.total_qty = this.getTotalQty(this.partList);
         this.partList.forEach((item: any) => {
@@ -80,6 +83,7 @@ export class OrderDetailComponent implements OnInit {
       if (res.success && res.data) {
         this.orderDetail = res.data;
         this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
+        this.isDesibled = this.tracking_number ? true : false;
         this.partList = res.data.backorder_details;
         this.orderDetail.total_qty = this.getTotalQty(this.partList);
         this.partList.forEach((item: any) => {
@@ -130,6 +134,7 @@ export class OrderDetailComponent implements OnInit {
 
   approveOrderCtpl() {
     let obj: any = {
+      any_comment: this.any_comment,
       order_detail: []
     };
     this.partList.forEach((item: any) => {

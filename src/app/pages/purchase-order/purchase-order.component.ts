@@ -13,6 +13,7 @@ export class PurchaseOrderComponent implements OnInit {
   // @ViewChild(NgSelectComponent) ngSelect!: NgSelectComponent;
   @ViewChild('ngSelectContainer', { static: false }) ngSelectContainer!: ElementRef;
   @ViewChild('ngSelect', { static: false }) ngSelect: ElementRef | any;
+  @ViewChild('chassisSelect') chassisSelect: NgSelectComponent | any;
 
   formObj: any = {
     order_type: '',
@@ -38,6 +39,11 @@ export class PurchaseOrderComponent implements OnInit {
   pageSize = 10; // Number of items per page
   query = '';
   endReached = false;
+  ChassisNumber: any = {};
+  serchBox: any;
+  partNumber: any = {};
+
+  isDropdownOpen = false;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -162,7 +168,7 @@ export class PurchaseOrderComponent implements OnInit {
   getChassisList(query: string = '', page: number = 1) {
     this.isLoading = true;
     let obj = {
-      search: query,
+      search: this.serchBox,
       page: page,
       size: this.pageSize
     };
@@ -253,7 +259,9 @@ export class PurchaseOrderComponent implements OnInit {
     })
   }
 
-  onChangePart(partNo: any, ind: any) {
+  onChangePart(partNo: any, ind: any, event: any) {
+    this.partNumber = event;
+
     if (partNo) {
       let part: any = this.partListOption.find((part: any) => part.id === partNo);
       this.partList[ind].description = part.description;
@@ -296,7 +304,11 @@ export class PurchaseOrderComponent implements OnInit {
         if (response.data.length === 0) {
           this.endReached = true;
         } else {
-          this.partListOption = [...this.partListOption, ...response.data];
+          if (query) {
+            this.partListOption = response.data;
+          } else {
+            this.partListOption = [...this.partListOption, ...response.data];
+          }
           this.page++;
         }
       }
@@ -309,4 +321,72 @@ export class PurchaseOrderComponent implements OnInit {
       this.fetchParts(event.term);
     }
   }
+
+  onChangeChassisNumber(item: any) {
+    this.ChassisNumber = item;
+  }
+
+  copyText(item: any) {
+    console.log("item", this.ChassisNumber);
+    if (item) {
+      const tempInput = document.createElement('input');
+      tempInput.value = item;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      this.comman.toster('success', "Text copied to clipboard!");
+      // Optionally provide feedback to the user
+      // alert('Text copied to clipboard!');
+    } else {
+      this.comman.toster('warning', "Plese select any item")
+    }
+
+  }
+
+
+
+  toggleDropdown() {
+    if (this.chassisSelect.isOpen) {
+      this.chassisSelect.close();
+    } else {
+      this.chassisSelect.open();
+    }
+  }
+
+  onSearchInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.value == '') {
+      this.getChassisList();
+    }
+  }
+
+  onSearchClick() {
+    this.isLoading = true;
+    let obj = {
+      search: this.serchBox,
+      page: 1,
+      size: this.pageSize
+    };
+
+    this.service.ChassisNumberList(obj).subscribe((response: any) => {
+      if (response.success) {
+        if (response.data.length === 0) {
+          this.endReached = true;
+        } else {
+          this.chassisList = response.data;
+          this.pageNum++;
+        }
+      }
+      this.isLoading = false;
+    });
+    // this.chassisSelect.filter(this.serchBox);
+  }
+
+  onClear() {
+    this.serchBox = '';
+    this.onSearchClick();
+  }
+
+
 }

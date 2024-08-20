@@ -131,3 +131,12 @@ progress {
 //     top: 533.792px !important;
 // }
 
+/* component.css */
+.ng-select .ng-select-container .ng-select-search {
+    display: none; /* Hide the search box */
+  }
+  
+  .ng-select.ng-select-disabled .ng-select-search {
+    display: none; /* Ensure the search box remains hidden when ng-select is disabled */
+  }
+  

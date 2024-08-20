@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit {
     } else {
       this.is_show_part_cat = false;
       this.is_show_part_ord = true;
+      this.router.navigate(['/catalogue-and-ordering'])
     }
 
   }
