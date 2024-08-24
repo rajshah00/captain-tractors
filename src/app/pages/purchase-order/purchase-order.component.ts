@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-purchase-order',
@@ -30,6 +31,7 @@ export class PurchaseOrderComponent implements OnInit {
   todayDate: any = new Date();
 
   partListOption: any = [];
+  partListOptionEx: any = [];
   bufferSize = 10;
   allParts: any;
   loading = false;
@@ -44,15 +46,22 @@ export class PurchaseOrderComponent implements OnInit {
   partNumber: any = {};
 
   isDropdownOpen = false;
+  selectedParts: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
-    public router: Router
+    public router: Router,
+    private route: ActivatedRoute,
   ) {
 
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['type']) {
+        this.formObj.entry_type = params['type'];
+      };
+    });
     this.addRow();
     this.getChassisList();
     this.fetchParts();
@@ -111,20 +120,44 @@ export class PurchaseOrderComponent implements OnInit {
     }
   }
 
-  handleFiles(files: any) {
+  handleFiles(files: FileList) {
     if (files.length) {
       const file = files[0];
       if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
         console.log('Excel file uploaded:', file.name);
-        this.uploadFile(file);
+        this.readExcelFile(file);
       } else {
         this.comman.toster('warning', 'Please upload a valid Excel file.');
       }
     }
   }
 
+  readExcelFile(file: File) {
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(file);
+
+    reader.onload = (event: any) => {
+      const binaryData: string = event.target.result;
+      const workbook: XLSX.WorkBook = XLSX.read(binaryData, { type: 'binary' });
+
+      // Assuming you want to read the first sheet
+      const sheetName: string = workbook.SheetNames[0];
+      const sheetData: XLSX.WorkSheet = workbook.Sheets[sheetName];
+
+      // Converting the sheet data to JSON
+      const data = XLSX.utils.sheet_to_json(sheetData);
+      console.log('Excel Data:', data);
+      this.uploadFile(file, data);
+    };
+
+    reader.onerror = (error) => {
+      console.error('Error reading Excel file:', error);
+      this.comman.toster('error', 'Error reading Excel file.');
+    };
+  }
+
   //========// Import Part Data Progress //========//
-  uploadFile(file: File) {
+  uploadFile(file: File, data: any) {
     this.showProgress = true;
     this.formObj.file = file;
     this.progress = 0;
@@ -134,8 +167,20 @@ export class PurchaseOrderComponent implements OnInit {
       } else {
         clearInterval(uploadInterval);
         this.comman.toster('success', 'Upload complete!');
-        // this.progress = 0;
-        // this.showProgress = false;
+        let obj = {
+          parts: data
+        }
+        this.service.importExcel(obj).subscribe((res: any) => {
+          if (res.success) {
+            this.partListOptionEx = [...this.partListOptionEx, ...res.data.existingParts];
+            this.selectedParts = res.data.existingParts;
+            setTimeout(() => {
+              this.comman.toster('success', res.message);
+            }, 200);
+          } else {
+            this.comman.toster('warning', res.message)
+          }
+        })
       }
     };
     const uploadInterval = setInterval(simulateUpload, 100);
@@ -305,8 +350,10 @@ export class PurchaseOrderComponent implements OnInit {
           this.endReached = true;
         } else {
           if (query) {
+            this.partListOptionEx = response.data;
             this.partListOption = response.data;
           } else {
+            this.partListOptionEx = [...this.partListOptionEx, ...response.data];
             this.partListOption = [...this.partListOption, ...response.data];
           }
           this.page++;
@@ -388,5 +435,49 @@ export class PurchaseOrderComponent implements OnInit {
     this.onSearchClick();
   }
 
+  submitOrder(form: any) {
+    form.submitted = true
+    if (form.form.valid) {
+      this.partList.forEach((item: any) => {
+        this.formObj.parts.push({
+          "part_id": item.part_id,
+          "qty": item.qty,
+        })
+      });
+      this.service.saveOrder(this.formObj).subscribe((res: any) => {
+        if (res.success) {
+          localStorage.removeItem('order_detail');
+          this.router.navigate(['/catalogue-and-ordering'])
+          this.comman.toster('success', res.message);
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      })
+    }
+  }
+
+
+  incrementEx(ind: any): void {
+    if (this.selectedParts[ind].qty < 100) {
+      this.selectedParts[ind].qty += 1;
+    }
+  }
+
+  decrementEx(ind: any): void {
+    if (this.selectedParts[ind].qty > 0 && this.selectedParts[ind].qty < 100) {
+      this.selectedParts[ind].qty -= 1;
+    }
+  }
+
+  onChangePartEx(partNo: any, ind: any, event: any) {
+    if (partNo) {
+      let part: any = this.partListOptionEx.find((part: any) => part.id === partNo);
+      this.selectedParts[ind].description = part.description;
+      this.selectedParts[ind].moq = part.moq;
+    } else {
+      this.selectedParts[ind].description = '';
+      this.selectedParts[ind].moq = '';
+    }
+  }
 
 }

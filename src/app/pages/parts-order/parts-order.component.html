@@ -1,0 +1,69 @@
+<div class="dashboard">
+<div class="pagetitle">
+    <h1>Parts Order</h1>
+    <!-- <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dasboard">Home</a></li>
+            <li class="breadcrumb-item active">Parts Order</li>
+        </ol>
+    </nav> -->
+</div>
+
+<div class="row justify-content-between">
+    <div class="col-lg-5">
+        <div class="row mt-3">
+            <div class="col-xxl-6 col-md-6">
+                <div class="card info-card pb-0 sales-card cursor-pointer" (click)="rouerNavigate('Manual Entry')">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="ps-3 box-header">
+                                <h6>Order By Manual Entry</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xxl-6 col-md-6">
+                <div class="card info-card pb-0 sales-card cursor-pointer" (click)="rouerNavigate('Excel Sheet Upload')">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="ps-3 box-header">
+                                <h6>Order By Upload Excel Sheet</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xxl-6 col-md-6">
+                <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/parts-catalogue">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="ps-3 box-header">
+                                <h6>Order By Parts Catalogue</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xxl-6 col-md-6">
+                <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/catalogue-and-ordering">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="ps-3 box-header">
+                                <h6>Parts order confirmation</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <img src="./assets/img/tractor.png" alt="" srcset="">
+    </div>
+</div>
+</div>

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
-
+declare var $: any;
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,17 @@ export class LoginComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
+    $(document).ready(function () {
+      $("#owl-demo").owlCarousel({
+        navigation: false,
+        autoplay: true,
+        margin: 0,
+        items: 1,
+        loop: true,
+        nav: false,
+        dots: false,
+      });
+    });
   }
 
   onSubmit(form: any) {
@@ -40,7 +50,7 @@ export class LoginComponent implements OnInit {
         }
       }, (err: any) => {
         console.log(err);
-        
+
         this.comman.toster('error', 'ops! something went wrong please try again later')
       })
     }

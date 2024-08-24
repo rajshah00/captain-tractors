@@ -1,0 +1,59 @@
+.box-grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 13px;
+    // padding: 10px;
+}
+
+.toggle-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.toggle-switch {
+    display: inline-block;
+    width: 111px;
+    height: 40px;
+    position: relative;
+    background-color: #dc3545; /* danger color */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-switch span {
+    position: absolute;
+    top: 50%;
+    left: 22px;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 17px;
+}
+
+.toggle-switch .slider {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 13px;
+    height: 30px;
+    background-color: white;
+    border-radius: 5px;
+    transition: left 0.3s ease;
+}
+
+.toggle-switch.active {
+    background-color: #28a745; /* success color */
+}
+
+.toggle-switch.active span {
+    left: calc(100% - 80px);
+}
+
+.toggle-switch.active .slider {
+    left: calc(100% - 20px);
+}
+
+input[type="checkbox"] {
+    display: none;
+}

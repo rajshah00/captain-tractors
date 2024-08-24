@@ -1,6 +1,6 @@
 <div class="pagetitle">
     <h1>Spare Parts Purchase Order</h1>
-    <nav>
+    <nav *ngIf="userData?.role_name != 'Dealer'">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item active">Spare Parts Purchase Order</li>
@@ -59,19 +59,19 @@
                         <div class="input-box">
                             <select id="mode_of_dispatch" class="form-select" [(ngModel)]="formObj.mode_of_dispatch"
                                 name="mode_of_dispatch" required #mode_of_dispatchCtrl="ngModel">
-                                <ng-container *ngIf="formObj.order_type == 'VOR'">
-                                    <option value="" disabled selected>Select option</option>
-                                    <option value="By Air Courier">By Air Courier</option>
-                                    <option value="By Air Cargo">By Air Cargo</option>
-                                    <option value="By Sea Cargo (LCL Shipment)">By Sea Cargo (LCL Shipment)</option>
-                                    <option value="With Tractor Container">With Tractor Container</option>
-                                </ng-container>
-                                <ng-container *ngIf="formObj.order_type == 'STD'">
+                                <!-- <ng-container *ngIf="formObj.order_type == 'VOR'"> -->
+                                <option value="" disabled selected>Select option</option>
+                                <option value="By Air Courier">By Air Courier</option>
+                                <option value="By Air Cargo">By Air Cargo</option>
+                                <option value="By Sea Cargo (LCL Shipment)">By Sea Cargo (LCL Shipment)</option>
+                                <option value="With Tractor Container">With Tractor Container</option>
+                                <!-- </ng-container> -->
+                                <!-- <ng-container *ngIf="formObj.order_type == 'STD'">
                                     <option value="" disabled selected>Select option</option>
                                     <option value="With Tractor container">With Tractor container</option>
                                     <option value="LCL">LCL</option>
                                     <option value="By Courier">By Courier</option>
-                                </ng-container>
+                                </ng-container> -->
                             </select>
                             <div *ngIf="mode_of_dispatchCtrl.invalid && (mode_of_dispatchCtrl.dirty || mode_of_dispatchCtrl.touched || purchsForm.submitted)"
                                 class="text-danger invalid-feild">
@@ -117,8 +117,7 @@
                                                 <input style="width: 100%; line-height: 24px;" [(ngModel)]="serchBox"
                                                     name="serchBox" type="text" class="form-control"
                                                     placeholder="Search" (input)="onSearchInput($event)" />
-                                                <button type="button" class="btn btn-primary"
-                                                    (click)="onSearchClick()">
+                                                <button type="button" class="btn btn-primary" (click)="onSearchClick()">
                                                     <i class="bi bi-search"></i>
                                                 </button>
                                             </div>
@@ -207,7 +206,7 @@
                         </td>
                         <td>
                             <textarea type="text" rows="1" class="form-control" [(ngModel)]="item.description"
-                                name="description"></textarea>
+                                name="description" disabled></textarea>
                         </td>
                         <td class="text-center">
                             <!-- <div class="d-flex justify-content-center">
@@ -242,20 +241,94 @@
                 </button>
             </div>
         </div>
-
-        <div class="upload-container" *ngIf="formObj.entry_type == 'Excel Sheet Upload'">
-            <label for="file-input" class="d-block">
-                <input type="file" id="file-input" accept=".xlsx, .xls" hidden (change)="onFileChange($event)">
-                <div id="drop-area" class="drop-area" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
-                    (drop)="onDrop($event)">
-                    <p>Drag and drop an Excel file here, or <span id="browse">browse</span></p>
+        <ng-container *ngIf="formObj.entry_type == 'Excel Sheet Upload'">
+            <div class="upload-container">
+                <label for="file-input" class="d-block">
+                    <input type="file" id="file-input" accept=".xlsx, .xls" hidden (change)="onFileChange($event)">
+                    <div id="drop-area" class="drop-area" (dragover)="onDragOver($event)"
+                        (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+                        <p>Drag and drop an Excel file here, or <span id="browse">browse</span></p>
+                    </div>
+                </label>
+                <div id="progress-container" class="progress-container" *ngIf="showProgress">
+                    <progress id="progress-bar" [value]="progress" class="progress-bar" max="100"></progress>
+                    <span id="progress-text">{{progress}}%</span>
                 </div>
-            </label>
-            <div id="progress-container" class="progress-container" *ngIf="showProgress">
-                <progress id="progress-bar" [value]="progress" class="progress-bar" max="100"></progress>
-                <span id="progress-text">{{progress}}%</span>
             </div>
-        </div>
+
+            <table class="table table-bordered border-dark" *ngIf="selectedParts">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">
+                            <div class="text-center">
+                                Ser No
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                Part Number
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                Parts Description
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center">
+                                MOQ
+                            </div>
+                        </th>
+
+                        <th scope="col" class="text-center">QTY</th>
+                        <th scope="col" class="text-center">Action</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of selectedParts;let i = index">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>
+                            <div class="grid-item">
+                                <ng-select class="w-100" [items]="partListOptionEx" bindLabel="part_no" bindValue="id"
+                                    placeholder="Select Part" [(ngModel)]="item.id"
+                                    (change)="onChangePartEx(item.id, i,$event)" (scrollToEnd)="fetchMore()"
+                                    [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select>
+                                </ng-select>
+                                <button type="button" class="btn btn-success" (click)="copyText(partNumber.part_no)">
+                                    <i class="bi bi-copy"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <textarea type="text" rows="1" class="form-control" [(ngModel)]="item.description"
+                                name="description" disabled></textarea>
+                        </td>
+                        <td class="text-center">
+                            {{item.moq}}
+                        </td>
+                        <td style="max-width: 130px;">
+                            <div class="qty-box">
+                                <button type="button" class="btn btn-danger" (click)="decrementEx(i)">
+                                    <i class="bi bi-dash-circle"></i>
+                                </button>
+                                <input type="number" [(ngModel)]="item.qty" class="form-control" id="qty" name="qty">
+                                <button type="button" class="btn btn-danger" (click)="incrementEx(i)">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </div>
+
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-danger" (click)="removeRow(i)">
+                                <i class="bi bi-dash-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-container>
 
         <!-- <div *ngIf="formObj.entry_type == 'Excel Sheet Upload' && missing_parts.length">
             <h6 class="deler-detial">Not Found Parts</h6>
@@ -285,8 +358,8 @@
         </div> -->
 
         <div class="serch-box" *ngIf="formObj.entry_type == 'Manual Entry'">
-            <!-- <button type="button" class="btn btn-secondary">Draft</button> -->
-            <button type="submit" class="btn btn-primary" (click)="sapeParts(purchsForm)">Place Order</button>
+            <button type="button" class="btn btn-secondary" (click)="sapeParts(purchsForm)">Save AS Draft</button>
+            <button type="submit" class="btn btn-primary" (click)="submitOrder(purchsForm)">Place Order</button>
         </div>
 
         <div class="serch-box" *ngIf="formObj.entry_type == 'Excel Sheet Upload'">

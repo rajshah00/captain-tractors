@@ -15,7 +15,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Show spinner for requests except for `/all_list`
-    if (!request.url.includes('/all_list') && !request.url.includes('/chassis_number/list') && !request.url.includes('model_master/product_type/list') && !request.url.includes('assembly_master/list')) {
+    if (!request.url.includes('/all_list') && !request.url.includes('/chassis_number/list') && !request.url.includes('model_master/product_type/list') && !request.url.includes('assembly_master/list') && !request.url.includes('dealer/model/list')) {
       this.spinner.show();
     }
     const authToken = localStorage.getItem('token');

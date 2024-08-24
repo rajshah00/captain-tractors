@@ -1,0 +1,27 @@
+.dashboard {
+    min-height: 440px;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.box-header h6 {
+    font-size: 18px;
+}
+
+.not-found {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #9f9f9f;
+}
+
+
+.dashboard .disabled .card-body {
+    background: #ff8e91;
+}
+
+.dashboard .disabled .info-card h6 {
+    color: #ffffff !important;
+}

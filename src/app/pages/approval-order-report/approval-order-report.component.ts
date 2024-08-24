@@ -110,7 +110,7 @@ export class ApprovalOrderReportComponent implements OnInit {
 
   getTotalQty(item: any) {
     let total = 0;
-    item.backorder_details.forEach((it: any) => {
+    item.order_details.forEach((it: any) => {
       total += parseFloat(it.part_qty)
     });
 

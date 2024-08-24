@@ -9,56 +9,59 @@
         </nav> -->
     </div>
 
-    <div class="row mt-3">
-        <div class="col-xxl-3 col-md-3">
-            <div class="card info-card pb-0 sales-card cursor-pointer">
-                <div class="card-body" (click)="toggelSection('Catalogue')">
-                    <div class="d-flex align-items-center">
-                        <div class="ps-3 box-header">
-                            <h6>Parts Catalogue</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-xxl-3 col-md-3">
-            <div class="card info-card pb-0 sales-card cursor-pointer">
-                <div class="card-body" (click)="toggelSection('Order')">
-                    <div class="d-flex align-items-center">
-                        <div class="ps-3 box-header">
-                            <h6>Parts Order</h6>
+    <ng-container *ngIf="userData?.role_name != 'Dealer'">
+        <div class="row mt-3">
+            <div class="col-xxl-3 col-md-3">
+                <div class="card info-card pb-0 sales-card cursor-pointer">
+                    <div class="card-body" (click)="toggelSection('Catalogue')">
+                        <div class="d-flex align-items-center">
+                            <div class="ps-3 box-header">
+                                <h6>Parts Catalogue</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xxl-3 col-md-3">
+                <div class="card info-card pb-0 sales-card cursor-pointer">
+                    <div class="card-body" (click)="toggelSection('Order')">
+                        <div class="d-flex align-items-center">
+                            <div class="ps-3 box-header">
+                                <h6>Parts Order</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card info-card" *ngIf="is_show_part_cat">
-        <div class="card-body">
-            <section>
-                <div class="box-header mb-3">
-                    <h6>Model List</h6>
-                </div>
-                <div class="accordion" id="accordionExample">
-                    <ng-container *ngIf="modalList && modalList.length">
-                        <ng-container *ngFor="let item of modalList; let i = index">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" [id]="'heading' + i">
-                                    <button class="accordion-button collapsed" type="button"
-                                        [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
-                                        [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
-                                        {{userData.role_name == 'Dealer' ? item.model_name : item.name}}
-                                    </button>
-                                </h2>
-                                <div [id]="'collapse' + i" class="accordion-collapse collapse"
-                                    [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="text-end">
-                                            <button class="btn btn-primary"
-                                                (click)="comman.downloadFile(item.download_pdf)">Download PDF</button>
-                                        </div>
-                                        <!-- <ng-container *ngIf="partList.length;else noParts">
+        <div class="card info-card" *ngIf="is_show_part_cat">
+            <div class="card-body">
+                <section>
+                    <div class="box-header mb-3">
+                        <h6>Model List</h6>
+                    </div>
+                    <div class="accordion" id="accordionExample">
+                        <ng-container *ngIf="modalList && modalList.length">
+                            <ng-container *ngFor="let item of modalList; let i = index">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" [id]="'heading' + i">
+                                        <button class="accordion-button collapsed" type="button"
+                                            [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
+                                            [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
+                                            {{userData.role_name == 'Dealer' ? item.model_name : item.name}}
+                                        </button>
+                                    </h2>
+                                    <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                                        [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="text-end">
+                                                <button class="btn btn-primary"
+                                                    (click)="comman.downloadFile(item.download_pdf)">Download
+                                                    PDF</button>
+                                            </div>
+                                            <!-- <ng-container *ngIf="partList.length;else noParts">
                                             <table class="table table-bordered border-dark">
                                                 <thead class="table-dark">
                                                     <tr>
@@ -107,28 +110,177 @@
                                         <ng-template #noParts>
                                             <p class="text-center fw-blod">No parts available.</p>
                                         </ng-template> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-container *ngIf="!modalList.length">
+                            <div class="not-found">
+                                Model Not Available
+                            </div>
+                        </ng-container>
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="userData?.role_name == 'Dealer'">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row mt-3 justify-content-center">
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/parts-catalogue">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Parts Catalogue</h6>
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>
-                    </ng-container>
-
-                    <ng-container *ngIf="!modalList.length">
-                        <div class="not-found">
-                            Model Not Available
                         </div>
-                    </ng-container>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/parts-order">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Parts Order</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6 disabled">
+                        <div class="card info-card pb-0 sales-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Goods receipt / Transit Claim</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6 disabled">
+                        <div class="card info-card pb-0 sales-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Sales Registration / Warranty Registration</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6 disabled">
+                        <div class="card info-card pb-0 sales-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>PDI Claim</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6 disabled">
+                        <div class="card info-card pb-0 sales-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Warranty Claims</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6 disabled">
+                        <div class="card info-card pb-0 sales-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>PCR</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/owners-manuals">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Operator Manual</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/i-circular">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Service Bulletin</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/service-manuals">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Service Manual</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/reports">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Reports</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/feedback">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="ps-3 box-header">
+                                        <h6>Feedback</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
-
-
+            </div>
+            <div class="col-lg-6 dashboard-right-column">
+                <img src="./assets/img/tractor.png" alt="" srcset="">
+            </div>
         </div>
-    </div>
-    <!-- <div class="card info-card" *ngIf="is_show_part_ord">
-        <div class="card-body">
-            <section>
-                Comming Soon ...
-            </section>
-        </div>
-    </div> -->
+    </ng-container>
 </div>

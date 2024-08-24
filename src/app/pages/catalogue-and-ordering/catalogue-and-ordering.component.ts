@@ -13,9 +13,11 @@ import { HttpClient } from '@angular/common/http';
 export class CatalogueAndOrderingComponent implements OnInit {
   formObj: any = {};
   serchObj: any = {};
+  allCountryList: any = [];
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   getAllOrder: any = [];
   p: number = 1;
+  dealerList: any = [];
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -28,8 +30,27 @@ export class CatalogueAndOrderingComponent implements OnInit {
       this.serchObj.dealer_id = this.userData.id;
     }
     this.getCatalogue(this.serchObj);
+    this.getDealerList();
+    this.getCountryAllList();
   }
 
+
+  //========// Get All Dealer //========//
+  getDealerList() {
+    this.service.DealerList({}).subscribe((res: any) => {
+      if (res.success) {
+        this.dealerList = res.data
+      }
+    })
+  }
+
+  getCountryAllList() {
+    this.service.allCountryList({}).subscribe((res: any) => {
+      if (res.success) {
+        this.allCountryList = res.data
+      }
+    })
+  }
 
   getCatalogue(obj: any) {
     this.service.getOrder(obj).subscribe((res: any) => {

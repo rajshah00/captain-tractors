@@ -42,6 +42,10 @@ import { ICatalogueComponent } from './pages/i-catalogue/i-catalogue.component';
 import { PendingOrderReportComponent } from './pages/pending-order-report/pending-order-report.component';
 import { ApprovalOrderReportComponent } from './pages/approval-order-report/approval-order-report.component';
 import { FeedbackComponent } from './pages/feedback/feedback.component';
+import { PartsCatalogueComponent } from './pages/parts-catalogue/parts-catalogue.component';
+import { PartDetailComponent } from './pages/parts-catalogue/part-detail/part-detail.component';
+import { PartsOrderComponent } from './pages/parts-order/parts-order.component';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +80,11 @@ import { FeedbackComponent } from './pages/feedback/feedback.component';
     ICatalogueComponent,
     PendingOrderReportComponent,
     ApprovalOrderReportComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    PartsCatalogueComponent,
+    PartDetailComponent,
+    PartsOrderComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

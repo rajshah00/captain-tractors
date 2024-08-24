@@ -15,8 +15,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="search" class="form-label">Search:</label>
-                        <input type="text" class="form-control" id="search" [(ngModel)]="serchObj.search"
-                            name="search">
+                        <input type="text" class="form-control" id="search" [(ngModel)]="serchObj.search" name="search">
                     </div>
                     <div class="col-md-6">
                         <div class="serch-box">
@@ -52,23 +51,23 @@
                         <th scope="col">Region</th>
                         <th scope="col">Country</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Status</th>
+                        <!-- <th scope="col">Status</th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of userList | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
                         <th scope="row">{{i + 1}}</th>
-                        <td>{{item.first_name}} {{item.last_name}}</td>
+                        <td>{{item.name}}</td>
                         <td>{{item.phone}}</td>
                         <td>{{item.email}}</td>
                         <td>{{item.region?.name || '-'}}</td>
                         <td>{{item.country?.name}}</td>
                         <td>{{item.role_name}}</td>
-                        <td>
+                        <!-- <td>
                             <span *ngIf="item.is_active" class="badge bg-success">Active</span>
                             <span *ngIf="!item.is_active" class="badge bg-danger">Deactivate</span>
-                        </td>
+                        </td> -->
                         <td>
                             <div class="action-box">
                                 <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
@@ -102,18 +101,18 @@
             <form #form="ngForm" (ngSubmit)="onSubmit(form)">
                 <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="first_name" class="form-label">First Name<sup
+                        <div class="col-md-12">
+                            <label for="name" class="form-label">Distributor Name<sup
                                     class="text-danger">*</sup>:</label>
-                            <input type="text" class="form-control" id="first_name" [(ngModel)]="formObj.first_name"
-                                name="first_name" required #firstNameCtrl="ngModel">
-                            <div *ngIf="firstNameCtrl.invalid && (firstNameCtrl.dirty || firstNameCtrl.touched || form.submitted)"
+                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.name" name="name"
+                                required #nameCtrl="ngModel">
+                            <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || form.submitted)"
                                 class="text-danger invalid-feild">
-                                First name is required.
+                                Distributor Name is required.
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="last_name" class="form-label">Last Name<sup class="text-danger">*</sup>:</label>
                             <input type="text" class="form-control" id="last_name" [(ngModel)]="formObj.last_name"
                                 name="last_name" required #lastNameCtrl="ngModel">
@@ -121,15 +120,26 @@
                                 class="text-danger invalid-feild">
                                 Last name is required.
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="col-12">
-                            <label for="inputAddress5" class="form-label">Phone</label>
+                        <div class="col-md-6">
+                            <label for="inputAddress5" class="form-label">Mobile Number</label>
                             <input type="number" class="form-control" id="inputAddress5" [(ngModel)]="formObj.phone"
                                 name="phone" #phoneCtrl="ngModel">
                             <!-- <div *ngIf="phoneCtrl.invalid && (phoneCtrl.dirty || phoneCtrl.touched || form.submitted)" class="text-danger">
                                 Phone number is required.
                             </div> -->
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="contact_name" class="form-label">Contact Person Name<sup
+                                    class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="contact_name" [(ngModel)]="formObj.contact_name"
+                                name="contact_name" required #contact_nameCtrl="ngModel">
+                            <div *ngIf="contact_nameCtrl.invalid && (contact_nameCtrl.dirty || contact_nameCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Contact Person Name is required.
+                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -228,14 +238,14 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="inputState" class="form-label">State:</label>
                             <select id="inputState" class="form-select" [(ngModel)]="formObj.state_id" name="state_id">
                                 <ng-container *ngFor="let item of allStateList">
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
                             </select>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">City:</label>
@@ -245,17 +255,46 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="inputAddress2" class="form-label">Address<sup
-                                    class="text-danger">*</sup>:</label>
-                            <input type="text" class="form-control" id="inputAddress2"
-                                placeholder="Apartment, studio, or floor" [(ngModel)]="formObj.address" name="address"
-                                required #addressCtrl="ngModel">
+                            <label for="inputAddress1" class="form-label">
+                                Address Line 1<sup class="text-danger">*</sup>:
+                            </label>
+                            <input type="text" class="form-control" id="inputAddress1" [(ngModel)]="formObj.address"
+                                name="address" required #addressCtrl="ngModel">
                             <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
                                 class="text-danger invalid-feild">
                                 Address is required.
                             </div>
                         </div>
+                        <div class="col-12">
+                            <label for="inputAddress2" class="form-label">Address Line 2:</label>
+                            <input type="text" class="form-control" id="inputAddress2" [(ngModel)]="formObj.address_2"
+                                name="address_2">
+                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Address is required.
+                            </div> -->
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress3" class="form-label">Address Line 3:</label>
+                            <input type="text" class="form-control" id="inputAddress3" [(ngModel)]="formObj.address_3"
+                                name="address_3">
+                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Address is required.
+                            </div> -->
+                        </div>
 
+                        <div class="col-12">
+                            <label for="remark-test" class="form-label">Remark :</label>
+                            <input type="text" class="form-control" id="remark-test" [(ngModel)]="formObj.remark"
+                                name="remark">
+                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Address is required.
+                            </div> -->
+                        </div>
+
+<!-- 
                         <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="is_active"
@@ -264,7 +303,7 @@
                                     Is Active
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="modal-footer">

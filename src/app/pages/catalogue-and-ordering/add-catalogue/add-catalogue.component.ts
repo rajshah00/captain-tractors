@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
 declare var $: any;
@@ -9,7 +9,7 @@ declare var $: any;
   templateUrl: './add-catalogue.component.html',
   styleUrls: ['./add-catalogue.component.scss']
 })
-export class AddCatalogueComponent implements OnInit, AfterViewInit {
+export class AddCatalogueComponent implements OnInit {
   formObj: any = {};
   assemblyList: any;
   modaldataList: any;
@@ -25,25 +25,36 @@ export class AddCatalogueComponent implements OnInit, AfterViewInit {
   @ViewChild('magnified') magnified!: ElementRef;
   magnifiedStyles: any;
   imageUrl: string = ''; // Example image URL
+  model_id: any;
+  currentPage: number = 0;
+  totalPages: any;
+  alldata: any;
 
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
-    public router: Router
+    public router: Router,
+    private route: ActivatedRoute,
   ) {
 
   }
 
-  ngAfterViewInit(): void {
-
-  }
-
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['product_type_id'] || params['model_id']) {
+        this.model_id = params['model_id'];
+        this.formObj.product_type_id = params['product_type_id'];
+        this.formObj.model_id = params['model_id'];
+        this.formObj.category_id = params['category_id'];
+        console.log(typeof params['product_type_id']);
+        this.getAsseblyWiseData();
+      };
+    });
     this.getproductsTypeMaster();
   }
 
   onMouseMove(event: MouseEvent): void {
-    console.log('Mouse X:', event.clientX, 'Mouse Y:', event.clientY);
+    // console.log('Mouse X:', event.clientX, 'Mouse Y:', event.clientY);
     const offset = $("#img-zoomer-box").offset()!;
     const x = event.pageX - offset.left!;
     const y = event.pageY - offset.top!;
@@ -228,6 +239,59 @@ export class AddCatalogueComponent implements OnInit, AfterViewInit {
         this.assemblyList = res.data
       }
     })
+  }
 
+  getAsseblyWiseData() {
+    this.service.getTypeWiseData(this.formObj).subscribe((res: any) => {
+      if (res.success && res.data.length) {
+        this.alldata = res.data;
+        this.totalPages = res.data.length;
+        this.partList = res.data[0].parts;
+        this.partList[0].assembly = {};
+        this.partList[0].assembly.name = res.data[0].name;
+        this.partList[0].assembly.image = res.data[0].image;
+        this.imageUrl = this.partList[0].assembly.image;
+
+        this.totalQty = 0;
+        this.lineCount = 0;
+        for (let item of this.partList) {
+          item.qty = 0;
+        }
+      } else {
+        this.partList = [];
+        this.comman.toster('warning', res.message)
+      }
+    })
+  }
+
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+
+      this.partList = this.alldata[this.currentPage].parts;
+      this.partList[0].assembly = {};
+      this.partList[0].assembly.name = this.alldata[this.currentPage].name;
+      this.partList[0].assembly.image = this.alldata[this.currentPage].image;
+      this.imageUrl = this.partList[0].assembly.image;
+      for (let item of this.partList) {
+        item.qty = 0;
+      }
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+
+      this.partList = this.alldata[this.currentPage].parts;
+      this.partList[0].assembly = {};
+      this.partList[0].assembly.name = this.alldata[this.currentPage].name;
+      this.partList[0].assembly.image = this.alldata[this.currentPage].image;
+      this.imageUrl = this.partList[0].assembly.image;
+      for (let item of this.partList) {
+        item.qty = 0;
+      }
+    }
   }
 }

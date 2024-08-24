@@ -119,3 +119,91 @@ input[type="number"] {
     display: block;
     transition: opacity .2s;
 }
+
+
+
+
+.button-container {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button-container .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // padding: 0px;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    width: 40px;
+    line-height: 1;
+}
+
+.button-container .btn-prev {
+    background-color: #ff3b30;
+}
+
+.button-container .btn-prev:hover {
+    background-color: #d32f2f;
+}
+
+.button-container .btn-next {
+    background-color: #007bff;
+    z-index: 99;
+}
+
+.button-container .btn-next:hover {
+    background-color: #0056b3;
+}
+
+.button-container .btn-prev i {
+    margin-left: 0;
+}
+
+.button-container i {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.button-container button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
+
+.button-container .text-box-prev {
+    background-color: #ff3b30;
+    color: white;
+    padding: 3px 12px;
+    margin-right: -10px;
+    border-radius: 15px 0px 0px 15px;
+}
+
+.button-container .text-box-next {
+    background-color: #007bff;
+    color: white;
+    padding: 3px 12px;
+    margin-left: -10px;
+    border-radius: 0px 15px 15px 0px;
+}
+
+.button-container .btn-disabled .text-box-next,
+.button-container .btn-disabled .btn-next,
+.button-container .btn-disabled .text-box-prev,
+.button-container .btn-disabled .btn-prev {
+    background-color: #9E9E9E !important;
+    cursor: a;
+}
+
+
+.btn-disabled :not(.btn-check)+.btn:active,
+.btn-disabled .btn:first-child:active {
+    border-color: #9E9E9E !important;
+}

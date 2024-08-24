@@ -1,6 +1,6 @@
 <div class="pagetitle">
     <h1>E-Catalogue</h1>
-    <nav>
+    <nav *ngIf="userData?.role_name != 'Dealer'">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item"><a routerLink="/catalogue-and-ordering">Catalogue & Ordering</a></li>
@@ -9,7 +9,7 @@
     </nav>
 </div>
 
-<div class="card">
+<div class="card" *ngIf="!model_id">
     <div class="card-body">
         <form>
             <div class="row">
@@ -147,6 +147,22 @@
         </div>
         <div *ngIf="!partList.length" class="text-center">
             Search To Part's Show
+        </div>
+        <div class="button-container" *ngIf="model_id">
+            <button (click)="previousPage()" [ngClass]="{'btn-disabled': currentPage === 0}"
+                [disabled]="currentPage === 0">
+                <div class="text-box-prev">PREV</div>
+                <span class="btn btn-prev">
+                    <i class="bi bi-chevron-double-left"></i>
+                </span>
+            </button>
+            <button (click)="nextPage()" [ngClass]="{'btn-disabled': currentPage === totalPages}"
+                [disabled]="currentPage === totalPages">
+                <span class="btn btn-next">
+                    <i class="bi bi-chevron-double-right"></i>
+                </span>
+                <div class="text-box-next">NEXT</div>
+            </button>
         </div>
     </div>
 </div>

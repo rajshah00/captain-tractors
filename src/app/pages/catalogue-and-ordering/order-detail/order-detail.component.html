@@ -113,8 +113,8 @@
             <!-- Add note input-->
             <div class="">
                 <label for="example-textarea" class="form-label">Add a Note:</label>
-                <textarea class="form-control" id="example-textarea" rows="3"
-                    placeholder="Write some note.." [(ngModel)]="any_comment"></textarea>
+                <textarea class="form-control" id="example-textarea" rows="3" placeholder="Write some note.."
+                    [(ngModel)]="any_comment"></textarea>
             </div>
         </div>
         <div class="col-md-9" *ngIf="userData?.role_name == 'Camel' && orderDetail.approval_status == 'Updated'">
@@ -167,10 +167,10 @@
                 <button type="button" class="btn btn-danger" (click)="rejectOrder()">Reject</button>
                 <button type="submit" class="btn btn-success" (click)="approveOrderCtpl()">Approve</button>
             </ng-container>
-            <!-- <ng-container *ngIf="ordertype == 'Back Order'  &&  userData?.role_name == 'Dealer'">
+            <ng-container *ngIf="ordertype == 'Back Order'  &&  userData?.role_name == 'Dealer'">
                 <button type="button" class="btn btn-danger">Reject</button>
                 <button type="submit" class="btn btn-success" (click)="approveOrderDealer()">Approve</button>
-            </ng-container> -->
+            </ng-container>
         </div>
     </div>
     <!-- end row -->

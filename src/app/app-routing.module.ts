@@ -30,6 +30,10 @@ import { ApprovalOrderReportComponent } from './pages/approval-order-report/appr
 import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { PurchaseOrderGuard } from './auth/purchase-order.guard';
 import { PendingFormGuard } from './auth/pending-form.guard';
+import { PartsCatalogueComponent } from './pages/parts-catalogue/parts-catalogue.component';
+import { PartDetailComponent } from './pages/parts-catalogue/part-detail/part-detail.component';
+import { PartsOrderComponent } from './pages/parts-order/parts-order.component';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 const routes: Routes = [
   {
@@ -59,6 +63,10 @@ const routes: Routes = [
       { path: 'back-order-report', component: BackOrderReportComponent },
       { path: 'pending-order-report', component: PendingOrderReportComponent },
       { path: 'approval-order-report', component: ApprovalOrderReportComponent },
+      { path: 'parts-catalogue', component: PartsCatalogueComponent },
+      { path: 'parts-detail', component: PartDetailComponent },
+      { path: 'parts-order', component: PartsOrderComponent },
+      { path: 'reports', component: ReportsComponent },
 
       { path: 'i-catalogue', component: ICatalogueComponent },
       { path: 'i-circular', component: ICircularComponent },

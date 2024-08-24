@@ -1,0 +1,36 @@
+<div class="pagetitle toggle-box">
+    <div>
+        <h1>Parts Catalogue</h1>
+    </div>
+
+    <div class="toggle-container">
+        <label class="toggle-switch" [ngClass]="{ 'active': isChecked }">
+            <input type="checkbox" id="toggleCheckbox" [(ngModel)]="isChecked" hidden (change)="toggleSwitch()">
+            <span>{{ isChecked ? 'Tractor' : 'Implement' }}</span>
+            <div class="slider"></div>
+        </label>
+
+    </div>
+</div>
+
+<div class="box-grid mt-3" *ngIf="modalList && modalList.length">
+    <ng-container *ngFor="let item of modalList">
+        <div class="card p-0 m-1 cursor-pointer" [routerLink]="['/parts-detail']"
+            [queryParams]="{ name: item.model_name, id: item.model_id,producrId:productId }">
+            <div class="p-3 bg-white">
+                <div class="about-product part-catelogue-block text-center mt-2">
+                    <div class="part-catelogue-img">
+                        <img src="./assets/img/tractor.png" width="300">
+                    </div>
+                    <div>
+                        <h4>{{item.model_name}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<div class="card text-center" *ngIf="!modalList.length">
+    <h5 class="p-4">No Data Found</h5>
+</div>

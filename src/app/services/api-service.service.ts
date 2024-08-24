@@ -77,9 +77,13 @@ export class ApiServiceService {
   productTypeModal(data: any) {
     return this.http.post(environment.apiUrl + 'model_master/product_type/list', data);
   }
-  
+
   modalIdPartGet(data: any) {
     return this.http.post(environment.apiUrl + 'part/model_list', data);
+  }
+
+  getModalById(id: any) {
+    return this.http.get(environment.apiUrl + `model_master/${id}/details`);
   }
 
   dealerwiseModal(data: any) {
@@ -162,6 +166,10 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'part/list', data);
   }
 
+  getTypeWiseData(data: any) {
+    return this.http.post(environment.apiUrl + 'assembly_master/list_by_ids', data);
+  }
+
   addToCart(data: any) {
     return this.http.post(environment.apiUrl + 'user_cart_part/store', data);
   }
@@ -188,6 +196,10 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'region/country_list', data);
   }
 
+  allCountryList(data: any) {
+    return this.http.post(environment.apiUrl + 'country/list', data);
+  }
+
 
   stateList(data: any) {
     return this.http.post(environment.apiUrl + 'state/list', data);
@@ -209,6 +221,10 @@ export class ApiServiceService {
 
   uploadExcel(data: any) {
     return this.http.post(environment.apiUrl + 'order/import', data);
+  }
+
+  importExcel(data: any) {
+    return this.http.post(environment.apiUrl + 'part/excel_part_show', data);
   }
 
   getOrder(data: any) {
@@ -389,5 +405,10 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'feedback/store', data);
   }
   //=====// Feedback End //=====//
+
+
+  model_categoryList(data: any) {
+    return this.http.post(environment.apiUrl + 'model_category/list', data);
+  }
 
 }

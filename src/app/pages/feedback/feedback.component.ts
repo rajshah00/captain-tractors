@@ -11,6 +11,7 @@ import { CommanService } from 'src/app/services/comman.service';
 })
 export class FeedbackComponent implements OnInit {
   message: any;
+  userData: any = JSON.parse(localStorage.getItem('profile') || '');
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,

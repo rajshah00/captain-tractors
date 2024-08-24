@@ -3,16 +3,45 @@
 }
 
 .card-body {
-    padding: 20px 20px 20px 20px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    display: block;
+    transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+}
+
+.card-body:hover {
+    background: #ff5c61;
+}
+
+.card-body .align-items-center {
+    align-items: inherit !important;
+    justify-content: center;
+}
+
+.card-body .ps-3.box-header {
+    padding-left: 0 !important;
 }
 
 .box-header h6 {
     font-size: 18px;
+    text-align: center;
 }
 
-.not-found{
+.not-found {
     text-align: center;
     font-size: 16px;
     font-weight: 700;
     color: #9f9f9f;
+}
+
+.disabled .card-body {
+    background: #ff8e91;
+}
+
+.disabled .info-card h6 {
+    color: #ffffff !important;
 }
