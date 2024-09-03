@@ -294,4 +294,74 @@ export class AddCatalogueComponent implements OnInit {
       }
     }
   }
+
+  moveToAllcart() {
+    let obj: any = {
+      "user_id": this.userData.id,
+      "parts": []
+    }
+    for (let item of this.partList) {
+      if (item.qty > 0) {
+        obj.parts.push({
+          "part_id": item.id,
+          "qty": item.qty,
+          "price": item.price,
+          "total": item.price
+        })
+      }
+    }
+
+    if (obj.parts && obj.parts.length) {
+      this.service.addToCart(obj).subscribe((res: any) => {
+        if (res.success) {
+          this.partList.forEach((item: any) => {
+            item.qty = 0;
+          });
+          this.getCartList();
+          this.comman.toster('success', res.message);
+          this.router.navigate(['/purchase-order'], {
+            queryParams: { type: 'Manual Entry' }
+          });
+
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      })
+    } else {
+      this.comman.toster('warning', "Plese select quantities and move items to a cart")
+    }
+  }
+
+  saveToDraft() {
+    let obj: any = {
+      "user_id": this.userData.id,
+      "parts": []
+    }
+    for (let item of this.partList) {
+      if (item.qty > 0) {
+        obj.parts.push({
+          "part_id": item.id,
+          "qty": item.qty,
+          "price": item.price,
+          "total": item.price
+        })
+      }
+    }
+
+    if (obj.parts && obj.parts.length) {
+      this.service.saveAsDraft(obj).subscribe((res: any) => {
+        if (res.success) {
+          this.partList.forEach((item: any) => {
+            item.qty = 0;
+          });
+          this.getCartList();
+          this.comman.toster('success', res.message);
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      })
+    } else {
+      this.comman.toster('warning', "Plese select quantities and move items to a cart")
+    }
+  }
 }

@@ -1,0 +1,145 @@
+<div class=" pagetitle">
+    <h1>Parts Purchase Report</h1>
+    <nav *ngIf="userData?.role_name != 'Dealer'">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Parts Purchase Report</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title p-0">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="start_date" class="form-label mb-0">Start Date:</label>
+                        <input type="date" class="form-control" id="start_date" [(ngModel)]="serchObj.start_date"
+                            name="start_date">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="end_date" class="form-label mb-0">End Date:</label>
+                        <input type="date" class="form-control" id="end_date" [(ngModel)]="serchObj.end_date"
+                            name="end_date">
+                    </div>
+
+                    <ng-container *ngIf="userData?.role_name == 'Camel'">
+                        <div class="col-md-4">
+                            <label for="brand_id" class="form-label mb-0">Brand:</label>
+                            <select class="form-select" id="brand_id" [(ngModel)]="serchObj.brand_id" name="brand_id">
+                                <ng-container *ngFor="let item of brandList">
+                                    <option [value]="item.id ">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dealer" class="form-label mb-0">Dealer:</label>
+                            <select class="form-select" id="dealer" [(ngModel)]="serchObj.dealer_name" name="dealer">
+                                <ng-container *ngFor="let item of dealerList">
+                                    <option [value]="item.first_name +' '+ item.last_name">{{item.first_name}}
+                                        {{item.last_name}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="inputregion" class="form-label">Region<sup class="text-danger">*</sup>:</label>
+                            <select id="inputregion" class="form-select" [(ngModel)]="serchObj.region_id"
+                                name="region_id" (change)="getCountryList()">
+                                <ng-container *ngFor="let item of allRegionList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="country" class="form-label mb-0">Country:</label>
+                            <select class="form-select" id="country" [(ngModel)]="serchObj.country_id" name="country">
+                                <ng-container *ngFor="let item of allCountryList">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </ng-container>
+
+                    <div class="serch-box col-md-12">
+                        <button type="submit" class="btn btn-primary" (click)="getCatalogue(serchObj)">Search</button>
+                        <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Results ({{getAllBackOrder.length || '0'}})</h5>
+            <div class="add-box">
+                <button type="button" class="btn btn-primary" (click)="export()">
+                    Export to EXCEL
+                </button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Ser No</th>
+                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Country</th>
+                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Brand</th>
+                        <th scope="col">Order Type</th>
+                        <th scope="col">Order Number</th>
+                        <th scope="col">Order date</th>
+                        <th scope="col" *ngIf="userData?.role_name == 'Dealer'">Brand</th>
+                        <th scope="col">Part Number</th>
+                        <th scope="col">Part Description</th>
+                        <th scope="col">QTY</th>
+                        <th scope="col">Order Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container
+                        *ngFor="let item of getAllBackOrder | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        <tr>
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td *ngIf="userData?.role_name != 'Dealer'">
+                                {{ item.dealer ? item.dealer.country.name : '' }}
+                            </td>
+                            <td *ngIf="userData?.role_name != 'Dealer'">{{item.dealer.brand.name}}</td>
+                            <td>{{ item.order_type }}</td>
+                            <td>{{ item.order_number }}</td>
+                            <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
+                            <td *ngIf="userData?.role_name == 'Dealer'">{{item.dealer.brand.name}}</td>
+                            <td>
+                                <ng-container *ngFor="let mem of item.order_details">
+                                    {{mem.part.part_no}},
+                                </ng-container>
+                            </td>
+                            <td>
+                                <ng-container *ngFor="let mem of item.order_details">
+                                    {{mem.part.description}},
+                                </ng-container>
+                            </td>
+                            <td scope="col">{{ getTotalQty(item) }}</td>
+                            <td scope="col">{{item.approval_status || '-'}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

@@ -93,6 +93,18 @@ export class NavserviceService {
           title: 'Assembly Master',
           type: 'link',
           icon: 'bi bi-circle',
+        },
+        {
+          path: '/category-master',
+          title: 'Category Master',
+          type: 'link',
+          icon: 'bi bi-circle',
+        },
+        {
+          path: '/part-master',
+          title: 'Part Master',
+          type: 'link',
+          icon: 'bi bi-circle',
         }
       ]
     },
@@ -159,7 +171,7 @@ export class NavserviceService {
           icon: 'bi bi-circle',
         },
         {
-          path: '/spare-parts-sales-report',
+          path: '/parts-purchase-report',
           title: 'Spare Parts Sales Report',
           type: 'link',
           icon: 'bi bi-circle',

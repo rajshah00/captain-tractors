@@ -10,7 +10,7 @@ import { CommanService } from 'src/app/services/comman.service';
 })
 export class PartDetailComponent implements OnInit {
   productName: any;
-  productId: any;
+  modal_Id: any;
   productTypeId: any;
   categoryList: any;
   pdfUrl: any;
@@ -23,15 +23,15 @@ export class PartDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.modalList();
     this.route.queryParams.subscribe(params => {
       if (params['name'] || params['id']) {
         this.productName = params['name'];
-        this.productId = params['id'];
+        this.modal_Id = params['id'];
         this.productTypeId = params['producrId'];
-        this.service.getModalById(this.productId).subscribe((res: any) => {
+        this.modalList();
+        this.service.getModalById(this.modal_Id).subscribe((res: any) => {
           if (res.success) {
-            this.pdfUrl = res.data.image;
+            this.pdfUrl = res.data.pdf;
           }
         })
       };
@@ -40,7 +40,7 @@ export class PartDetailComponent implements OnInit {
 
   //========// Get All Modal //========//
   modalList() {
-    this.service.model_categoryList({}).subscribe((res: any) => {
+    this.service.model_category_by_id({ model_id: this.modal_Id }).subscribe((res: any) => {
       if (res.success) {
         this.categoryList = res.data
       }

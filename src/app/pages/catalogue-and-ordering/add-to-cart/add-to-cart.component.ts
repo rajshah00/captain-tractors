@@ -126,7 +126,7 @@ export class AddToCartComponent implements OnInit {
     this.service.saveOrder(obj).subscribe((res: any) => {
       if (res.success) {
         localStorage.removeItem('order_detail');
-        this.router.navigate(['/catalogue-and-ordering'])
+        this.router.navigate(['/order-conform'], { queryParams: { id: res.data?.id } },)
         this.getCartList();
         this.comman.toster('success', res.message);
       } else {

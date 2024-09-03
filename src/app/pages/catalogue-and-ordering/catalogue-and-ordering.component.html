@@ -73,36 +73,40 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">Dealer</th>
-                        <th scope="col">Brand</th>
+                        <th scope="col">Ser No</th>
+                        <th scope="col">Order Type</th>
                         <th scope="col">Order Number</th>
                         <th scope="col">Order date</th>
-                        <th scope="col">Order Type</th>
-                        <!-- <th scope="col">Quantity</th> -->
+                        <th scope="col">Brand</th>
+                        <th scope="col">PI Uploades Date</th>
+                        <th scope="col">PI Number <br> Download PI for signature </th>
+                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Upload Scan PI</th>
+                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Approve PI</th>
                         <th scope="col">Order Status</th>
                         <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Current Stage</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Tracking Number</th>
+                        <!-- <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Tracking Number</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container
                         *ngFor="let item of getAllOrder | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
-                        <tr (click)="selectedRow(item)" class="pointer"
-                            [ngClass]="{ 'highlights': item.order_type == 'VOR'}">
+                        <tr (click)="selectedRow(item, $event)" class="pointer"
+                            [ngClass]="{ 'highlights': item.order_type == 'VOR' }">
                             <th scope="row">{{ i + 1 }}</th>
-                            <td>{{ item.dealer ? item.dealer.country.name : '' }}</td>
-                            <td>
-                                {{ item.dealer ? item.dealer?.first_name : ''}} {{ item.dealer ? item.dealer?.last_name
-                                :''}}
-                            </td>
-                            <td>{{item.dealer.brand?.name || '-'}}</td>
+                            <td>{{ item.order_type }}</td>
                             <td>{{ item.order_number }}</td>
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
-                            <td>{{ item.order_type }}</td>
-                            <!-- <td>{{ getTotalQty(item) }}</td> -->
-
+                            <td>{{ item.dealer.brand?.name || '-' }}</td>
+                            <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
+                            <td>PI@{{ item.order_number }}</td>
+                            <td *ngIf="userData?.role_name != 'Dealer'">
+                                <input type="file" id="fileInput-{{i}}" hidden (change)="onFileSelected($event,item)">
+                                <label class="btn btn-primary" for="fileInput-{{i}}">Upload PI</label>
+                            </td>
+                            <td class="text-center check-id" *ngIf="userData?.role_name != 'Dealer'">
+                                <input type="checkbox" class="form-check-input" [(ngModel)]="item.checked"
+                                    [disabled]="item.file == ''" />
+                            </td>
                             <td *ngIf="userData?.role_name == 'Dealer'">{{ item.dealer_show_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.approval_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.current_stage }}</td>
@@ -116,9 +120,23 @@
                             </td>
                         </tr>
                     </ng-container>
+
+
+
                 </tbody>
+                <tfoot *ngIf="userData?.role_name != 'Dealer'">
+                    <tr>
+                        <td colspan="8">
+                            <div class="d-flex justify-content-end me-4">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
+
         <!-- End Table with hoverable rows -->
 
         <div class="d-flex justify-content-end">

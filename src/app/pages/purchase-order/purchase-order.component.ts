@@ -20,7 +20,8 @@ export class PurchaseOrderComponent implements OnInit {
     order_type: '',
     entry_type: 'Manual Entry',
     mode_of_dispatch: '',
-    chassis_number: null
+    chassis_number: null,
+    parts: []
   };
   partList: any = [];
   missing_parts: any = [];
@@ -202,6 +203,7 @@ export class PurchaseOrderComponent implements OnInit {
           this.progress = 0;
           this.showProgress = false;
           this.comman.toster('success', res.message);
+          this.router.navigate(['/order-conform'], { queryParams: { id: res.data?.id } },)
         } else {
           this.comman.toster('warning', res.message)
         }
@@ -300,6 +302,8 @@ export class PurchaseOrderComponent implements OnInit {
             qty: res.data[i].qty
           })
         }
+      } else {
+        this.comman.toster('warning', "Your cart is empty!")
       }
     })
   }
@@ -339,7 +343,7 @@ export class PurchaseOrderComponent implements OnInit {
   fetchParts(query: string = '', page: number = 1) {
     this.loading = true;
     let obj = {
-      serch: query,
+      search: query,
       page: page,
       size: this.pageSize
     }
@@ -444,10 +448,11 @@ export class PurchaseOrderComponent implements OnInit {
           "qty": item.qty,
         })
       });
+
       this.service.saveOrder(this.formObj).subscribe((res: any) => {
         if (res.success) {
           localStorage.removeItem('order_detail');
-          this.router.navigate(['/catalogue-and-ordering'])
+          this.router.navigate(['/order-conform'], { queryParams: { id: res.data?.id } },)
           this.comman.toster('success', res.message);
         } else {
           this.comman.toster('warning', res.message)
@@ -478,6 +483,42 @@ export class PurchaseOrderComponent implements OnInit {
       this.selectedParts[ind].description = '';
       this.selectedParts[ind].moq = '';
     }
+  }
+
+
+  saveToDraft() {
+    let obj: any = {
+      "user_id": this.userData.id,
+      "parts": []
+    }
+    for (let item of this.selectedParts) {
+      if (item.qty > 0) {
+        obj.parts.push({
+          "part_id": item.id,
+          "qty": item.qty,
+          "price": item.price,
+          "total": item.price
+        })
+      }
+    }
+
+    if (obj.parts && obj.parts.length) {
+      this.service.saveAsDraft(obj).subscribe((res: any) => {
+        if (res.success) {
+          this.getCartList();
+          this.comman.toster('success', res.message);
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      })
+    } else {
+      this.comman.toster('warning', "Plese select quantities and move items to a cart")
+    }
+  }
+
+  onPartClear() {
+    this.serchBox = '';
+    this.fetchParts(this.query, this.page);
   }
 
 }

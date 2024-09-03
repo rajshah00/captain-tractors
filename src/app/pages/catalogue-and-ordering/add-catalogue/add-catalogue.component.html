@@ -75,7 +75,7 @@
                         <a (click)="moveTocart()" class="move-to-cart">Move All Item to Cart</a>
                     </div> -->
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive custom-table">
                     <table class="table table-bordered border-dark">
                         <thead class="table-dark">
                             <tr>
@@ -143,26 +143,39 @@
                     </table>
                 </div>
 
+                <div class="serch-box mt-3">
+                    <div>
+                        <button type="submit" class="btn btn-primary w-100 mb-2" (click)="moveToAllcart()">
+                            Add To Cart
+                        </button>
+                        <button type="button" class="btn btn-secondary w-100" (click)="saveToDraft()">
+                            Save As Draft
+                        </button>
+                    </div>
+                    <div>
+                        <div class="button-container" *ngIf="model_id">
+                            <button (click)="previousPage()" [ngClass]="{'btn-disabled': currentPage === 0}"
+                                [disabled]="currentPage === 0">
+                                <div class="text-box-prev">PREV</div>
+                                <span class="btn btn-prev">
+                                    <i class="bi bi-chevron-double-left"></i>
+                                </span>
+                            </button>
+                            <button (click)="nextPage()" [ngClass]="{'btn-disabled': currentPage === totalPages}"
+                                [disabled]="currentPage === totalPages">
+                                <span class="btn btn-next">
+                                    <i class="bi bi-chevron-double-right"></i>
+                                </span>
+                                <div class="text-box-next">NEXT</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div *ngIf="!partList.length" class="text-center">
             Search To Part's Show
         </div>
-        <div class="button-container" *ngIf="model_id">
-            <button (click)="previousPage()" [ngClass]="{'btn-disabled': currentPage === 0}"
-                [disabled]="currentPage === 0">
-                <div class="text-box-prev">PREV</div>
-                <span class="btn btn-prev">
-                    <i class="bi bi-chevron-double-left"></i>
-                </span>
-            </button>
-            <button (click)="nextPage()" [ngClass]="{'btn-disabled': currentPage === totalPages}"
-                [disabled]="currentPage === totalPages">
-                <span class="btn btn-next">
-                    <i class="bi bi-chevron-double-right"></i>
-                </span>
-                <div class="text-box-next">NEXT</div>
-            </button>
-        </div>
+
     </div>
 </div>

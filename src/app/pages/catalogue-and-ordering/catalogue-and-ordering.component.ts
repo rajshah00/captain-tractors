@@ -56,14 +56,23 @@ export class CatalogueAndOrderingComponent implements OnInit {
     this.service.getOrder(obj).subscribe((res: any) => {
       if (res.success) {
         this.getAllOrder = res.data;
+        this.getAllOrder.forEach((item:any) => {
+          item.file = '';
+        });
       } else {
         this.comman.toster('warning', res.message)
       }
     })
   }
 
-  selectedRow(item: any) {
-    console.log(item);
+  selectedRow(item: any, event: Event): void {
+    const targetElement = event.target as HTMLElement;
+    
+    // Ignore click if it originates from a checkbox or file input
+    if (targetElement.tagName === 'INPUT' || targetElement.tagName === 'LABEL') {
+      return;
+    }
+
     this.router.navigate(['/order-detail', item.id], {
       queryParams: { type: 'Order' }
     });
@@ -94,5 +103,12 @@ export class CatalogueAndOrderingComponent implements OnInit {
     });
 
     return total;
+  }
+
+  onFileSelected(event: any, item: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      item.file = file;
+    }
   }
 }

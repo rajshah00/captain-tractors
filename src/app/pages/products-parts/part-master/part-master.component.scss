@@ -218,7 +218,13 @@ input[type="number"] {
     // flex-direction: column;
 }
 
-.custom-table{
+.custom-table {
     max-height: 570px;
     overflow-y: auto;
+}
+
+.action-box {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 }

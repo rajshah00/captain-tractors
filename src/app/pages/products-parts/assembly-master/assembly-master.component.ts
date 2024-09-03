@@ -28,7 +28,6 @@ export class AssemblyMasterComponent implements OnInit {
 
   ngOnInit(): void {
     this.getassemblyList();
-    this.modalList();
   }
 
   openPop(type: any, item: any) {
@@ -48,76 +47,11 @@ export class AssemblyMasterComponent implements OnInit {
     $('#assebmlyPop').modal('show');
   }
 
-  onSubmit(form: any) {
-    //========// Add assembly code //========//
-    if (form.valid) {
-      this.formObj.is_active = this.formObj.is_active ? 1 : 0;
-      if (this.assemblyType == 'Add') {
-        const formData = new FormData();
-        formData.append('name', this.formObj.name);
-        formData.append('model_id', this.formObj.model_id);
-        formData.append('assembly_no', this.formObj.assembly_no);
-        formData.append('description', this.formObj.description);
-        formData.append('is_active', this.formObj.is_active.toString());
-
-        if (this.selectedFile) {
-          formData.append('image', this.selectedFile, this.selectedFile.name);
-        }
-        this.service.addAssembly(formData).subscribe((res: any) => {
-          console.log("res", res);
-          if (res.success) {
-            this.comman.toster('success', res.message);
-            this.getassemblyList();
-            $('#assebmlyPop').modal('hide');
-          } else {
-            this.comman.toster('warning', res.message)
-          }
-        }, (err: any) => {
-          console.log(err);
-          this.comman.toster('error', 'ops! something went wrong please try again later');
-        })
-      } else {
-        //========// Edit assembly code //========//
-        const formData = new FormData();
-        formData.append('name', this.formObj.name);
-        formData.append('model_id', this.formObj.model_id);
-        formData.append('assembly_no', this.formObj.assembly_no);
-        formData.append('description', this.formObj.description);
-        formData.append('is_active', this.formObj.is_active.toString());
-
-        if (this.selectedFile) {
-          formData.append('image', this.selectedFile, this.selectedFile.name);
-        }
-        this.service.editAssembly(formData, this.assemblyId).subscribe((res: any) => {
-          if (res.success) {
-            this.comman.toster('success', res.message);
-            this.getassemblyList();
-            $('#assebmlyPop').modal('hide');
-          } else {
-            this.comman.toster('warning', res.message)
-          }
-        }, (err: any) => {
-          console.log(err);
-          this.comman.toster('error', 'ops! something went wrong please try again later')
-        })
-      }
-    }
-  }
-
   //========// Get All assembly //========//
   getassemblyList() {
     this.service.AssemblyList(this.serchObj).subscribe((res: any) => {
       if (res.success) {
         this.assemblyList = res.data
-      }
-    })
-  }
-
-  //========// Get All Modal //========//
-  modalList() {
-    this.service.ModalList({}).subscribe((res: any) => {
-      if (res.success) {
-        this.modaldataList = res.data
       }
     })
   }

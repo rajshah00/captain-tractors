@@ -1,0 +1,75 @@
+.card {
+    padding: 20px;
+}
+
+
+.action-box {
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+}
+
+.heading h2 {
+    font-size: 22px;
+}
+
+.heading {
+    border-bottom: 2px solid #dee2e6;
+    margin: 15px 0px;
+}
+
+
+// Drag and drop
+
+.upload-container {
+    display: block;
+    text-align: center;
+    margin: 15px;
+}
+
+.drop-area {
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 40px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.drop-area p {
+    font-size: 16px;
+    color: #333;
+}
+
+.drop-area span {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.drop-area:hover {
+    background-color: #e9f5ff;
+}
+
+.drop-area.dragover {
+    background-color: #e0f7fa;
+    border-color: #009688;
+}
+
+.progress-container {
+    margin-top: 20px;
+    width: 100%;
+    // max-width: 300px;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    border-radius: 10px;
+}
+
+#progress-text {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #333;
+}

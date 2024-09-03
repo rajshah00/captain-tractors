@@ -1,0 +1,224 @@
+<div class="pagetitle">
+    <h1>Part Master</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item">Products Parts</li>
+            <li class="breadcrumb-item active">Part Master</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label for="product_type" class="col-md-3 form-label">Product Type : </label>
+                        <div class="col-md-9">
+                            <ng-select id="product_type" [items]="productTypeList" bindLabel="name" bindValue="id"
+                                placeholder="Select Product Type" name="product_type_id"
+                                [(ngModel)]="serchObj.product_type_id" (change)="onChangeProduct($event)">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label for="product_model" class="col-md-3 form-label">Product Model : </label>
+                        <div class="col-md-9">
+                            <ng-select id="product_model" [items]="modaldataList" bindLabel="name" bindValue="id"
+                                placeholder="Select Product Model" name="model_id" [(ngModel)]="serchObj.model_id"
+                                (change)="serchObj.product_type_id == 1 ? categoryGetList(serchObj.model_id): onChangeModel(serchObj.model_id)">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6" *ngIf="serchObj.product_type_id == 1">
+                    <div class="row mb-3">
+                        <label for="Assembly" class="col-md-3 form-label">Category : </label>
+                        <div class="col-md-9">
+                            <ng-select id="Assembly" [items]="categoryList" bindLabel="name" bindValue="id"
+                                placeholder="Select Category" name="category_id" [(ngModel)]="serchObj.category_id"
+                                (change)="getAsseblyWiseData()">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label for="Assembly" class="col-md-3 form-label">Assembly : </label>
+                        <div class="col-md-9">
+                            <ng-select id="Assembly" [items]="assemblyList" bindLabel="name" bindValue="id"
+                                placeholder="Select Assembly" name="assembly_id" [(ngModel)]="serchObj.assembly_id">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="serch-box">
+                        <button type="submit" class="btn btn-primary" (click)="getCatalogue('Search')">Search</button>
+                        <button type="button" class="btn btn-secondary" (click)="getCatalogue('Reset')">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="row" *ngIf="partList && partList.length">
+            <!-- <div class="col-md-12">
+                <h2 class="img-title">{{partList[0].assembly.name}}</h2>
+                <div id="img-zoomer-box">
+                    <img [src]="partList[0].assembly.image" id="img-1" />
+                </div>
+            </div> -->
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">Results ({{partList.length}})</h5>
+                    <div class="add-box">
+                        <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                            Add
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive custom-table">
+                    <table class="table table-bordered border-dark">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">
+                                    <div class="table-agliment">
+                                        Sno
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="table-agliment">
+                                        PartNo
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div class="table-agliment">
+                                        PartDesc
+                                    </div>
+                                </th>
+                                <th scope="col" class="text-center">
+                                    <div class="table-agliment">
+                                        2WD 4WD
+                                    </div>
+                                </th>
+
+                                <th scope="col">
+                                    <div class="table-agliment">
+                                        Remarks
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="table-agliment">
+                                        Action
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of partList ; let i = index">
+                                <th scope="row">{{item.sno}}</th>
+                                <td>{{item.part_no}}</td>
+                                <td>{{item.description}}</td>
+                                <td> </td>
+                                <td> </td>
+                                <td>
+                                    <div class="action-box">
+                                        <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" (click)="deletePart(item)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!partList.length" class="text-center">
+            Search To Part's Show
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="partPop" tabindex="-1" aria-labelledby="partPopLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="partPopLabel">{{formType}} Parts</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Your template HTML -->
+            <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Part Name<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.name" name="name"
+                                required #nameCtrl="ngModel">
+                            <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="part-no" class="form-label">Part Number<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="part-no" [(ngModel)]="formObj.part_no"
+                                name="part_no" required #part_noCtrl="ngModel">
+                            <div *ngIf="part_noCtrl.invalid && (part_noCtrl.dirty || part_noCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Part Number is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="moq" class="form-label">MOQ:</label>
+                            <input type="text" class="form-control" id="moq" [(ngModel)]="formObj.moq" name="moq">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="moq" class="form-label">Sno<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="moq" [(ngModel)]="formObj.sno" name="sno"
+                                required #snoCtrl="ngModel">
+                            <div *ngIf="snoCtrl.invalid && (snoCtrl.dirty || snoCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Sno is required.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputdescription2" class="form-label">Part Description:</label>
+                            <textarea type="text" class="form-control" id="inputdescription2"
+                                [(ngModel)]="formObj.description" name="description" required></textarea>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

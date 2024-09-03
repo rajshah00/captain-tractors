@@ -2,7 +2,7 @@
 <div class="pagetitle">
     <h1 *ngIf="ordertype != 'Back Order'">Order Details</h1>
     <h1 *ngIf="ordertype == 'Back Order'">Back Order Details</h1>
-    <nav>
+    <nav *ngIf="userData?.role_name != 'Dealer'">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item"><a routerLink="/catalogue-and-ordering">Catalogue & Ordering</a></li>

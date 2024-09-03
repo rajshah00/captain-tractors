@@ -108,6 +108,10 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'assembly_master/list', data);
   }
 
+  getAssemblyById(id: any) {
+    return this.http.get(environment.apiUrl + `assembly_master/${id}/details`);
+  }
+
   ModeleAssembly(data: any) {
     return this.http.post(environment.apiUrl + 'assembly_master/list', data);
   }
@@ -162,6 +166,18 @@ export class ApiServiceService {
 
 
   //=====// E-Catalogue Start //=====//
+  addPart(data: any) {
+    return this.http.post(environment.apiUrl + 'part/store', data);
+  }
+
+  editPart(data: any, id: any) {
+    return this.http.post(environment.apiUrl + `part/${id}/update`, data);
+  }
+
+  deletePart(id: any) {
+    return this.http.post(environment.apiUrl + `part/${id}/delete`, {});
+  }
+
   e_CatalogueList(data: any) {
     return this.http.post(environment.apiUrl + 'part/list', data);
   }
@@ -172,6 +188,10 @@ export class ApiServiceService {
 
   addToCart(data: any) {
     return this.http.post(environment.apiUrl + 'user_cart_part/store', data);
+  }
+
+  saveAsDraft(data: any) {
+    return this.http.post(environment.apiUrl + 'save_as_draft/store', data);
   }
 
   cartList(data: any): Observable<{ items: any[], count: number }> {
@@ -234,6 +254,14 @@ export class ApiServiceService {
 
   getBackOrder(data: any) {
     return this.http.post(environment.apiUrl + 'back_order/list', data);
+  }
+
+  getPurchaseReport(data: any) {
+    return this.http.post(environment.apiUrl + 'report/part_purchase', data);
+  }
+
+  getIdByOrder(id: any) {
+    return this.http.post(environment.apiUrl + `order/${id}/detail`, {});
   }
 
 
@@ -406,9 +434,26 @@ export class ApiServiceService {
   }
   //=====// Feedback End //=====//
 
+  //=====// Category Master Start //=====//
+
+  model_category_by_id(data: any) {
+    return this.http.post(environment.apiUrl + 'model_category/model/list', data);
+  }
 
   model_categoryList(data: any) {
     return this.http.post(environment.apiUrl + 'model_category/list', data);
+  }
+
+  addCategory(data: any) {
+    return this.http.post(environment.apiUrl + 'model_category/store', data);
+  }
+
+  editCategory(data: any, id: any) {
+    return this.http.post(environment.apiUrl + `model_category/${id}/update`, data);
+  }
+
+  deleteCategory(id: any) {
+    return this.http.post(environment.apiUrl + `model_category/${id}/delete`, {});
   }
 
 }

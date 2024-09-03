@@ -13,17 +13,20 @@
     </div>
 </div>
 
-<div class="box-grid mt-3" *ngIf="modalList && modalList.length">
+<!-- <div class="box-grid mt-3" *ngIf="modalList && modalList.length"> -->
+<div class="row mt-3 g-0" *ngIf="modalList && modalList.length">
     <ng-container *ngFor="let item of modalList">
-        <div class="card p-0 m-1 cursor-pointer" [routerLink]="['/parts-detail']"
-            [queryParams]="{ name: item.model_name, id: item.model_id,producrId:productId }">
-            <div class="p-3 bg-white">
-                <div class="about-product part-catelogue-block text-center mt-2">
-                    <div class="part-catelogue-img">
-                        <img src="./assets/img/tractor.png" width="300">
-                    </div>
-                    <div>
-                        <h4>{{item.model_name}}</h4>
+        <div class="col-md-3">
+            <div class="card cursor-pointer modal-card" (click)="navigateTo(item)">
+                <div class="p-3 bg-white">
+                    <div class="about-product part-catelogue-block text-center mt-2">
+                        <div class="part-catelogue-img">
+                            <!-- <img src="./assets/img/tractor.png" width="300"> -->
+                            <img [src]="item.image ? item.image : './assets/img/tractor.png'" width="300">
+                        </div>
+                        <div>
+                            <h4>{{item.model_name}}</h4>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   // apiUrl: 'http://192.168.0.107/captain-tractor/public/api/' //local
   apiUrl: 'https://techsolutionslab.com/captain_tractor_backend/api/' //live
+  // apiUrl: 'http://3.74.12.49/backend/public/api/' //production
 };
 
 /*

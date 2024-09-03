@@ -11,7 +11,7 @@ import { CommanService } from 'src/app/services/comman.service';
 export class PartsCatalogueComponent implements OnInit {
   userData: any;
   modalList: any = [];
-  isChecked: boolean = false;
+  isChecked: boolean = true;
   productId: any = 1;
 
   constructor(
@@ -21,7 +21,7 @@ export class PartsCatalogueComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('profile') || '');
-    this.getModalList(3);
+    this.getModalList(1);
   }
 
 
@@ -58,6 +58,17 @@ export class PartsCatalogueComponent implements OnInit {
       this.productId = 3;
       this.getModalList(3);
     }
+  }
 
+  navigateTo(item: any) {
+    if (this.productId == 1) {
+      this.router.navigate(['/parts-detail'], {
+        queryParams: { name: item.model_name, id: item.model_id, producrId: this.productId },
+      });
+    } else {
+      this.router.navigate(['/add-catalogue'], {
+        queryParams: { model_id: item.model_id, productId: this.productId },
+      });
+    }
   }
 }

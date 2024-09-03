@@ -1,98 +1,99 @@
 <div class="dashboard">
-<div class=" pagetitle">
-    <h1>{{report_type || 'Reports'}}</h1>
-    <nav *ngIf="userData?.role_name != 'Dealer'">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/dasboard">Home</a></li>
-            <li class="breadcrumb-item active">{{report_type || 'Reports'}}</li>
-        </ol>
-    </nav>
-</div>
+    <div class=" pagetitle">
+        <h1>{{report_type || 'Reports'}}</h1>
+        <nav *ngIf="userData?.role_name != 'Dealer'">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/dasboard">Home</a></li>
+                <li class="breadcrumb-item active">{{report_type || 'Reports'}}</li>
+            </ol>
+        </nav>
+    </div>
 
-<div class="row">
-    <div class="col-lg-4" *ngIf="!report_type">
-        <div class="row mt-3">
-            <div class="col-xxl-12 col-md-12">
-                <div class="card info-card pb-0 sales-card cursor-pointer" [routerLink]="['/reports']" [queryParams]="{ type: 'Parts order Report' }">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="ps-3 box-header">
-                                <h6>Parts order Report</h6>
+    <div class="row">
+        <div class="col-lg-4" *ngIf="!report_type">
+            <div class="row mt-3">
+                <div class="col-xxl-12 col-md-12">
+                    <div class="card info-card pb-0 sales-card cursor-pointer" [routerLink]="['/reports']"
+                        [queryParams]="{ type: 'Parts order Report' }">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="ps-3 box-header">
+                                    <h6>Parts order Report</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xxl-12 col-md-12">
-                <div class="card info-card pb-0 sales-card disabled">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="ps-3 box-header">
-                                <h6>Goods receipt / Transit Claim Report</h6>
+                <div class="col-xxl-12 col-md-12">
+                    <div class="card info-card pb-0 sales-card disabled">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="ps-3 box-header">
+                                    <h6>Goods receipt / Transit Claim Report</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xxl-12 col-md-12">
-                <div class="card info-card pb-0 sales-card disabled">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="ps-3 box-header">
-                                <h6>PDI Claim Report</h6>
+                <div class="col-xxl-12 col-md-12">
+                    <div class="card info-card pb-0 sales-card disabled">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="ps-3 box-header">
+                                    <h6>PDI Claim Report</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-xxl-12 col-md-12">
-                <div class="card info-card pb-0 sales-card disabled">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="ps-3 box-header">
-                                <h6>Warranty Claims Report</h6>
+                <div class="col-xxl-12 col-md-12">
+                    <div class="card info-card pb-0 sales-card disabled">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="ps-3 box-header">
+                                    <h6>Warranty Claims Report</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
+        </div>
+
+        <div class="col-lg-4" *ngIf="report_type">
+            <div class="row mt-3">
+                <div class="col-xxl-12 col-md-12">
+                    <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/parts-purchase-report">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="ps-3 box-header">
+                                    <h6>Parts Purchase Report</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xxl-12 col-md-12">
+                    <div class="card info-card pb-0 sales-card" routerLink="/back-order-report">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="ps-3 box-header">
+                                    <h6>Parts Back-order report</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-8 text-center">
+            <img src="./assets/img/tractor.png" height="500px" alt="" srcset="">
         </div>
     </div>
-
-    <div class="col-lg-4" *ngIf="report_type">
-        <div class="row mt-3">
-            <div class="col-xxl-12 col-md-12">
-                <div class="card info-card pb-0 sales-card cursor-pointer">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="ps-3 box-header">
-                                <h6>Parts Purchase Report</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xxl-12 col-md-12">
-                <div class="card info-card pb-0 sales-card" routerLink="/back-order-report">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="ps-3 box-header">
-                                <h6>Parts Back-order report</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="col-lg-8 text-center">
-        <img src="./assets/img/tractor.png" height="500px" alt="" srcset="">
-    </div>
-</div>
 </div>

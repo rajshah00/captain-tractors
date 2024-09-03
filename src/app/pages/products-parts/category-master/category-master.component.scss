@@ -8,6 +8,7 @@
     font-size: 15px;
     font-weight: 500;
     color: #544f4f;
+    margin-bottom: 2px !important;
 }
 
 // #userPopLabel {
@@ -26,7 +27,7 @@
     font-weight: 600;
 }
 
-.permissions-menu h2 {
+.permissions-menu h2{
     font-size: 16px;
     font-weight: 600;
 }
@@ -37,21 +38,10 @@
     align-items: end;
 }
 
-.poiter {
-    cursor: pointer;
+.invalid-feild{
+    font-size: 13px;
 }
 
-
-.table-hover>tbody>tr.highlights>* {
-    background-color: #fdf5cb69;
-}
-.check-id input{
-    border: 1px solid red;
-    cursor: not-allowed;
-}
-
-.check-id input:disabled {
-    opacity: 0.2;
-    border: 1px solid red;
-    cursor: not-allowed;
+.row > * {
+    margin-top: 10px !important;
 }

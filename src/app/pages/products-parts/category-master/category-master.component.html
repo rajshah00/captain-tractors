@@ -1,10 +1,10 @@
 <div class="pagetitle">
-    <h1>Assembly Master</h1>
+    <h1>Category Master</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item">Products Parts</li>
-            <li class="breadcrumb-item active">Assembly Master</li>
+            <li class="breadcrumb-item active">Category Master</li>
         </ol>
     </nav>
 </div>
@@ -15,12 +15,12 @@
             <h5 class="card-title">Search</h5>
             <form #serchForm="ngForm">
                 <div class="row g-3">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="name" class="form-label">Name:</label>
                         <input type="text" class="form-control" id="name" [(ngModel)]="serchObj.name" name="name">
                     </div>
 
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
                         <label for="modal_number" class="form-label">Modal:</label>
                         <select id="inputState" class="form-select" [(ngModel)]="serchObj.model_id" name="model_id"
                             #stateCtrl="ngModel">
@@ -28,10 +28,9 @@
                                 <option [value]="item.id">{{item.name}}</option>
                             </ng-container>
                         </select>
-
-                    </div>
+                    </div> -->
                     <div class="serch-box col-md-6">
-                        <button type="submit" class="btn btn-primary" (click)="getassemblyList()">Search</button>
+                        <button type="submit" class="btn btn-primary" (click)="getcategoryList()">Search</button>
                         <button type="button" class="btn btn-secondary" (click)="resetForm(serchForm)">Reset</button>
                     </div>
                 </div>
@@ -39,9 +38,9 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <h5 class="card-title">Results (1)</h5>
+            <h5 class="card-title">Results ({{categoryList.length}})</h5>
             <div class="add-box">
-                <button type="button" class="btn btn-primary" [routerLink]="['/add-assembly']">
+                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
                     Add
                     <i class="bi bi-plus-circle"></i>
                 </button>
@@ -55,30 +54,24 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Modal</th>
-                        <th scope="col">Description </th>
-                        <th scope="col">Status</th>
+                        <!-- <th scope="col">Modal</th>
+                        <th scope="col">Description </th> -->
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let item of assemblyList | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                        *ngFor="let item of categoryList | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
                         <th scope="row">{{i +1}}</th>
                         <td>{{item.name}}</td>
-                        <td>{{item.model?.name}}</td>
-                        <td>{{item.description}}</td>
-                        <td>
-                            <span *ngIf="item.is_active" class="badge bg-success">Active</span>
-                            <span *ngIf="!item.is_active" class="badge bg-danger">Deactivate</span>
-                        </td>
+                        <!-- <td>{{item.model?.name}}</td>
+                        <td>{{item.description}}</td> -->
                         <td>
                             <div class="action-box">
-                                <button type="button" class="btn btn-success" [routerLink]="['/add-assembly']"
-                                    [queryParams]="{ id: item.id }">
+                                <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger" (click)="deleteAssembly(item)">
+                                <button type="button" class="btn btn-danger" (click)="deleteCategory(item)">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -97,13 +90,14 @@
 
 
 <!-- Modal -->
-<!-- <div class="modal fade" id="assebmlyPop" tabindex="-1" aria-labelledby="assebmlyPopLabel" aria-hidden="true">
+<div class="modal fade" id="categoryPop" tabindex="-1" aria-labelledby="categoryPopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="assebmlyPopLabel">{{assemblyType}} Assembly</h1>
+                <h1 class="modal-title fs-5" id="categoryPopLabel">{{categoryType}} Category</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <!-- Your template HTML -->
             <form #form="ngForm" (ngSubmit)="onSubmit(form)">
                 <div class="modal-body">
                     <div class="row g-3">
@@ -116,12 +110,17 @@
                                 class="text-danger invalid-feild">
                                 Name is required.
                             </div>
+                            <div class="mt-3">
+                                <label for="modal_image" class="form-label">Image:</label>
+                                <input type="file" class="form-control" #assembly_logo id="modal_image"
+                                    (change)="onFileSelected($event)">
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <label for="model_id" class="form-label">Modal<sup class="text-danger">*</sup>:</label>
                             <select class="form-select" id="model_id" [(ngModel)]="formObj.model_id" name="number"
-                                required #model_idCtrl="ngModel">
+                                required #model_idCtrl="ngModel" (change)="onChangeModel(formObj.model_id)">
                                 <ng-container *ngFor="let item of modaldataList">
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
@@ -130,44 +129,43 @@
                                 class="text-danger invalid-feild">
                                 Modal is required.
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-6">
-                            <label for="name" class="form-label">Assembly No:</label>
-                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.assembly_no"
-                                name="assembly_no">
+                            <label for="model_id" class="form-label">Model<sup class="text-danger">*</sup>:</label>
+                            <ng-select [items]="modaldataList" bindLabel="name" bindValue="id" [multiple]="true"
+                                [(ngModel)]="formObj.model_id" name="assembly_id" [closeOnSelect]="false"
+                                [searchable]="true" required #model_idCtrl="ngModel">
+                                <ng-template ng-option-tmp let-item="item" let-selected="selected">
+                                    <div class="custom-checkbox">
+                                        {{item.name}}
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+
+                            <div *ngIf="model_idCtrl.invalid && (model_idCtrl.dirty || model_idCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Modal is required.
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="modal_image" class="form-label">Image:</label>
-                            <input type="file" class="form-control" #assembly_logo id="modal_image"
-                                (change)="onFileSelected($event)">
-                        </div>
 
-                        <div class="col-md-12" *ngIf="assemblyType == 'Edit'">
+
+                        <div class="col-md-12" *ngIf="categoryType == 'Edit'">
                             <div class="form-group row">
-                                <label for="logo" class="col-md-12">Assembly Preview : </label>
+                                <label for="logo" class="col-md-12">Category Preview : </label>
                                 <div class="col-md-12">
-                                    <img [src]="formObj.image" alt="assembly Img" srcset="" width="367px" height="367">
+                                    <img [src]="formObj.image" alt="Category Img" srcset="" width="367px" height="367">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <label for="inputdescription2" class="form-label">Description:</label>
                             <textarea type="text" class="form-control" id="inputdescription2"
                                 [(ngModel)]="formObj.description" name="description" required></textarea>
-                        </div>
+                        </div> -->
 
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="gridCheck"
-                                    [(ngModel)]="formObj.is_active" name="is_active" #is_activeCtrl="ngModel">
-                                <label class="form-check-label" for="gridCheck">
-                                    Is Active
-                                </label>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -178,4 +176,4 @@
 
         </div>
     </div>
-</div> -->
+</div>

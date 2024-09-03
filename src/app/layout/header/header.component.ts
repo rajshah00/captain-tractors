@@ -54,10 +54,10 @@ export class HeaderComponent implements OnInit {
           })
         }
       })
-      console.log("allPermision", allPermision);
+      // console.log("allPermision", allPermision);
 
       this.menuItems = this.filterRoleMenu([...allPermision], this.menuItems);
-      console.log("filteredRoleMenu", this.menuItems);
+      // console.log("filteredRoleMenu", this.menuItems);
     });
   }
 

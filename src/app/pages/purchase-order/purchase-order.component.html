@@ -192,7 +192,7 @@
                                 <ng-select class="w-100" [items]="partListOption" bindLabel="part_no" bindValue="id"
                                     placeholder="Select Part" [(ngModel)]="item.part_id"
                                     (change)="onChangePart(item.part_id, i,$event)" (scrollToEnd)="fetchMore()"
-                                    [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select>
+                                    [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select (clear)="onPartClear()">
                                 </ng-select>
                                 <button type="button" class="btn btn-success" (click)="copyText(partNumber.part_no)">
                                     <i class="bi bi-copy"></i>
@@ -363,6 +363,7 @@
         </div>
 
         <div class="serch-box" *ngIf="formObj.entry_type == 'Excel Sheet Upload'">
+            <button type="button" class="btn btn-secondary" (click)="saveToDraft()">Save AS Draft</button>
             <button type="submit" class="btn btn-primary" (click)="importData(purchsForm)">Place Order</button>
         </div>
     </div>

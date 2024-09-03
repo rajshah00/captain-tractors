@@ -34,6 +34,11 @@ import { PartsCatalogueComponent } from './pages/parts-catalogue/parts-catalogue
 import { PartDetailComponent } from './pages/parts-catalogue/part-detail/part-detail.component';
 import { PartsOrderComponent } from './pages/parts-order/parts-order.component';
 import { ReportsComponent } from './pages/reports/reports.component';
+import { OrderConformComponent } from './pages/order-conform/order-conform.component';
+import { PartPurchaseReportComponent } from './pages/part-purchase-report/part-purchase-report.component';
+import { CategoryMasterComponent } from './pages/products-parts/category-master/category-master.component';
+import { PartMasterComponent } from './pages/products-parts/part-master/part-master.component';
+import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add-assembly/add-assembly.component';
 
 const routes: Routes = [
   {
@@ -53,6 +58,9 @@ const routes: Routes = [
       { path: 'products-type-master', component: ProductsTypeMasterComponent },
       { path: 'model-master', component: ModalMasterComponent },
       { path: 'assembly-master', component: AssemblyMasterComponent },
+      { path: 'add-assembly', component: AddAssemblyComponent },
+      { path: 'category-master', component: CategoryMasterComponent },
+      { path: 'part-master', component: PartMasterComponent },
       { path: 'catalogue-and-ordering', component: CatalogueAndOrderingComponent },
       { path: 'order-detail/:id', component: OrderDetailComponent },
       { path: 'dealer-assign-model', component: DealerAssignModelComponent },
@@ -66,6 +74,8 @@ const routes: Routes = [
       { path: 'parts-catalogue', component: PartsCatalogueComponent },
       { path: 'parts-detail', component: PartDetailComponent },
       { path: 'parts-order', component: PartsOrderComponent },
+      { path: 'order-conform', component: OrderConformComponent },
+      { path: 'parts-purchase-report', component: PartPurchaseReportComponent },
       { path: 'reports', component: ReportsComponent },
 
       { path: 'i-catalogue', component: ICatalogueComponent },
