@@ -103,6 +103,9 @@
                         <input type="file" id="pdf" #circular_pdf name="pdf" class="form-control" accept=".pdf,.jpg"
                             (change)="onFileChange($event)" required />
                     </div>
+                    <div *ngIf="fileSizeError" class="text-danger">
+                        File size exceeds the maximum limit of 20MB.
+                    </div>
 
                 </div>
                 <div class="modal-footer">

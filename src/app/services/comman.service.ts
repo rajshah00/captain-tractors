@@ -27,21 +27,25 @@ export class CommanService {
   }
 
   downloadFile(fileUrl: string) {
-    const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-    fetch(fileUrl)
-      .then(response => response.blob())
-      .then(blob => {
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = filename;
+    if (fileUrl) {
+      const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+      fetch(fileUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
 
-        document.body.appendChild(link);
-        link.click();
+          document.body.appendChild(link);
+          link.click();
 
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(link.href);
-      })
-      .catch(error => console.error('Error downloading the image:', error));
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(link.href);
+        })
+        .catch(error => console.error('Error downloading the image:', error));
+    } else {
+      this.toster('warning', "Part Catalogue URL not found")
+    }
 
   }
 }

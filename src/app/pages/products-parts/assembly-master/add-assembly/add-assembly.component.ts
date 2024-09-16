@@ -159,4 +159,17 @@ export class AddAssemblyComponent implements OnInit {
       }
     }
   }
+
+  demoImport() {
+    this.service.demoAssemblyEXCL().subscribe((res: any) => {
+      if (res.success) {
+        const link = document.createElement('a');
+        link.href = res.data;
+        link.target = '_blank';
+        link.download = 'sample_excel';
+        link.click();
+      }
+      console.log("res", res);
+    })
+  }
 }

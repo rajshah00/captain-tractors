@@ -20,6 +20,7 @@ export class ModalMasterComponent implements OnInit {
   selectedFile: File | null = null;
   productTypeList: any;
   p: number = 1;
+  validation: any = {};
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -44,6 +45,7 @@ export class ModalMasterComponent implements OnInit {
     } else {
       this.formObj = {};
     }
+    this.validation = {};
     this.modalType = type;
     $('#modalPop').modal('show');
   }
@@ -70,6 +72,7 @@ export class ModalMasterComponent implements OnInit {
             this.getModalList();
             $('#modalPop').modal('hide');
           } else {
+            this.validation = res.data;
             this.comman.toster('warning', res.message)
           }
         }, (err: any) => {
@@ -94,6 +97,7 @@ export class ModalMasterComponent implements OnInit {
             this.getModalList();
             $('#modalPop').modal('hide');
           } else {
+            this.validation = res.data;
             this.comman.toster('warning', res.message)
           }
         }, (err: any) => {
@@ -135,7 +139,7 @@ export class ModalMasterComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-  
+
   //========// Get All Products Type //========//
   getproductsTypeMaster() {
     this.service.ProductTypeList({}).subscribe((res: any) => {

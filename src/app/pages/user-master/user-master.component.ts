@@ -50,12 +50,10 @@ export class UserMasterComponent implements OnInit {
 
     if (type == 'Edit') {
       this.userId = item.id;
-      this.formObj.first_name = item.first_name;
-      this.formObj.last_name = item.last_name;
+      this.formObj.name = item.name;
       this.formObj.phone = item.phone;
       this.formObj.email = item.email;
       this.formObj.password = item.password || '';
-      this.formObj.address = item.address;
       this.formObj.region_id = item.region_id;
       this.getCountryList()
       this.formObj.country_id = item.country_id;
@@ -64,6 +62,12 @@ export class UserMasterComponent implements OnInit {
       this.formObj.city = item.city;
       this.formObj.role_id = item.role_id;
       this.formObj.is_active = item.is_active;
+      this.formObj.address = item.address;
+      this.formObj.address_2 = item.address_2;
+      this.formObj.address_3 = item.address_3;
+      this.formObj.brand_id = item.brand_id;
+      this.formObj.contact_name = item.contact_name;
+      this.formObj.remark = item.remark;
     } else {
       this.formObj = {};
     }

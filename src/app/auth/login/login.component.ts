@@ -43,10 +43,11 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('profile', JSON.stringify(res.data.user));
           localStorage.setItem('permissions', JSON.stringify(res.data.permissions));
           this.comman.toster('success', res.message);
-          this.spinner.hide()
+          this.service.hide()
           this.router.navigate(['/dashboard'])
         } else {
           this.comman.toster('warning', res.message)
+          this.service.hide()
         }
       }, (err: any) => {
         console.log(err);

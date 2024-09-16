@@ -25,6 +25,7 @@ export class ICircularComponent implements OnInit {
   pdfUrl: any;
   imageUrl: any;
   userData: any = {};
+  fileSizeError = false;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -92,22 +93,31 @@ export class ICircularComponent implements OnInit {
   //========// File Select Function  //========//
   onFileChange(event: any) {
     const file = event.target.files[0];
+    const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+
     if (file) {
       const fileType = file.type;
-      const validFileTypes = ['application/pdf', 'image/jpeg'];
+      const validFileTypes = ['application/pdf', 'image/jpeg','image/png'];
       if (validFileTypes.includes(fileType)) {
         this.pdf = file;
       } else {
         // Handle invalid file type
-        this.comman.toster('warning', 'Invalid file type. Only PDF and JPG files are allowed.')
+        this.comman.toster('warning', 'Invalid file type. Only PDF and JPG, PNG files are allowed.')
         event.target.value = '';
+      }
+
+      if (file && file.size > maxSize) {
+        this.fileSizeError = true;
+        event.target.value = null;
+      } else {
+        this.fileSizeError = false;
       }
     }
   }
 
   //========// Submit and save function  //========//
   onSubmit(form: any) {
-    if (form.valid) {
+    if (form.valid && !this.fileSizeError) {
       if (this.popupType == 'Add') {
         const formData = new FormData();
         formData.append('pdf_or_img', this.pdf);

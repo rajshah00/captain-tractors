@@ -23,15 +23,8 @@
                             </ng-select>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="Assembly" class="col-md-4 form-label">Assembly : </label>
-                        <div class="col-md-8">
-                            <ng-select id="Assembly" [items]="assemblyList" bindLabel="name" bindValue="id"
-                                placeholder="Select Assembly" name="assembly_id" [(ngModel)]="formObj.assembly_id">
-                            </ng-select>
-                        </div>
-                    </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="row mb-3">
                         <label for="product_model" class="col-md-3 form-label">Product Model : </label>
@@ -42,6 +35,18 @@
                             </ng-select>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-3">
+                        <label for="Assembly" class="col-md-4 form-label">Assembly : </label>
+                        <div class="col-md-8">
+                            <ng-select id="Assembly" [items]="assemblyList" bindLabel="name" bindValue="id"
+                                placeholder="Select Assembly" name="assembly_id" [(ngModel)]="formObj.assembly_id">
+                            </ng-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
                     <div class="serch-box">
                         <button type="submit" class="btn btn-primary" (click)="getCatalogue('Search')">Search</button>
                         <button type="button" class="btn btn-secondary" (click)="getCatalogue('Reset')">Reset</button>

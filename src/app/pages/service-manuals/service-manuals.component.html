@@ -80,13 +80,13 @@
 
                     <div class="form-group mb-3">
                         <label for="name">Name<sup class="text-danger">*</sup></label>
-                        <input type="url" id="name" name="name" class="form-control" [(ngModel)]="circular_name"
+                        <input type="url" id="name" name="circular_name" class="form-control" [(ngModel)]="circular_name"
                             required>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="name">Date<sup class="text-danger">*</sup></label>
-                        <input type="date" id="name" name="name" class="form-control" [(ngModel)]="dateSelect" required>
+                        <input type="date" id="name" name="dateSelect" class="form-control" [(ngModel)]="dateSelect" required>
                     </div>
 
                     <div class="form-group mb-3">
@@ -109,6 +109,9 @@
                         <label for="pdf">PDF or IMG<sup class="text-danger">*</sup></label>
                         <input type="file" id="pdf" name="pdf" #service_pdf class="form-control" accept=".pdf,.jpg"
                             (change)="onFileChange($event)" required />
+                    </div>
+                    <div *ngIf="fileSizeError" class="text-danger">
+                        File size exceeds the maximum limit of 20MB.
                     </div>
 
                 </div>

@@ -100,8 +100,11 @@
 
                     <div class="form-group">
                         <label for="pdf">PDF or IMG<sup class="text-danger">*</sup></label>
-                        <input type="file" id="pdf" #pdfInput name="pdf" class="form-control" accept=".pdf,.jpg"
+                        <input type="file" id="pdf" #pdfInput name="pdf" class="form-control" accept=".pdf,.jpg,.png"
                             (change)="onFileChange($event)" required />
+                    </div>
+                    <div *ngIf="fileSizeError" class="text-danger">
+                        File size exceeds the maximum limit of 20MB.
                     </div>
 
                 </div>

@@ -290,8 +290,16 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + `order/${id}/po_upload`, data);
   }
 
+  scanPoUpload(id: any, data: any = {}) {
+    return this.http.post(environment.apiUrl + `order/${id}/pi_upload_dealer`, data);
+  }
+
+
   demoEXCL() {
     return this.http.post(environment.apiUrl + `order/sample_excel`, {});
+  }
+  demoAssemblyEXCL() {
+    return this.http.post(environment.apiUrl + `assembly_master/sample_excel`, {});
   }
 
   approveByDealer(id: any, data: any = {}) {

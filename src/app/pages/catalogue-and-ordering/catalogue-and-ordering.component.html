@@ -77,11 +77,12 @@
                         <th scope="col">Order Type</th>
                         <th scope="col">Order Number</th>
                         <th scope="col">Order date</th>
+                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Dealer</th>
                         <th scope="col">Brand</th>
                         <th scope="col">PI Uploades Date</th>
                         <th scope="col">PI Number <br> Download PI for signature </th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Upload Scan PI</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Approve PI</th>
+                        <th scope="col" *ngIf="userData?.role_name == 'Dealer'">Upload Scan PI</th>
+                        <!-- <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Approve PI</th> -->
                         <th scope="col">Order Status</th>
                         <th scope="col" *ngIf="userData?.role_name != 'Dealer'">Current Stage</th>
                         <!-- <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Tracking Number</th> -->
@@ -96,17 +97,24 @@
                             <td>{{ item.order_type }}</td>
                             <td>{{ item.order_number }}</td>
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
+                            <td *ngIf="userData?.role_name != 'Dealer'"> {{item.dealer.name}}</td>
                             <td>{{ item.dealer.brand?.name || '-' }}</td>
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
-                            <td>PI@{{ item.order_number }}</td>
-                            <td *ngIf="userData?.role_name != 'Dealer'">
-                                <input type="file" id="fileInput-{{i}}" hidden (change)="onFileSelected($event,item)">
-                                <label class="btn btn-primary" for="fileInput-{{i}}">Upload PI</label>
+                            <td>{{ item.pi_number_dealer || '-' }}</td>
+                            <td *ngIf="userData?.role_name == 'Dealer'">
+                                <ng-container *ngIf="item.po_pdf; else elseData">
+                                    <input type="file" id="fileInput-{{i}}" hidden
+                                        (change)="onFileSelected($event,item)">
+                                    <label class="btn btn-primary" for="fileInput-{{i}}">Upload PI</label>
+                                </ng-container>
+                                <ng-template #elseData>
+                                    -
+                                </ng-template>
                             </td>
-                            <td class="text-center check-id" *ngIf="userData?.role_name != 'Dealer'">
+                            <!-- <td class="text-center check-id" *ngIf="userData?.role_name != 'Dealer'">
                                 <input type="checkbox" class="form-check-input" [(ngModel)]="item.checked"
                                     [disabled]="item.file == ''" />
-                            </td>
+                            </td> -->
                             <td *ngIf="userData?.role_name == 'Dealer'">{{ item.dealer_show_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.approval_status }}</td>
                             <td *ngIf="userData?.role_name != 'Dealer'">{{ item.current_stage }}</td>
@@ -124,7 +132,7 @@
 
 
                 </tbody>
-                <tfoot *ngIf="userData?.role_name != 'Dealer'">
+                <!-- <tfoot *ngIf="userData?.role_name != 'Dealer'">
                     <tr>
                         <td colspan="8">
                             <div class="d-flex justify-content-end me-4">
@@ -133,7 +141,7 @@
                         </td>
                         <td colspan="3"></td>
                     </tr>
-                </tfoot>
+                </tfoot> -->
             </table>
         </div>
 

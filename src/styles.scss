@@ -1734,3 +1734,105 @@ body .offcanvas-header {
 .notification-list .notify-icon.bg-info {
   background-color: #ec3237 !important;
 }
+
+@media (max-width:1024px) {
+  .spinner-container .spinner__leter:before {
+    top: -14px !important;
+  }
+
+  .spinner-container {
+    width: 420px !important;
+  }
+
+  .spinner-container .spinner {
+    font-size: 60px !important;
+  }
+
+}
+
+@media (max-width:767px) {
+  .camel-menu-btn {
+    position: absolute;
+    right: 17px;
+    top: 20px;
+    font-size: 35px;
+    color: #000000;
+  }
+
+  .camel-login-menu-ul {
+    position: fixed;
+    right: 0px;
+    display: none !important;
+    background-color: #ffffff;
+    height: 100vh;
+    width: 230px;
+    top: 90px;
+    z-index: 9;
+  }
+
+  .camel-login-menu .nav-profile .dropdown-toggle {
+    display: block !important;
+  }
+
+  .gradient-form .col-lg-6:nth-child(2) {
+    display: none !important;
+  }
+
+  .nav-profile i {
+    font-size: 35px;
+    position: relative;
+    right: 9px;
+  }
+
+  header .header-nav ul li {
+    margin-right: 0 !important;
+  }
+
+  .logo img {
+    max-height: 32px;
+    margin-right: 0;
+    left: -10px;
+    position: relative;
+  }
+
+  .spinner-container .spinner__leter:before {
+    top: -7px !important;
+  }
+
+  .spinner-container {
+    width: 260px !important;
+  }
+
+  .spinner-container .spinner {
+    font-size: 37px !important;
+  }
+
+  body .dashboard-right-column img {
+    width: 100% !important;
+    position: relative;
+    top: 0;
+    left: auto !important;
+  }
+
+  .header-nav .profile {
+    top: 70px !important;
+    right: 0;
+  }
+
+  .offcanvas {
+    width: 66% !important;
+  }
+
+  .fix-width {
+    max-width: 160px !important;
+  }
+  .body-active{
+    overflow: hidden;
+  }
+}
+
+@media (max-width:767px) {
+  .table-purches .ng-dropdown-panel .ng-dropdown-panel-items {
+      max-height: 115px !important;
+  }
+}

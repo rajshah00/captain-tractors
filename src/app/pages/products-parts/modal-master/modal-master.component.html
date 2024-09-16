@@ -127,6 +127,9 @@
                                 class="text-danger invalid-feild">
                                 Name is required.
                             </div>
+                            <div class="text-danger invalid-feild" *ngIf="validation.name">
+                                {{validation.name[0]}}
+                            </div>
                         </div>
 
                         <div class="col-md-6">

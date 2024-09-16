@@ -27,6 +27,18 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('profile') || '');
     this.checkNavActiveOnLoad();
+    $('#toggelMenu').on('click', function (event: any) {
+      event.stopPropagation(); // Prevent the click event from propagating to the body
+      $("#allMenu").toggleClass('show');
+      $("body").toggleClass('body-active');
+    });
+    // Remove the show class when clicking outside
+    $(document).on('click', function (event: any) {
+      if (!$(event.target).closest('#allMenu').length) {
+        $('#allMenu').removeClass('show');
+        $('body').removeClass('body-active');
+      }
+    });
   }
 
   toggelSideBar() {
@@ -38,8 +50,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login'])
   }
 
-
-  
+  removeClass() {
+    $("#allMenu").removeClass('show');
+    $('body').removeClass('body-active');
+  }
 
   // To set Active on Load
   checkNavActiveOnLoad() {
@@ -64,7 +78,7 @@ export class HeaderComponent implements OnInit {
 
   filterRoleMenu(permissions: string[], rolemenu: any[]): any[] {
     const permissionSet = new Set(permissions);
-  
+
     const filterMenu = (menu: any[]): any[] => {
       return menu
         .map(menuItem => {
@@ -79,10 +93,10 @@ export class HeaderComponent implements OnInit {
         })
         .filter(Boolean);
     };
-  
+
     return filterMenu(rolemenu);
   }
-  
+
 
   formatTitle(title: string): string {
     return title.replace(/\s+/g, '-');

@@ -183,7 +183,7 @@
 
                         <div class="col-md-6">
                             <label for="brandId" class="form-label">Brand<sup class="text-danger">*</sup>:</label>
-                            <select id="brandId" class="form-select" [(ngModel)]="formObj.braand_id" name="braand_id"
+                            <select id="brandId" class="form-select" [(ngModel)]="formObj.brand_id" name="brand_id"
                                 required #brandCtrl="ngModel">
                                 <ng-container *ngFor="let item of brandList">
                                     <option [value]="item.id">{{item.name}}</option>

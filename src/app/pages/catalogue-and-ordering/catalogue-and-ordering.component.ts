@@ -107,8 +107,33 @@ export class CatalogueAndOrderingComponent implements OnInit {
 
   onFileSelected(event: any, item: any) {
     const file: File = event.target.files[0];
+    const maxSizeInMB = 20;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+  
     if (file) {
-      item.file = file;
+      if (file.size > maxSizeInBytes) {
+        this.comman.toster('warning', `File size exceeds ${maxSizeInMB} MB limit. Please upload a smaller file.`);
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append('pi_upload_dealer', file);
+      this.service.scanPoUpload(item.id, formData).subscribe(
+        (res: any) => {
+          console.log("res", res);
+          if (res.success) {
+            this.comman.toster('success', res.message);
+            this.getCatalogue({});
+          } else {
+            this.comman.toster('warning', res.message);
+          }
+        },
+        (err: any) => {
+          console.log(err);
+          this.comman.toster('error', 'Oops! Something went wrong. Please try again later.');
+        }
+      );
     }
   }
+  
 }

@@ -99,12 +99,12 @@
                 </div>
 
                 <div class="col-md-6 mt-3" *ngIf="formObj.order_type == 'VOR'">
-                    <div class="mb-3 grid-item">
-                        <label for="chassis_number" class="form-label lable-box">Chassis Number<sup
-                                class="text-danger">*</sup>:</label>
-                        <div style="width: 65%;">
+                    <div class="mb-3">
+                        <div>
                             <div class="row">
-                                <div class="col-md-9">
+                                <label for="chassis_number" class="form-label lable-box col-md-3">Chassis Number<sup
+                                        class="text-danger">*</sup>:</label>
+                                <div class="col-10 col-md-5">
 
                                     <ng-select id="chassis_number" #chassisSelect [(ngModel)]="formObj.chassis_number"
                                         name="chassis_number" [items]="chassisList" bindLabel="number" bindValue="id"
@@ -124,7 +124,7 @@
                                         </ng-template>
                                     </ng-select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-2 col-md-3">
                                     <div class="grid-item">
                                         <button type="button" class="btn btn-success"
                                             (click)="copyText(ChassisNumber.number)">
@@ -154,87 +154,92 @@
             </div>
         </form>
         <div *ngIf="formObj.entry_type == 'Manual Entry'">
-            <table class="table table-bordered border-dark">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">
-                            <div class="text-center">
-                                Ser No
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="text-center">
-                                Part Number
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="text-center">
-                                Parts Description
-                            </div>
-                        </th>
-                        <th scope="col">
-                            <div class="text-center">
-                                MOQ
-                            </div>
-                        </th>
+            <div class="table-responsive table-purches">
+                <table class="table table-bordered border-dark">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">
+                                <div class="text-center">
+                                    Ser No
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="text-center">
+                                    Part Number
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="text-center">
+                                    Parts Description
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="text-center">
+                                    MOQ
+                                </div>
+                            </th>
 
-                        <th scope="col" class="text-center">QTY</th>
-                        <th scope="col" class="text-center">Action</th>
+                            <th scope="col" class="text-center">QTY</th>
+                            <th scope="col" class="text-center">Action</th>
 
-                    </tr>
+                        </tr>
 
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of partList;let i = index">
-                        <th scope="row">{{i + 1}}</th>
-                        <td>
-                            <div class="grid-item">
-                                <ng-select class="w-100" [items]="partListOption" bindLabel="part_no" bindValue="id"
-                                    placeholder="Select Part" [(ngModel)]="item.part_id"
-                                    (change)="onChangePart(item.part_id, i,$event)" (scrollToEnd)="fetchMore()"
-                                    [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select (clear)="onPartClear()">
-                                </ng-select>
-                                <button type="button" class="btn btn-success" (click)="copyText(partNumber.part_no)">
-                                    <i class="bi bi-copy"></i>
-                                </button>
-                            </div>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of partList;let i = index">
+                            <th scope="row">{{i + 1}}</th>
+                            <td>
+                                <div class="grid-item">
+                                    <ng-select class="w-100" [items]="partListOption" bindLabel="part_no" bindValue="id"
+                                        placeholder="Select Part" [(ngModel)]="item.part_id"
+                                        (change)="onChangePart(item.part_id, i,$event)" (scrollToEnd)="fetchMore()"
+                                        [virtualScroll]="true" [loading]="loading" (search)="onSearch($event)" #select
+                                        (clear)="onPartClear()">
+                                    </ng-select>
+                                    <button type="button" class="btn btn-success"
+                                        (click)="copyText(partNumber.part_no)">
+                                        <i class="bi bi-copy"></i>
+                                    </button>
+                                </div>
 
-                            <!-- <div class="d-flex justify-content-center">
+                                <!-- <div class="d-flex justify-content-center">
                                 <input type="text" class="form-control" style="max-width: 114px;"
                                     [(ngModel)]="item.part_no" name="part_no">
                             </div> -->
-                        </td>
-                        <td>
-                            <textarea type="text" rows="1" class="form-control" [(ngModel)]="item.description"
-                                name="description" disabled></textarea>
-                        </td>
-                        <td class="text-center">
-                            <!-- <div class="d-flex justify-content-center">
+                            </td>
+                            <td>
+                                <textarea type="text" rows="1" class="form-control" [(ngModel)]="item.description"
+                                    name="description" disabled></textarea>
+                            </td>
+                            <td class="text-center">
+                                <!-- <div class="d-flex justify-content-center">
                                 <input type="number" class="form-control" style="max-width: 114px;"
                                     [(ngModel)]="item.moq" name="moq">
                             </div> -->
-                            {{item.moq}}
-                        </td>
-                        <td style="max-width: 130px;">
-                            <div class="qty-box">
-                                <button type="button" class="btn btn-danger" (click)="decrement(i)">
+                                {{item.moq}}
+                            </td>
+                            <td class="fix-width">
+                                <div class="qty-box">
+                                    <button type="button" class="btn btn-danger" (click)="decrement(i)">
+                                        <i class="bi bi-dash-circle"></i>
+                                    </button>
+                                    <input type="number" [(ngModel)]="item.qty" class="form-control" id="qty"
+                                        name="qty">
+                                    <button type="button" class="btn btn-danger" (click)="increment(i)">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </button>
+                                </div>
+
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger" (click)="removeRow(i)">
                                     <i class="bi bi-dash-circle"></i>
                                 </button>
-                                <input type="number" [(ngModel)]="item.qty" class="form-control" id="qty" name="qty">
-                                <button type="button" class="btn btn-danger" (click)="increment(i)">
-                                    <i class="bi bi-plus-circle"></i>
-                                </button>
-                            </div>
-
-                        </td>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-danger" (click)="removeRow(i)">
-                                <i class="bi bi-dash-circle"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="text-end">
                 <button type="button" class="btn btn-primary mb-2" (click)="addRow()">
                     Add Part
