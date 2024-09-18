@@ -63,6 +63,12 @@ export class PurchaseOrderComponent implements OnInit {
         this.formObj.entry_type = params['type'];
       };
     });
+    const currentDate = new Date();
+    const year = currentDate.getFullYear().toString().slice(-2);
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    this.formObj.po_number = this.userData.code + '/' + year + month;
+    console.log(this.formObj.po_number);
+
     this.addRow();
     this.getChassisList();
     this.fetchParts();
@@ -257,6 +263,7 @@ export class PurchaseOrderComponent implements OnInit {
     if (form.form.valid) {
       let obj: any = {
         "user_id": this.userData.id,
+        "po_number": this.formObj.po_number,
         "parts": []
       }
       this.partList.forEach((item: any) => {
@@ -290,16 +297,16 @@ export class PurchaseOrderComponent implements OnInit {
       user_id: this.userData.id
     }
     this.service.cartList(obj).subscribe((res: any) => {
-      if (res.success && res.data.length) {
+      if (res.success && res.data.user_cart_part.length) {
         console.log("res", res);
         this.partList = []
-        for (let i in res.data) {
-          this.partListOption.push(res.data[i].part);
+        for (let i in res.data.user_cart_part) {
+          this.partListOption.push(res.data.user_cart_part[i].part);
           this.partList.push({
-            part_id: res.data[i].part?.id,
-            description: res.data[i].part?.description,
-            moq: res.data[i].part?.moq,
-            qty: res.data[i].qty
+            part_id: res.data.user_cart_part[i].part?.id,
+            description: res.data.user_cart_part[i].part?.description,
+            moq: res.data.user_cart_part[i].part?.moq,
+            qty: res.data.user_cart_part[i].qty
           })
         }
       } else {
@@ -489,6 +496,7 @@ export class PurchaseOrderComponent implements OnInit {
   saveToDraft() {
     let obj: any = {
       "user_id": this.userData.id,
+      "po_number": this.formObj.po_number,
       "parts": []
     }
     for (let item of this.selectedParts) {
@@ -521,4 +529,12 @@ export class PurchaseOrderComponent implements OnInit {
     this.fetchParts(this.query, this.page);
   }
 
+
+  changeType() {
+    this.formObj.po_number = "";
+    const currentDate = new Date();
+    const year = currentDate.getFullYear().toString().slice(-2);
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    this.formObj.po_number = this.formObj.order_type + '/' + this.userData.code + '/' + year + month;
+  }
 }

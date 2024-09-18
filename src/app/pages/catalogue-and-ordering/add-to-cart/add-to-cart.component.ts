@@ -34,7 +34,8 @@ export class AddToCartComponent implements OnInit {
     }
     this.service.cartList(obj).subscribe((res: any) => {
       if (res.success) {
-        this.cartList = res.data;
+        this.cartList = res.data.user_cart_part;
+        this.orderDetail.po_number = res.data.po_number;
         this.totalQty = 0;
         this.cartList.forEach((item: any) => {
           this.totalQty += item.qty;
@@ -114,6 +115,7 @@ export class AddToCartComponent implements OnInit {
       "entry_type": this.orderDetail.entry_type,
       "mode_of_dispatch": this.orderDetail.mode_of_dispatch,
       "chassis_number": this.orderDetail.chassis_number,
+      "po_number": this.orderDetail.po_number,
       "parts": []
     }
 

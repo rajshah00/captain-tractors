@@ -72,14 +72,13 @@
             <li class="nav-item dropdown pe-3 d-none d-md-block">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-                    <span class="dropdown-toggle ps-2">{{userData?.first_name}}
-                        {{userData?.last_name}}</span>
+                    <span class="dropdown-toggle ps-2">{{userData?.name}}</span>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
                     <li class="dropdown-header">
-                        <h6>{{userData?.first_name}} {{userData?.last_name}}</h6>
+                        <h6>{{userData?.name}}</h6>
                         <span>{{userData?.role_name}}</span>
                     </li>
                     <li>
@@ -115,7 +114,7 @@
                 <ul id="allMenu" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
                     <li class="dropdown-header">
-                        <h6>{{userData?.first_name}} {{userData?.last_name}}</h6>
+                        <h6>{{userData?.name}}</h6>
                         <span>{{userData?.role_name}}</span>
                     </li>
                     <li>

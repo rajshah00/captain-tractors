@@ -197,7 +197,7 @@ export class ApiServiceService {
   cartList(data: any): Observable<{ items: any[], count: number }> {
     return this.http.post<any>(environment.apiUrl + 'user_cart_part/user_cart_list', data).pipe(
       map(response => {
-        this.cartCount = response.data.length;
+        this.cartCount = response.data.user_cart_part.length;
         return response;
       })
     );
@@ -210,6 +210,10 @@ export class ApiServiceService {
 
   Region(data: any) {
     return this.http.post(environment.apiUrl + 'region/list', data);
+  }
+  
+  continent(data: any) {
+    return this.http.post(environment.apiUrl + 'continent/list', data);
   }
 
   countryList(data: any) {

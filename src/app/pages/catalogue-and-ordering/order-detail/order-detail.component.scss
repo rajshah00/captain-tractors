@@ -6,7 +6,8 @@
     margin-bottom: .5rem;
     text-transform: uppercase;
     letter-spacing: .02em;
-    font-size: .9rem;
+    font-size: 16px;
+    font-weight: 600;
     margin-top: 0;
 }
 
@@ -60,4 +61,9 @@ input[type="number"] {
     padding-bottom: 3px;
     border-radius: 50%;
     background-color: red;
+}
+
+.title-lable {
+    font-size: 14px;
+    font-weight: 600;
 }

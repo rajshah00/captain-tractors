@@ -48,10 +48,11 @@
                         <th scope="col">Name</th>
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Continent</th>
                         <th scope="col">Region</th>
                         <th scope="col">Country</th>
                         <th scope="col">Role</th>
-                        <!-- <th scope="col">Status</th> -->
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -61,13 +62,14 @@
                         <td>{{item.name}}</td>
                         <td>{{item.phone}}</td>
                         <td>{{item.email}}</td>
+                        <td>{{item.continent?.name || '-'}}</td>
                         <td>{{item.region?.name || '-'}}</td>
                         <td>{{item.country?.name}}</td>
                         <td>{{item.role_name}}</td>
-                        <!-- <td>
+                        <td>
                             <span *ngIf="item.is_active" class="badge bg-success">Active</span>
-                            <span *ngIf="!item.is_active" class="badge bg-danger">Deactivate</span>
-                        </td> -->
+                            <span *ngIf="!item.is_active" class="badge bg-danger">Closed</span>
+                        </td>
                         <td>
                             <div class="action-box">
                                 <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
@@ -98,17 +100,28 @@
                 <h1 class="modal-title fs-5" id="userPopLabel">{{userType}} User</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+            <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
                 <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label for="name" class="form-label">Distributor Name<sup
                                     class="text-danger">*</sup>:</label>
                             <input type="text" class="form-control" id="name" [(ngModel)]="formObj.name" name="name"
                                 required #nameCtrl="ngModel">
-                            <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || form.submitted)"
+                            <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Distributor Name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Distributor Code<sup
+                                    class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="name" [(ngModel)]="formObj.code" name="code"
+                                required #codeCtrl="ngModel">
+                            <div *ngIf="codeCtrl.invalid && (codeCtrl.dirty || codeCtrl.touched || userForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Distributor Code is required.
                             </div>
                         </div>
 
@@ -116,7 +129,7 @@
                             <label for="last_name" class="form-label">Last Name<sup class="text-danger">*</sup>:</label>
                             <input type="text" class="form-control" id="last_name" [(ngModel)]="formObj.last_name"
                                 name="last_name" required #lastNameCtrl="ngModel">
-                            <div *ngIf="lastNameCtrl.invalid && (lastNameCtrl.dirty || lastNameCtrl.touched || form.submitted)"
+                            <div *ngIf="lastNameCtrl.invalid && (lastNameCtrl.dirty || lastNameCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Last name is required.
                             </div>
@@ -126,7 +139,7 @@
                             <label for="inputAddress5" class="form-label">Mobile Number</label>
                             <input type="number" class="form-control" id="inputAddress5" [(ngModel)]="formObj.phone"
                                 name="phone" #phoneCtrl="ngModel">
-                            <!-- <div *ngIf="phoneCtrl.invalid && (phoneCtrl.dirty || phoneCtrl.touched || form.submitted)" class="text-danger">
+                            <!-- <div *ngIf="phoneCtrl.invalid && (phoneCtrl.dirty || phoneCtrl.touched || userForm.submitted)" class="text-danger">
                                 Phone number is required.
                             </div> -->
                         </div>
@@ -136,7 +149,7 @@
                                     class="text-danger">*</sup>:</label>
                             <input type="text" class="form-control" id="contact_name" [(ngModel)]="formObj.contact_name"
                                 name="contact_name" required #contact_nameCtrl="ngModel">
-                            <div *ngIf="contact_nameCtrl.invalid && (contact_nameCtrl.dirty || contact_nameCtrl.touched || form.submitted)"
+                            <div *ngIf="contact_nameCtrl.invalid && (contact_nameCtrl.dirty || contact_nameCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Contact Person Name is required.
                             </div>
@@ -146,7 +159,7 @@
                             <label for="inputEmail5" class="form-label">Email<sup class="text-danger">*</sup>:</label>
                             <input type="email" class="form-control" id="inputEmail5" [(ngModel)]="formObj.email"
                                 name="email" required email #emailCtrl="ngModel">
-                            <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched || form.submitted)"
+                            <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 <div *ngIf="emailCtrl.errors?.['required']">
                                     Email is required.
@@ -164,7 +177,7 @@
                                 <input type="password" class="form-control" id="inputPassword5"
                                     [(ngModel)]="formObj.password" name="password" required minlength="6"
                                     #passwordCtrl="ngModel">
-                                <div *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched || form.submitted)"
+                                <div *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched || userForm.submitted)"
                                     class="text-danger invalid-feild">
                                     <div *ngIf="passwordCtrl.errors?.['required']">
                                         Password is required.
@@ -189,7 +202,7 @@
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
                             </select>
-                            <div *ngIf="brandCtrl.invalid && (brandCtrl.dirty || brandCtrl.touched || form.submitted)"
+                            <div *ngIf="brandCtrl.invalid && (brandCtrl.dirty || brandCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Brand is required.
                             </div>
@@ -203,11 +216,27 @@
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
                             </select>
-                            <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || form.submitted)"
+                            <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Role is required.
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <label for="inputContinent_id" class="form-label">Continent<sup
+                                    class="text-danger">*</sup>:</label>
+                            <select id="inputContinent_id" class="form-select" [(ngModel)]="formObj.continent_id"
+                                name="continent_id" (change)="getRegionList()" required #continentCtrl="ngModel">
+                                <ng-container *ngFor="let item of allContinent">
+                                    <option [value]="item.id">{{item.name}}</option>
+                                </ng-container>
+                            </select>
+                            <div *ngIf="continentCtrl.invalid && (continentCtrl.dirty || continentCtrl.touched || userForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Continent is required.
+                            </div>
+                        </div>
+
 
                         <div class="col-md-6">
                             <label for="inputregion" class="form-label">Region<sup class="text-danger">*</sup>:</label>
@@ -217,7 +246,7 @@
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
                             </select>
-                            <div *ngIf="regionCtrl.invalid && (regionCtrl.dirty || regionCtrl.touched || form.submitted)"
+                            <div *ngIf="regionCtrl.invalid && (regionCtrl.dirty || regionCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Region is required.
                             </div>
@@ -227,12 +256,12 @@
                             <label for="inputcountry" class="form-label">Country<sup
                                     class="text-danger">*</sup>:</label>
                             <select id="inputcountry" class="form-select" [(ngModel)]="formObj.country_id"
-                                name="country_id" required #countryCtrl="ngModel" (change)="selectCountry()">
+                                name="country_id" required #countryCtrl="ngModel">
                                 <ng-container *ngFor="let item of allCountryList">
                                     <option [value]="item.id">{{item.name}}</option>
                                 </ng-container>
                             </select>
-                            <div *ngIf="countryCtrl.invalid && (countryCtrl.dirty || countryCtrl.touched || form.submitted)"
+                            <div *ngIf="countryCtrl.invalid && (countryCtrl.dirty || countryCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Country is required.
                             </div>
@@ -260,7 +289,7 @@
                             </label>
                             <input type="text" class="form-control" id="inputAddress1" [(ngModel)]="formObj.address"
                                 name="address" required #addressCtrl="ngModel">
-                            <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                            <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Address is required.
                             </div>
@@ -269,7 +298,7 @@
                             <label for="inputAddress2" class="form-label">Address Line 2:</label>
                             <input type="text" class="form-control" id="inputAddress2" [(ngModel)]="formObj.address_2"
                                 name="address_2">
-                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Address is required.
                             </div> -->
@@ -278,7 +307,7 @@
                             <label for="inputAddress3" class="form-label">Address Line 3:</label>
                             <input type="text" class="form-control" id="inputAddress3" [(ngModel)]="formObj.address_3"
                                 name="address_3">
-                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Address is required.
                             </div> -->
@@ -288,13 +317,13 @@
                             <label for="remark-test" class="form-label">Remark :</label>
                             <input type="text" class="form-control" id="remark-test" [(ngModel)]="formObj.remark"
                                 name="remark">
-                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
+                            <!-- <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || userForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Address is required.
                             </div> -->
                         </div>
 
-<!-- 
+                        
                         <div class="col-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="is_active"
@@ -303,7 +332,7 @@
                                     Is Active
                                 </label>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

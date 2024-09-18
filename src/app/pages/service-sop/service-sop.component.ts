@@ -93,7 +93,7 @@ export class ServiceSOPComponent implements OnInit {
   //========// File Select Function  //========//
   onFileChange(event: any) {
     const file = event.target.files[0];
-    const maxSize = 20 * 1024 * 1024; // 20MB in bytes
+    const maxSize = 150 * 1024 * 1024; // 20MB in bytes
 
     if (file) {
       const fileType = file.type;

@@ -13,7 +13,7 @@
         <div class="row justify-content-between">
             <div class="col-md-6">
                 <div class="deler-detial">
-                    Distributor Name : <span>{{userData.first_name}} {{userData.last_name}}</span>
+                    Distributor Name : <span>{{userData.name}}</span>
                 </div>
                 <div class="deler-detial">
                     Distributor Code : <span>{{userData.code || '-'}}</span>
@@ -27,7 +27,7 @@
                     Date : <span>{{todayDate | date:'dd-MMM-yyyy'}}</span>
                 </div>
                 <div class="deler-detial">
-                    PO Number : <span>{{userData.po_number}}</span>
+                    PO Number : <span> Auto Generated</span>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                             : </label>
                         <div class="input-box">
                             <select id="order_type" class="form-select" [(ngModel)]="formObj.order_type"
-                                name="order_type" required #order_typeCtrl="ngModel">
+                                name="order_type" required #order_typeCtrl="ngModel" (change)="changeType()">
                                 <option value="" disabled selected>Select option</option>
                                 <option value="VOR">VOR - Vehicle Off Road</option>
                                 <option value="STD">STD - Standard order</option>

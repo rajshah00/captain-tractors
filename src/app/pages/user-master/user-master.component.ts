@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -10,6 +11,7 @@ declare var $: any;
   styleUrls: ['./user-master.component.scss']
 })
 export class UserMasterComponent implements OnInit {
+  @ViewChild('userForm') userForm!: NgForm;
   userType: any;
   formObj: any = {};
   serchObj: any = {}
@@ -22,6 +24,7 @@ export class UserMasterComponent implements OnInit {
   allStateList: any;
   brandList: any = [];
   allRegionList: any;
+  allContinent: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -32,7 +35,7 @@ export class UserMasterComponent implements OnInit {
     this.getUerList();
     this.getRoleList();
     this.getBrandList();
-    this.getRegionList();
+    this.getContinent();
   }
 
 
@@ -51,14 +54,17 @@ export class UserMasterComponent implements OnInit {
     if (type == 'Edit') {
       this.userId = item.id;
       this.formObj.name = item.name;
+      this.formObj.code = item.code;
       this.formObj.phone = item.phone;
+      this.formObj.contact_name = item.contact_name;
       this.formObj.email = item.email;
       this.formObj.password = item.password || '';
+      this.formObj.continent_id = item.continent_id;
+      this.getRegionList();
       this.formObj.region_id = item.region_id;
       this.getCountryList()
       this.formObj.country_id = item.country_id;
-      this.selectCountry()
-      this.formObj.state_id = item.state_id;
+
       this.formObj.city = item.city;
       this.formObj.role_id = item.role_id;
       this.formObj.is_active = item.is_active;
@@ -70,6 +76,7 @@ export class UserMasterComponent implements OnInit {
       this.formObj.remark = item.remark;
     } else {
       this.formObj = {};
+      this.userForm.resetForm();
     }
     this.userType = type;
     $('#userPop').modal('show');
@@ -77,8 +84,8 @@ export class UserMasterComponent implements OnInit {
 
   onSubmit(form: any) {
     //========// Add user code //========//
-    if (this.userType == 'Add') {
-      if (form.valid) {
+    if (form.valid) {
+      if (this.userType == 'Add') {
         form.value.is_active = form.value.is_active ? 1 : 0;
         console.log(form.value);
         this.service.addUser(form.value).subscribe((res: any) => {
@@ -94,24 +101,25 @@ export class UserMasterComponent implements OnInit {
           console.log(err);
           this.comman.toster('error', 'ops! something went wrong please try again later')
         })
+
       } else {
-        console.log('Form is invalid');
+        //========// Edit user code //========//
+        console.log(form.value);
+        this.service.editUser(form.value, this.userId).subscribe((res: any) => {
+          if (res.success) {
+            this.comman.toster('success', res.message);
+            this.getUerList();
+            $('#userPop').modal('hide');
+          } else {
+            this.comman.toster('warning', res.message)
+          }
+        }, (err: any) => {
+          console.log(err);
+          this.comman.toster('error', 'ops! something went wrong please try again later')
+        })
       }
     } else {
-      //========// Edit user code //========//
-      console.log(form.value);
-      this.service.editUser(form.value, this.userId).subscribe((res: any) => {
-        if (res.success) {
-          this.comman.toster('success', res.message);
-          this.getUerList();
-          $('#userPop').modal('hide');
-        } else {
-          this.comman.toster('warning', res.message)
-        }
-      }, (err: any) => {
-        console.log(err);
-        this.comman.toster('error', 'ops! something went wrong please try again later')
-      })
+      this.comman.toster('warning', 'Form is invalid');
     }
   }
 
@@ -146,8 +154,17 @@ export class UserMasterComponent implements OnInit {
     })
   }
 
+  getContinent() {
+    this.service.continent({}).subscribe((res: any) => {
+      if (res.success) {
+        this.allContinent = res.data;
+      }
+    })
+  }
+
   getRegionList() {
-    this.service.Region({}).subscribe((res: any) => {
+    let obj = { continent_id: this.formObj.continent_id }
+    this.service.Region(obj).subscribe((res: any) => {
       if (res.success) {
         this.allRegionList = res.data;
       }
