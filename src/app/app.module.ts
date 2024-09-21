@@ -51,6 +51,7 @@ import { PartPurchaseReportComponent } from './pages/part-purchase-report/part-p
 import { CategoryMasterComponent } from './pages/products-parts/category-master/category-master.component';
 import { PartMasterComponent } from './pages/products-parts/part-master/part-master.component';
 import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add-assembly/add-assembly.component';
+import { CamelReportsComponent } from './pages/camel-reports/camel-reports.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add
     PartPurchaseReportComponent,
     CategoryMasterComponent,
     PartMasterComponent,
-    AddAssemblyComponent
+    AddAssemblyComponent,
+    CamelReportsComponent
   ],
   imports: [
     BrowserModule,

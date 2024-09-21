@@ -33,8 +33,8 @@ export class PendingOrderReportComponent implements OnInit {
   }
 
   getCatalogue(obj: any) {
-    obj.current_stage = ["Pending"]
-    this.service.getPendingOrder(obj).subscribe((res: any) => {
+    obj.current_stage = "Pending"
+    this.service.getReportOrder(obj).subscribe((res: any) => {
       if (res.success) {
         this.getAllPendingOrder = res.data;
       } else {

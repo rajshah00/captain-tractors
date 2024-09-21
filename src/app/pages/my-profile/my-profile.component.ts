@@ -15,6 +15,9 @@ export class MyProfileComponent implements OnInit {
   roleList: any;
   allCountryList: any;
   allStateList: any;
+  brandList: any;
+  allContinent: any;
+  allRegionList: any;
 
   constructor(
     public service: ApiServiceService,
@@ -22,25 +25,60 @@ export class MyProfileComponent implements OnInit {
     public router: Router
   ) {
     this.getRoleList();
-    this.getCountryList();
+    this.getBrandList();
+    this.getContinent();
   }
 
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('profile') || '');
     if (this.userData) {
-      this.formObj.first_name = this.userData.first_name;
-      this.formObj.last_name = this.userData.last_name;
+      this.formObj.name = this.userData.name;
+      this.formObj.code = this.userData.code;
       this.formObj.phone = this.userData.phone;
+      this.formObj.contact_name = this.userData.contact_name;
       this.formObj.email = this.userData.email;
-      this.formObj.password = this.userData.password;
+      this.formObj.continent_id = this.userData.continent_id;
+      this.formObj.continent_id ? this.getRegionList() : '';
+      this.formObj.region_id = this.userData.region_id;
+      this.formObj.region_id ? this.getCountryList() : '';
       this.formObj.country_id = this.userData.country_id;
-      this.selectCountry();
-      this.formObj.state_id = this.userData.state_id;
+
       this.formObj.city = this.userData.city;
       this.formObj.role_id = this.userData.role_id;
       this.formObj.address = this.userData.address;
+      this.formObj.address_2 = this.userData.address_2;
+      this.formObj.address_3 = this.userData.address_3;
+      this.formObj.brand_id = this.userData.brand_id;
+      this.formObj.contact_name = this.userData.contact_name;
+      this.formObj.remark = this.userData.remark;
       // this.formObj.is_active = this.userData.is_active;
     }
+  }
+
+  // get Brand List
+  getBrandList() {
+    this.service.brandList({}).subscribe((res: any) => {
+      if (res.success) {
+        this.brandList = res.data;
+      }
+    })
+  }
+
+  getContinent() {
+    this.service.continent({}).subscribe((res: any) => {
+      if (res.success) {
+        this.allContinent = res.data;
+      }
+    })
+  }
+
+  getRegionList() {
+    let obj = { continent_id: this.formObj.continent_id }
+    this.service.Region(obj).subscribe((res: any) => {
+      if (res.success) {
+        this.allRegionList = res.data;
+      }
+    })
   }
 
   onSubmitPassword(form: any) {
@@ -72,9 +110,10 @@ export class MyProfileComponent implements OnInit {
   }
 
   getCountryList() {
-    this.service.countryList({}).subscribe((res: any) => {
+    let obj = { region_id: this.formObj.region_id }
+    this.service.countryList(obj).subscribe((res: any) => {
       if (res.success) {
-        this.allCountryList = res.data;
+        this.allCountryList = res.data.country;
       }
     })
   }
@@ -94,16 +133,22 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
-  updateProfile() {
-    this.service.editUser(this.formObj, this.userData.id).subscribe((res: any) => {
-      if (res.success) {
-        this.comman.toster('success', res.message);
-      } else {
-        this.comman.toster('warning', res.message)
-      }
-    }, (err: any) => {
-      console.log(err);
-      this.comman.toster('error', 'ops! something went wrong please try again later')
-    })
+  onSubmit(form: any) {
+    if (form.valid) {
+      this.service.editUser(this.formObj, this.userData.id).subscribe((res: any) => {
+        if (res.success) {
+          this.comman.toster('success', res.message);
+          localStorage.removeItem('profile');
+          localStorage.setItem('profile', JSON.stringify(res.data));
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.comman.toster('error', 'ops! something went wrong please try again later')
+      })
+    } else {
+      this.comman.toster('warning', 'Form is invalid');
+    }
   }
 }

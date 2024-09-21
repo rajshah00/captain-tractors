@@ -11,7 +11,7 @@
     </div>
 
 
-    <nav class="header-nav camel-login-menu">
+    <nav class="header-nav camel-login-menu full-screen">
         <!-- <a href="javascript:;" class="d-md-none d-block camel-menu-btn"><i class="bi bi-list"></i></a> -->
         <ul class="d-flex align-items-center camel-login-menu-ul">
 
@@ -69,7 +69,7 @@
                 </a>
             </li>
 
-            <li class="nav-item dropdown pe-3 d-none d-md-block">
+            <li class="nav-item dropdown pe-3 full-screen">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
                     <span class="dropdown-toggle ps-2">{{userData?.name}}</span>
@@ -106,8 +106,8 @@
             </li><!-- End Profile Nav -->
 
             <!-- Mobile View Section -->
-            <li class="nav-item dropdown pe-3 d-block d-md-none">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" id="toggelMenu">
+            <li class="nav-item dropdown pe-3 small-screen">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0 cursor-pointer" id="toggelMenu">
                     <i class="bi bi-list"></i>
                 </a>
 
@@ -133,7 +133,7 @@
                     </li>
                     <ng-container *ngIf="userData?.role_name != 'Dealer'">
                         <ng-container *ngFor="let item of menuItems">
-                            <li class="d-block d-md-none dropdown">
+                            <li class="dropdown">
                                 <a *ngIf="!item.children.length" class="dropdown-item" [routerLink]="item.path"
                                     (click)="removeClass()">
                                     <i [ngClass]="item.icon"></i>

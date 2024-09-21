@@ -64,11 +64,13 @@ export class HeaderComponent implements OnInit {
         allPermision.push(item.title);
         if (item.children) {
           item.children.filter((chaildItem: any) => {
-            allPermision.push(chaildItem.title);
+            if (chaildItem.is_create || chaildItem.is_delete || chaildItem.is_edit || chaildItem.is_view) {
+              allPermision.push(chaildItem.title);
+            }
           })
         }
       })
-      // console.log("allPermision", allPermision);
+      console.log("allPermision", allPermision);
 
       this.menuItems = this.filterRoleMenu([...allPermision], this.menuItems);
       // console.log("filteredRoleMenu", this.menuItems);

@@ -39,6 +39,7 @@ import { PartPurchaseReportComponent } from './pages/part-purchase-report/part-p
 import { CategoryMasterComponent } from './pages/products-parts/category-master/category-master.component';
 import { PartMasterComponent } from './pages/products-parts/part-master/part-master.component';
 import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add-assembly/add-assembly.component';
+import { CamelReportsComponent } from './pages/camel-reports/camel-reports.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,7 @@ const routes: Routes = [
       { path: 'order-conform', component: OrderConformComponent },
       { path: 'parts-purchase-report', component: PartPurchaseReportComponent },
       { path: 'reports', component: ReportsComponent },
+      { path: 'camel-reports', component: CamelReportsComponent },
 
       { path: 'i-catalogue', component: ICatalogueComponent },
       { path: 'i-circular', component: ICircularComponent },

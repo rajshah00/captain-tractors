@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -10,6 +11,8 @@ declare var $: any;
   styleUrls: ['./part-master.component.scss']
 })
 export class PartMasterComponent implements OnInit {
+  @ViewChild('form') form!: NgForm;
+
   serchObj: any = {};
   formObj: any = {};
   modaldataList: any = [];
@@ -30,6 +33,8 @@ export class PartMasterComponent implements OnInit {
   }
 
   onChangeProduct($event: any) {
+    console.log(this.serchObj.product_type_id);
+    
     this.modalList($event.id);
     this.serchObj.assembly_id = null;
     this.serchObj.model_id = null;
@@ -98,9 +103,10 @@ export class PartMasterComponent implements OnInit {
       this.formObj.part_no = item.part_no;
       this.formObj.moq = item.moq;
       this.formObj.sno = item.sno;
-      this.formObj.description = item.description;
+      this.formObj.remarks = item.remarks;
     } else {
       this.formObj = {};
+      this.form.resetForm();
     }
     this.formType = type;
     $('#partPop').modal('show');
@@ -119,7 +125,7 @@ export class PartMasterComponent implements OnInit {
           part_no: this.formObj.part_no,
           moq: this.formObj.moq,
           sno: this.formObj.sno,
-          description: this.formObj.description,
+          remarks: this.formObj.remarks,
         }
         this.service.addPart(obj).subscribe((res: any) => {
           console.log("res", res);
@@ -145,7 +151,7 @@ export class PartMasterComponent implements OnInit {
           part_no: this.formObj.part_no,
           moq: this.formObj.moq,
           sno: this.formObj.sno,
-          description: this.formObj.description,
+          remarks: this.formObj.remarks,
         }
         this.service.editPart(obj, this.partId).subscribe((res: any) => {
           if (res.success) {

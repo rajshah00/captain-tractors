@@ -1836,3 +1836,27 @@ body .offcanvas-header {
       max-height: 115px !important;
   }
 }
+
+::-webkit-scrollbar {
+  width: 6px !important
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar:hover {
+  cursor: pointer !important
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 6px;
+  transition: all .3s !important
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ec3237;
+  border-radius: 6px;
+  width: 100%
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ec3237
+}

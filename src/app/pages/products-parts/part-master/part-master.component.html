@@ -100,15 +100,15 @@
                                 </th>
                                 <th scope="col">
                                     <div class="table-agliment">
-                                        PartNo
+                                        Part No
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="table-agliment">
-                                        PartDesc
+                                        Part Name
                                     </div>
                                 </th>
-                                <th scope="col" class="text-center">
+                                <th scope="col" class="text-center" *ngIf="serchObj.product_type_id != 3">
                                     <div class="table-agliment">
                                         2WD 4WD
                                     </div>
@@ -130,9 +130,9 @@
                             <tr *ngFor="let item of partList ; let i = index">
                                 <th scope="row">{{item.sno}}</th>
                                 <td>{{item.part_no}}</td>
-                                <td>{{item.description}}</td>
-                                <td> </td>
-                                <td> </td>
+                                <td>{{item.name}}</td>
+                                <td *ngIf="serchObj.product_type_id != 3"> </td>
+                                <td > {{item.remarks || ''}}</td>
                                 <td>
                                     <div class="action-box">
                                         <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
@@ -206,9 +206,9 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="inputdescription2" class="form-label">Part Description:</label>
+                            <label for="inputdescription2" class="form-label">Remark:</label>
                             <textarea type="text" class="form-control" id="inputdescription2"
-                                [(ngModel)]="formObj.description" name="description" required></textarea>
+                                [(ngModel)]="formObj.remarks" name="description"></textarea>
                         </div>
 
                     </div>

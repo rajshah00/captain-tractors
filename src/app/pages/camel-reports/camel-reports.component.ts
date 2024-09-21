@@ -4,20 +4,23 @@ import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
 
 @Component({
-  selector: 'app-approval-order-report',
-  templateUrl: './approval-order-report.component.html',
-  styleUrls: ['./approval-order-report.component.scss']
+  selector: 'app-camel-reports',
+  templateUrl: './camel-reports.component.html',
+  styleUrls: ['./camel-reports.component.scss']
 })
-export class ApprovalOrderReportComponent implements OnInit {
-  serchObj: any = {};
-  getAllApprovalOrder: any = [];
+export class CamelReportsComponent implements OnInit {
+  serchObj: any = {
+    current_stage: ''
+  };
+  getAllBackOrder: any = [];
   p: number = 1;
   allCountryList: any = [];
   dealerList: any;
   brandList: any;
   allRegionList: any;
+  continentList: any;
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
-  
+  getAllOrderReport: any = [];
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -25,44 +28,25 @@ export class ApprovalOrderReportComponent implements OnInit {
   ) {
 
   }
+
   ngOnInit(): void {
-    this.getCatalogue({});
-    this.getDealerList();
-    this.getRegionList()
     this.getBrandList();
+    this.getContinent();
+    this.getDealerList();
   }
 
-  getCatalogue(obj: any) {
-    obj.current_stage = "Approved"
-    this.service.getReportOrder(obj).subscribe((res: any) => {
+  getContinent() {
+    this.service.continent({}).subscribe((res: any) => {
       if (res.success) {
-        this.getAllApprovalOrder = res.data;
-      } else {
-        this.comman.toster('warning', res.message)
-      }
-    })
-  }
-
-  // selectedRow(item: any) {
-  //   console.log(item);
-  //   this.router.navigate(['/order-detail', item.id], {
-  //     queryParams: { type: 'Back Order' }
-  //   });
-  // }
-
-  //========// Get All Country //========//
-  getCountryList() {
-    let obj = { region_id: this.serchObj.region_id }
-    this.service.countryList(obj).subscribe((res: any) => {
-      if (res.success) {
-        this.allCountryList = res.data.country;
+        this.continentList = res.data;
       }
     })
   }
 
   //========// Get All Region //========//
   getRegionList() {
-    this.service.Region({}).subscribe((res: any) => {
+    let obj = { continent_id: this.serchObj.continent_id }
+    this.service.Region(obj).subscribe((res: any) => {
       if (res.success) {
         this.allRegionList = res.data;
       }
@@ -86,16 +70,38 @@ export class ApprovalOrderReportComponent implements OnInit {
       }
     })
   }
+  //========// Get All Country //========//
+  getCountryList() {
+    let obj = { region_id: this.serchObj.region_id }
+    this.service.allCountryList(obj).subscribe((res: any) => {
+      if (res.success) {
+        this.allCountryList = res.data;
+      }
+    })
+  }
 
-  resetForm(form: any) {
-    form.resetForm();
-    this.getCatalogue({});
+  getReport() {
+    delete this.serchObj.export;
+    delete this.serchObj.export_type;
+    this.service.getReportOrder(this.serchObj).subscribe((res: any) => {
+      if (res.success) {
+        this.getAllOrderReport = res.data;
+        this.getAllOrderReport.forEach((item: any) => {
+          if (item.backorder_details) {
+            item.order_details = item.backorder_details;
+          }
+        });
+
+      } else {
+        this.comman.toster('warning', res.message)
+      }
+    })
   }
 
   export() {
     this.serchObj.export = 1;
     this.serchObj.export_type = "xlsx";
-    this.service.getBackOrder(this.serchObj).subscribe((res: any) => {
+    this.service.getReportOrder(this.serchObj).subscribe((res: any) => {
       if (res.success) {
         const link = document.createElement('a');
         link.href = res.data.file_url;
@@ -115,5 +121,11 @@ export class ApprovalOrderReportComponent implements OnInit {
     });
 
     return total;
+  }
+
+  resetForm(form: any) {
+    this.getAllOrderReport = [];
+    this.serchObj = {}
+    this.serchObj.current_stage = "";
   }
 }

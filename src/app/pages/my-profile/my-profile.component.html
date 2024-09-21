@@ -26,125 +26,182 @@
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <form #form="ngForm" class="p-3">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="first_name" class="form-label">First Name<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="text" class="form-control" id="first_name" [(ngModel)]="formObj.first_name"
-                                    name="first_name" required #firstNameCtrl="ngModel">
-                                <div *ngIf="firstNameCtrl.invalid && (firstNameCtrl.dirty || firstNameCtrl.touched || form.submitted)"
-                                    class="text-danger">
-                                    First name is required.
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="last_name" class="form-label">Last Name<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="text" class="form-control" id="last_name" [(ngModel)]="formObj.last_name"
-                                    name="last_name" required #lastNameCtrl="ngModel">
-                                <div *ngIf="lastNameCtrl.invalid && (lastNameCtrl.dirty || lastNameCtrl.touched || form.submitted)"
-                                    class="text-danger">
-                                    Last name is required.
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputAddress5" class="form-label">Phone</label>
-                                <input type="number" class="form-control" id="inputAddress5" [(ngModel)]="formObj.phone"
-                                    name="phone" #phoneCtrl="ngModel">
-                                <!-- <div *ngIf="phoneCtrl.invalid && (phoneCtrl.dirty || phoneCtrl.touched || form.submitted)" class="text-danger">
-                                        Phone number is required.
-                                    </div> -->
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputEmail5" class="form-label">Email<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="email" class="form-control" id="inputEmail5" [(ngModel)]="formObj.email"
-                                    name="email" required email #emailCtrl="ngModel">
-                                <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched || form.submitted)"
-                                    class="text-danger">
-                                    <div *ngIf="emailCtrl.errors?.['required']">
-                                        Email is required.
-                                    </div>
-                                    <div *ngIf="emailCtrl.errors?.['email']">
-                                        Invalid email format.
+                    <form class="p-3" #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Distributor Name<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <input type="text" class="form-control" id="name" [(ngModel)]="formObj.name"
+                                        name="name" required #nameCtrl="ngModel">
+                                    <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Distributor Name is required.
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputPassword5" class="form-label">Password:</label>
-                                <input type="password" class="form-control" id="inputPassword5"
-                                    [(ngModel)]="formObj.password" name="password" minlength="6" disabled>
 
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputcountry" class="form-label">Country<sup
-                                        class="text-danger">*</sup>:</label>
-                                <select id="inputcountry" class="form-select" [(ngModel)]="formObj.country_id" name="country_id"
-                                    required #countryCtrl="ngModel" (change)="selectCountry()">
-                                    <ng-container *ngFor="let item of allCountryList">
-                                        <option [value]="item.id">{{item.name}}</option>
-                                    </ng-container>
-                                </select>
-                                <div *ngIf="countryCtrl.invalid && (countryCtrl.dirty || countryCtrl.touched || form.submitted)"
-                                    class="text-danger invalid-feild">
-                                    Country is required.
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Distributor Code<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <input type="text" class="form-control" id="name" [(ngModel)]="formObj.code"
+                                        name="code" required #codeCtrl="ngModel">
+                                    <div *ngIf="codeCtrl.invalid && (codeCtrl.dirty || codeCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Distributor Code is required.
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <label for="inputState" class="form-label">State<sup class="text-danger">*</sup>:</label>
-                                <select id="inputState" class="form-select" [(ngModel)]="formObj.state_id" name="state_id"
-                                    required #stateCtrl="ngModel">
-                                    <ng-container *ngFor="let item of allStateList">
-                                        <option [value]="item.id">{{item.name}}</option>
-                                    </ng-container>
-                                </select>
-                                <div *ngIf="stateCtrl.invalid && (stateCtrl.dirty || stateCtrl.touched || form.submitted)"
-                                    class="text-danger invalid-feild">
-                                    State is required.
+                                <div class="col-md-6">
+                                    <label for="inputAddress5" class="form-label">Mobile Number</label>
+                                    <input type="number" class="form-control" id="inputAddress5"
+                                        [(ngModel)]="formObj.phone" name="phone" #phoneCtrl="ngModel">
                                 </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <label for="inputCity" class="form-label">City<sup class="text-danger">*</sup>:</label>
-                                <input type="text" class="form-control" id="inputCity" [(ngModel)]="formObj.city"
-                                    name="city" required #cityCtrl="ngModel">
-                                <div *ngIf="cityCtrl.invalid && (cityCtrl.dirty || cityCtrl.touched || form.submitted)"
-                                    class="text-danger">
-                                    City is required.
+                                <div class="col-md-6">
+                                    <label for="contact_name" class="form-label">Contact Person Name<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <input type="text" class="form-control" id="contact_name"
+                                        [(ngModel)]="formObj.contact_name" name="contact_name" required
+                                        #contact_nameCtrl="ngModel">
+                                    <div *ngIf="contact_nameCtrl.invalid && (contact_nameCtrl.dirty || contact_nameCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Contact Person Name is required.
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <label for="roles" class="form-label">Roles<sup class="text-danger">*</sup>:</label>
-                                <select id="roles" class="form-select" [(ngModel)]="formObj.role_id" name="roles"
-                                    required #rolesCtrl="ngModel" disabled>
-                                    <ng-container *ngFor="let item of roleList">
-                                        <option [value]="item.id">{{item.name}}</option>
-                                    </ng-container>
-                                </select>
-                                <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || form.submitted)"
-                                    class="text-danger">
-                                    Role is required.
+                                <div class="col-md-6">
+                                    <label for="inputEmail5" class="form-label">Email<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <input type="email" class="form-control" id="inputEmail5"
+                                        [(ngModel)]="formObj.email" name="email" required email #emailCtrl="ngModel">
+                                    <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        <div *ngIf="emailCtrl.errors?.['required']">
+                                            Email is required.
+                                        </div>
+                                        <div *ngIf="emailCtrl.errors?.['email']">
+                                            Invalid email format.
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-12">
-                                <label for="inputAddress2" class="form-label">Address<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="text" class="form-control" id="inputAddress2"
-                                    placeholder="Apartment, studio, or floor" [(ngModel)]="formObj.address"
-                                    name="address" required #addressCtrl="ngModel">
-                                <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || form.submitted)"
-                                    class="text-danger">
-                                    Address is required.
+
+                                <div class="col-md-6">
+                                    <label for="brandId" class="form-label">Brand<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <select id="brandId" class="form-select" [(ngModel)]="formObj.brand_id"
+                                        name="brand_id" required #brandCtrl="ngModel">
+                                        <ng-container *ngFor="let item of brandList">
+                                            <option [value]="item.id">{{item.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <div *ngIf="brandCtrl.invalid && (brandCtrl.dirty || brandCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Brand is required.
+                                    </div>
                                 </div>
-                            </div>
 
+                                <!-- <div class="col-md-6">
+                                    <label for="roles" class="form-label">Roles<sup class="text-danger">*</sup>:</label>
+                                    <select id="roles" class="form-select" [(ngModel)]="formObj.role_id" name="role_id"
+                                        required #rolesCtrl="ngModel" disabled>
+                                        <ng-container *ngFor="let item of roleList">
+                                            <option [value]="item.id">{{item.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <div *ngIf="rolesCtrl.invalid && (rolesCtrl.dirty || rolesCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Role is required.
+                                    </div>
+                                </div> -->
+
+                                <div class="col-md-6">
+                                    <label for="inputContinent_id" class="form-label">Continent<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <select id="inputContinent_id" class="form-select"
+                                        [(ngModel)]="formObj.continent_id" name="continent_id"
+                                        (change)="getRegionList()" required #continentCtrl="ngModel">
+                                        <ng-container *ngFor="let item of allContinent">
+                                            <option [value]="item.id">{{item.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <div *ngIf="continentCtrl.invalid && (continentCtrl.dirty || continentCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Continent is required.
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <label for="inputregion" class="form-label">Region<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <select id="inputregion" class="form-select" [(ngModel)]="formObj.region_id"
+                                        name="region_id" (change)="getCountryList()" required #regionCtrl="ngModel">
+                                        <ng-container *ngFor="let item of allRegionList">
+                                            <option [value]="item.id">{{item.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <div *ngIf="regionCtrl.invalid && (regionCtrl.dirty || regionCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Region is required.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="inputcountry" class="form-label">Country<sup
+                                            class="text-danger">*</sup>:</label>
+                                    <select id="inputcountry" class="form-select" [(ngModel)]="formObj.country_id"
+                                        name="country_id" required #countryCtrl="ngModel">
+                                        <ng-container *ngFor="let item of allCountryList">
+                                            <option [value]="item.id">{{item.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <div *ngIf="countryCtrl.invalid && (countryCtrl.dirty || countryCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Country is required.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="inputCity" class="form-label">City:</label>
+                                    <input type="text" class="form-control" id="inputCity" [(ngModel)]="formObj.city"
+                                        name="city">
+
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="inputAddress1" class="form-label">
+                                        Address Line 1<sup class="text-danger">*</sup>:
+                                    </label>
+                                    <input type="text" class="form-control" id="inputAddress1"
+                                        [(ngModel)]="formObj.address" name="address" required #addressCtrl="ngModel">
+                                    <div *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched || userForm.submitted)"
+                                        class="text-danger invalid-feild">
+                                        Address is required.
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputAddress2" class="form-label">Address Line 2:</label>
+                                    <input type="text" class="form-control" id="inputAddress2"
+                                        [(ngModel)]="formObj.address_2" name="address_2">
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="inputAddress3" class="form-label">Address Line 3:</label>
+                                    <input type="text" class="form-control" id="inputAddress3"
+                                        [(ngModel)]="formObj.address_3" name="address_3">
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="remark-test" class="form-label">Remark :</label>
+                                    <input type="text" class="form-control" id="remark-test"
+                                        [(ngModel)]="formObj.remark" name="remark">
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary mt-2" (click)="updateProfile()">Submit</button>
+                        <div class="mt-2 text-end">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>

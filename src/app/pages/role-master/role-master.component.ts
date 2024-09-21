@@ -64,8 +64,8 @@ export class RoleMasterComponent implements OnInit {
   // To set Active on Load
   checkNavActiveOnLoad() {
     this.navServices.role_Menu.subscribe((menuItems: any) => {
-      console.log("menuItems",menuItems);
-      
+      console.log("menuItems", menuItems);
+
       this.menuItems = menuItems;
       this.menuItems.forEach((item: any) => {
         item.is_create = false;
@@ -120,6 +120,12 @@ export class RoleMasterComponent implements OnInit {
             if (item.is_create || item.is_delete || item.is_edit || item.is_view) {
               chaildPermision.push(item);
               permision.is_view = true;
+            } else {
+              item.is_create = 0;
+              item.is_delete = 0;
+              item.is_edit = 0;
+              item.is_view = 0;
+              chaildPermision.push(item);
             }
           })
           if (chaildPermision.length) {
@@ -130,12 +136,11 @@ export class RoleMasterComponent implements OnInit {
       })
 
 
-
-      let filteredData = this.filterData(permisionAllow);
-      this.formObj.permision = filteredData;
+      // let filteredData = this.filterData(permisionAllow);
+      this.formObj.permision = permisionAllow;
       // this.formObj.is_active = this.formObj.is_active ? 1 : 0;
       console.log("this.formObj", this.formObj);
-
+      // return
       if (this.roleType == 'Add') {
         this.service.addRole(this.formObj).subscribe((res: any) => {
           console.log("res", res);

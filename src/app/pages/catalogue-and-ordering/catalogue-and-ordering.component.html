@@ -17,7 +17,7 @@
                         <label for="search" class="form-label">Dealer :</label>
                         <select id="order_type" class="form-select" [(ngModel)]="serchObj.dealer_id" name="order_type">
                             <ng-container *ngFor="let item of dealerList">
-                                <option [value]="item.id">{{item.first_name}} {{item.last_name}}</option>
+                                <option [value]="item.id">{{item.name}}</option>
                             </ng-container>
                         </select>
                     </div>

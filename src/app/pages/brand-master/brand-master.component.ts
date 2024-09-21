@@ -17,7 +17,6 @@ export class BrandMasterComponent implements OnInit {
     name: '',
     email: '',
     website: '',
-    logo: ''
   };
   serchObj: any = {};
   brandType: any;
@@ -25,6 +24,7 @@ export class BrandMasterComponent implements OnInit {
   brandList: any = [];
   p: number = 1;
   brand_id: any;
+  logoImage: any;
   constructor(
     private navServices: NavserviceService,
     public service: ApiServiceService,
@@ -43,7 +43,7 @@ export class BrandMasterComponent implements OnInit {
       this.formData.name = item.name;
       this.formData.email = item.email;
       this.formData.website = item.website;
-      this.formData.logo = item.logo;
+      this.logoImage = item.logo;
     } else {
       this.formData.name = '';
       this.formData.email = '';

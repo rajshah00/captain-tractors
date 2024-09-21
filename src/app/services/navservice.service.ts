@@ -41,6 +41,12 @@ export class NavserviceService {
           type: 'link',
           icon: 'bi bi-person-gear',
         },
+        {
+          path: '/dealer-assign-model',
+          title: 'Assign Model',
+          type: 'link',
+          icon: 'bi bi-person-lines-fill',
+        },
       ]
     },
     {
@@ -171,33 +177,27 @@ export class NavserviceService {
           icon: 'bi bi-circle',
         },
         {
-          path: '/parts-purchase-report',
+          path: '/camel-reports',
           title: 'Spare Parts Sales Report',
           type: 'link',
           icon: 'bi bi-circle',
         }
       ]
     },
-    {
-      path: '',
-      title: 'More',
-      type: 'link',
-      icon: 'bi bi-menu-button-wide',
-      children: [
-        {
-          path: '/dealer-assign-model',
-          title: 'Assign Model',
-          type: 'link',
-          icon: 'bi bi-person-lines-fill',
-        },
-        {
-          path: '/feedback',
-          title: 'Feedback',
-          type: 'link',
-          icon: 'bi bi-person-lines-fill',
-        },
-      ]
-    },
+    // {
+    //   path: '',
+    //   title: 'More',
+    //   type: 'link',
+    //   icon: 'bi bi-menu-button-wide',
+    //   children: [
+    //     {
+    //       path: '/feedback',
+    //       title: 'Feedback',
+    //       type: 'link',
+    //       icon: 'bi bi-person-lines-fill',
+    //     },
+    //   ]
+    // },
 
   ]
 
