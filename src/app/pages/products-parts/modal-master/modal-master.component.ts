@@ -11,6 +11,8 @@ declare var $: any;
 })
 export class ModalMasterComponent implements OnInit {
   @ViewChild('model_logo') model_logo: ElementRef | any;
+  @ViewChild('Brochure_img') Brochure_img: ElementRef | any;
+  @ViewChild('Brochure_pdf') Brochure_pdf: ElementRef | any;
   formObj: any = {};
   serchObj: any = {};
   modalType: any;
@@ -34,12 +36,15 @@ export class ModalMasterComponent implements OnInit {
 
   openPop(type: any, item: any) {
     this.model_logo.nativeElement.value = '';
+    this.Brochure_img.nativeElement.value = '';
+    this.Brochure_pdf.nativeElement.value = '';
     if (type == 'Edit') {
       this.formObj.product_type_master_id = item.product_type_master_id;
       this.modalId = item.id;
       this.formObj.name = item.name;
       this.formObj.number = item.number;
       this.formObj.image = item.image;
+      this.formObj.blosore_image_view = item.blosore_image;
       this.formObj.description = item.description;
       this.formObj.is_active = item.is_active;
     } else {
@@ -64,6 +69,14 @@ export class ModalMasterComponent implements OnInit {
 
         if (this.selectedFile) {
           formData.append('image', this.selectedFile, this.selectedFile.name);
+        }
+
+        if (this.formObj.blosore_pdf) {
+          formData.append('blosore_pdf', this.formObj.blosore_pdf, this.formObj.blosore_pdf.name);
+        }
+
+        if (this.formObj.blosore_image) {
+          formData.append('blosore_image', this.formObj.blosore_image, this.formObj.blosore_image.name);
         }
         this.service.addModal(formData).subscribe((res: any) => {
           console.log("res", res);
@@ -91,6 +104,16 @@ export class ModalMasterComponent implements OnInit {
         if (this.selectedFile) {
           formData.append('image', this.selectedFile, this.selectedFile.name);
         }
+
+
+        if (this.formObj.blosore_pdf) {
+          formData.append('blosore_pdf', this.formObj.blosore_pdf, this.formObj.blosore_pdf.name);
+        }
+
+        if (this.formObj.blosore_image) {
+          formData.append('blosore_image', this.formObj.blosore_image, this.formObj.blosore_image.name);
+        }
+
         this.service.editModal(formData, this.modalId).subscribe((res: any) => {
           if (res.success) {
             this.comman.toster('success', res.message);
@@ -137,6 +160,22 @@ export class ModalMasterComponent implements OnInit {
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+  }
+
+
+  selectBrochure(event: any, type: any) {
+    const file = event.target.files[0];
+
+    if (type === 'PDF') {
+      if (file && file.type === 'application/pdf') {
+        this.formObj.blosore_pdf = file;
+      } else {
+        this.comman.toster('error', 'Please upload a valid PDF file.');
+        event.target.value = '';  // Clear the input
+      }
+    } else {
+      this.formObj.blosore_image = file;
+    }
   }
 
 

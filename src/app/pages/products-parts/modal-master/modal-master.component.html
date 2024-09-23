@@ -147,7 +147,8 @@
 
                         <div class="col-md-6">
                             <label for="modal_image" class="form-label">Model Image:</label>
-                            <input type="file" class="form-control" #model_logo id="modal_image" (change)="onFileSelected($event)">
+                            <input type="file" class="form-control" #model_logo id="modal_image"
+                                (change)="onFileSelected($event)">
                         </div>
 
                         <div class="col-md-12">
@@ -155,6 +156,27 @@
                                 <label for="logo" class="col-md-12">Model Preview : </label>
                                 <div class="col-md-12">
                                     <img [src]="formObj.image" alt="" srcset="" width="100%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="modal_image" class="form-label">Brochure Image:</label>
+                            <input type="file" class="form-control" #Brochure_img id="modal_image"
+                                (change)="selectBrochure($event,'IMG')">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="modal_image" class="form-label">Brochure PDF:</label>
+                            <input type="file" class="form-control" #Brochure_pdf id="modal_image"
+                                (change)="selectBrochure($event,'PDF')">
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group row" *ngIf="modalType == 'Edit'">
+                                <label for="logo" class="col-md-12">Brochure Preview : </label>
+                                <div class="col-md-12">
+                                    <img [src]="formObj.blosore_image_view" alt="" srcset="" width="100%">
                                 </div>
                             </div>
                         </div>
