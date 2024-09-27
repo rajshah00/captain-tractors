@@ -40,6 +40,7 @@ import { CategoryMasterComponent } from './pages/products-parts/category-master/
 import { PartMasterComponent } from './pages/products-parts/part-master/part-master.component';
 import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add-assembly/add-assembly.component';
 import { CamelReportsComponent } from './pages/camel-reports/camel-reports.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,7 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'forget-password', component: ForgetPasswordComponent },
+  { path: 'reset-password/:id', component: ResetPasswordComponent },
 
   // 404 Routing
   // {

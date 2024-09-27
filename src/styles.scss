@@ -1826,14 +1826,15 @@ body .offcanvas-header {
   .fix-width {
     max-width: 160px !important;
   }
-  .body-active{
+
+  .body-active {
     overflow: hidden;
   }
 }
 
 @media (max-width:767px) {
   .table-purches .ng-dropdown-panel .ng-dropdown-panel-items {
-      max-height: 115px !important;
+    max-height: 115px !important;
   }
 }
 
@@ -1859,4 +1860,8 @@ body .offcanvas-header {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #ec3237
+}
+
+.input-group-text {
+  cursor: pointer;
 }

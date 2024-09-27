@@ -78,8 +78,9 @@
                                 <form #form="ngForm" (ngSubmit)="onSubmit(form)">
 
                                     <div data-mdb-input-init class="form-outline mb-4">
-                                        <label class="form-label" for="form3Example3">Email address<sup
-                                                class="text-danger">*</sup>:</label>
+                                        <label class="form-label" for="form3Example3">
+                                            Email address<sup class="text-danger">*</sup>:
+                                        </label>
                                         <input type="email" id="form3Example3" [(ngModel)]="formObj.email" name="email"
                                             class="form-control" placeholder="Enter a valid email address" required
                                             #emailCtrl="ngModel">
@@ -91,11 +92,18 @@
                                     </div>
 
                                     <div data-mdb-input-init class="form-outline mb-3">
-                                        <label class="form-label" for="form3Example4">Password<sup
-                                                class="text-danger">*</sup>:</label>
-                                        <input type="password" id="form3Example4" [(ngModel)]="formObj.password"
-                                            name="password" class="form-control" placeholder="Enter password" required
-                                            minlength="6" #passwordCtrl="ngModel">
+                                        <label class="form-label" for="password-id">
+                                            Password<sup class="text-danger">*</sup>:
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="password" id="password-id" [(ngModel)]="formObj.password"
+                                                name="password" class="form-control" placeholder="Enter password"
+                                                required minlength="6" #passwordCtrl="ngModel">
+                                            <span class="input-group-text"
+                                                (click)="comman.hideShowPassword('password-id','login-pass')">
+                                                <i class="bi bi-eye" id="login-pass"></i>
+                                            </span>
+                                        </div>
                                         <div *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched || form.submitted)"
                                             class="text-danger">
                                             <small *ngIf="passwordCtrl.errors?.['required']">Password is

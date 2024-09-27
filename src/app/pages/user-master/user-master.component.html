@@ -32,7 +32,7 @@
         <div class="d-flex justify-content-between">
             <h5 class="card-title">Results ({{userList.length}})</h5>
             <div class="add-box">
-                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                <button type="button" class="btn btn-primary" *hasPermission="'is_create'" (click)="openPop('Add',null)">
                     Add
                     <i class="bi bi-plus-circle"></i>
                 </button>
@@ -72,10 +72,10 @@
                         </td>
                         <td>
                             <div class="action-box">
-                                <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                <button type="button"  *hasPermission="'is_edit'" class="btn btn-success" (click)="openPop('Edit',item)">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger" (click)="deleteUser(item)">
+                                <button type="button" *hasPermission="'is_delete'" class="btn btn-danger" (click)="deleteUser(item)">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>

@@ -48,4 +48,17 @@ export class CommanService {
     }
 
   }
+
+  hideShowPassword(inputId: string, iconId: string): void {
+    const input = document.getElementById(inputId) as HTMLInputElement;
+    const icon = document.getElementById(iconId) as HTMLElement;
+
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'bi bi-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'bi bi-eye';
+    }
+  }
 }

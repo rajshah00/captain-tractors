@@ -52,6 +52,8 @@ import { CategoryMasterComponent } from './pages/products-parts/category-master/
 import { PartMasterComponent } from './pages/products-parts/part-master/part-master.component';
 import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add-assembly/add-assembly.component';
 import { CamelReportsComponent } from './pages/camel-reports/camel-reports.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { PermissionDirective } from './directive/permission.directive';
 
 @NgModule({
   declarations: [
@@ -96,7 +98,9 @@ import { CamelReportsComponent } from './pages/camel-reports/camel-reports.compo
     CategoryMasterComponent,
     PartMasterComponent,
     AddAssemblyComponent,
-    CamelReportsComponent
+    CamelReportsComponent,
+    ResetPasswordComponent,
+    PermissionDirective
   ],
   imports: [
     BrowserModule,

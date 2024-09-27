@@ -39,6 +39,9 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + 'change-password', data);
   }
 
+  token_email(data: any) {
+    return this.http.post(environment.apiUrl + 'token_email', data);
+  }
   //=====// User Master Start//=====//
   addUser(data: any) {
     return this.http.post(environment.apiUrl + 'user/store', data);

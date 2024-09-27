@@ -11,7 +11,6 @@ import { CommanService } from 'src/app/services/comman.service';
 export class ForgetPasswordComponent implements OnInit {
   formObj: any = {};
   passwordObj: any = {};
-  isChangePass: boolean = false;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -29,9 +28,12 @@ export class ForgetPasswordComponent implements OnInit {
     if (form.valid) {
       this.service.forgetPasswordMailSend(form.value).subscribe((res: any) => {
         if (res.success) {
+          this.service.hide();
           this.comman.toster('success', res.message);
+          this.router.navigate(['/login']);
         } else {
-          this.comman.toster('warning', res.message)
+          this.service.hide();
+          this.comman.toster('warning', res.message);
         }
       });
     }

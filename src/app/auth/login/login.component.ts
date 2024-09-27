@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     $(document).ready(function () {
       $("#owl-demo").owlCarousel({
         navigation: false,
-        autoplay: false,
+        autoplay: true,
         margin: 0,
         items: 1,
         loop: true,

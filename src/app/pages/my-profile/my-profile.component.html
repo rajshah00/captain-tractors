@@ -207,59 +207,84 @@
                 </div>
                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <form #passwordForm="ngForm" class="p-3" (ngSubmit)="onSubmitPassword(passwordForm)">
-                        <div class="row g-3">
-                            <div class="col-md-12">
-                                <label for="currentPassword" class="form-label">Current Password<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="password" class="form-control" id="currentPassword"
-                                    [(ngModel)]="passwordObj.current_password" name="current_password" required
-                                    minlength="6" #currentPasswordCtrl="ngModel">
-                                <div *ngIf="currentPasswordCtrl.invalid && (currentPasswordCtrl.dirty || currentPasswordCtrl.touched || passwordForm.submitted)"
-                                    class="text-danger">
-                                    <div *ngIf="currentPasswordCtrl.errors?.['required']">
-                                        Current Password is required.
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="currentPassword" class="form-label">
+                                            Current Password<sup class="text-danger">*</sup>:
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="currentPassword"
+                                                [(ngModel)]="passwordObj.current_password" name="current_password"
+                                                required minlength="6" #currentPasswordCtrl="ngModel">
+                                            <span class="input-group-text"
+                                                (click)="comman.hideShowPassword('currentPassword','change-current')">
+                                                <i class="bi bi-eye" id="change-current"></i>
+                                            </span>
+                                        </div>
+                                        <div *ngIf="currentPasswordCtrl.invalid && (currentPasswordCtrl.dirty || currentPasswordCtrl.touched || passwordForm.submitted)"
+                                            class="text-danger">
+                                            <div *ngIf="currentPasswordCtrl.errors?.['required']">
+                                                Current Password is required.
+                                            </div>
+                                            <div *ngIf="currentPasswordCtrl.errors?.['minlength']">
+                                                Current Password must be at least 6 characters.
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div *ngIf="currentPasswordCtrl.errors?.['minlength']">
-                                        Current Password must be at least 6 characters.
+                                    <div class="col-md-12 mb-3">
+                                        <label for="newPassword" class="form-label">
+                                            New Password<sup class="text-danger">*</sup>:
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="newPassword"
+                                                [(ngModel)]="passwordObj.new_password" name="new_password" required
+                                                minlength="6" #newPasswordCtrl="ngModel">
+                                            <span class="input-group-text"
+                                                (click)="comman.hideShowPassword('newPassword','change-new')">
+                                                <i class="bi bi-eye" id="change-new"></i>
+                                            </span>
+                                        </div>
+                                        <div *ngIf="newPasswordCtrl.invalid && (newPasswordCtrl.dirty || newPasswordCtrl.touched || passwordForm.submitted)"
+                                            class="text-danger">
+                                            <div *ngIf="newPasswordCtrl.errors?.['required']">
+                                                New Password is required.
+                                            </div>
+                                            <div *ngIf="newPasswordCtrl.errors?.['minlength']">
+                                                New Password must be at least 6 characters.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="confirmPassword" class="form-label">
+                                            Confirm Password<sup class="text-danger">*</sup>:
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="confirmPassword"
+                                                [(ngModel)]="passwordObj.new_password_confirmation"
+                                                name="new_password_confirmation" required minlength="6"
+                                                #confirmPasswordCtrl="ngModel">
+                                            <span class="input-group-text"
+                                                (click)="comman.hideShowPassword('confirmPassword','change-conform')">
+                                                <i class="bi bi-eye" id="change-conform"></i>
+                                            </span>
+                                        </div>
+                                        <div *ngIf="confirmPasswordCtrl.invalid && (confirmPasswordCtrl.dirty || confirmPasswordCtrl.touched || passwordForm.submitted)"
+                                            class="text-danger">
+                                            <div *ngIf="confirmPasswordCtrl.errors?.['required']">
+                                                Confirm Password is required.
+                                            </div>
+                                            <div *ngIf="confirmPasswordCtrl.errors?.['minlength']">
+                                                Confirm Password must be at least 6 characters.
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="newPassword" class="form-label">New Password<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="password" class="form-control" id="newPassword"
-                                    [(ngModel)]="passwordObj.new_password" name="new_password" required minlength="6"
-                                    #newPasswordCtrl="ngModel">
-                                <div *ngIf="newPasswordCtrl.invalid && (newPasswordCtrl.dirty || newPasswordCtrl.touched || passwordForm.submitted)"
-                                    class="text-danger">
-                                    <div *ngIf="newPasswordCtrl.errors?.['required']">
-                                        New Password is required.
-                                    </div>
-                                    <div *ngIf="newPasswordCtrl.errors?.['minlength']">
-                                        New Password must be at least 6 characters.
-                                    </div>
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <label for="confirmPassword" class="form-label">Confirm Password<sup
-                                        class="text-danger">*</sup>:</label>
-                                <input type="password" class="form-control" id="confirmPassword"
-                                    [(ngModel)]="passwordObj.new_password_confirmation" name="new_password_confirmation"
-                                    required minlength="6" #confirmPasswordCtrl="ngModel"
-                                    [ngClass]="{'is-invalid': confirmPasswordCtrl.invalid && (confirmPasswordCtrl.dirty || confirmPasswordCtrl.touched || passwordForm.submitted)}">
-                                <div *ngIf="confirmPasswordCtrl.invalid && (confirmPasswordCtrl.dirty || confirmPasswordCtrl.touched || passwordForm.submitted)"
-                                    class="text-danger">
-                                    <div *ngIf="confirmPasswordCtrl.errors?.['required']">
-                                        Confirm Password is required.
-                                    </div>
-                                    <div *ngIf="confirmPasswordCtrl.errors?.['minlength']">
-                                        Confirm Password must be at least 6 characters.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
                         </div>
                     </form>
 
