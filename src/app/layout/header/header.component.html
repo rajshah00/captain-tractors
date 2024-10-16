@@ -55,7 +55,7 @@
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
-            <li class="nav-item dropdown" *ngIf="userData?.role_name != 'CTPL'">
+            <li class="nav-item dropdown" *ngIf="userData?.role_name != 'CTPL' && userData?.role_name != 'CTPL-2'">
                 <a class="nav-link nav-icon" routerLink="/add-to-cart">
                     <i class="bi bi-cart4"></i>
                     <span class="badge bg-primary badge-number">{{service.cartCount}}</span>

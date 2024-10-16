@@ -61,7 +61,9 @@ export class HeaderComponent implements OnInit {
       this.menuItems = menuItems;
       let allPermision: any = []
       this.permissionsList.filter((item: any) => {
-        allPermision.push(item.title);
+        if (item.is_create || item.is_delete || item.is_edit || item.is_view) {
+          allPermision.push(item.title);
+        }
         if (item.children) {
           item.children.filter((chaildItem: any) => {
             if (chaildItem.is_create || chaildItem.is_delete || chaildItem.is_edit || chaildItem.is_view) {

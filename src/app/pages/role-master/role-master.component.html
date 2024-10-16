@@ -26,7 +26,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
+                        <th scope="col" style="min-width: 100px;">Name</th>
                         <th scope="col">Description </th>
                         <!-- <th scope="col">Status</th> -->
                         <th scope="col">Action</th>
@@ -62,8 +62,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="rolePop"  tabindex="-1"
-    aria-labelledby="rolePopLabel" aria-hidden="true">
+<div class="modal fade" id="rolePop" tabindex="-1" aria-labelledby="rolePopLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -179,8 +178,8 @@
                                             </ng-container>
                                         </tr>
                                         <ng-container *ngIf="item.children && item.children.length">
-                                            <tr id="showBody{{i}}"
-                                                class="table-body-row show-hide-table-row table-box d-none">
+                                            <tr id="showBody{{i}}" class="table-body-row show-hide-table-row table-box"
+                                                [ngClass]="{'d-none':is_closeRow || !item.is_closeRow}">
                                                 <td colspan="12">
                                                     <table class="table table-flush-spacing">
                                                         <tbody>

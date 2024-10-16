@@ -19,7 +19,8 @@
                         <div class="col-md-9">
                             <ng-select id="product_type" [items]="productTypeList" bindLabel="name" bindValue="id"
                                 placeholder="Select Product Type" name="product_type_id"
-                                [(ngModel)]="serchObj.product_type_id" (change)="onChangeProduct($event)">
+                                [(ngModel)]="serchObj.product_type_id" (change)="onChangeProduct($event)"
+                                [disabled]="isSearched">
                             </ng-select>
                         </div>
                     </div>
@@ -31,7 +32,8 @@
                         <div class="col-md-9">
                             <ng-select id="product_model" [items]="modaldataList" bindLabel="name" bindValue="id"
                                 placeholder="Select Product Model" name="model_id" [(ngModel)]="serchObj.model_id"
-                                (change)="serchObj.product_type_id == 1 ? categoryGetList(serchObj.model_id): onChangeModel(serchObj.model_id)">
+                                (change)="modelSelection($event);serchObj.product_type_id == 1 ? categoryGetList(serchObj.model_id): onChangeModel(serchObj.model_id)"
+                                [disabled]="isSearched">
                             </ng-select>
                         </div>
                     </div>
@@ -43,7 +45,7 @@
                         <div class="col-md-9">
                             <ng-select id="Assembly" [items]="categoryList" bindLabel="name" bindValue="id"
                                 placeholder="Select Category" name="category_id" [(ngModel)]="serchObj.category_id"
-                                (change)="getAsseblyWiseData()">
+                                (change)="getAsseblyWiseData()" [disabled]="isSearched">
                             </ng-select>
                         </div>
                     </div>
@@ -53,7 +55,8 @@
                         <label for="Assembly" class="col-md-3 form-label">Assembly : </label>
                         <div class="col-md-9">
                             <ng-select id="Assembly" [items]="assemblyList" bindLabel="name" bindValue="id"
-                                placeholder="Select Assembly" name="assembly_id" [(ngModel)]="serchObj.assembly_id">
+                                placeholder="Select Assembly" name="assembly_id" [(ngModel)]="serchObj.assembly_id"
+                                [disabled]="isSearched">
                             </ng-select>
                         </div>
                     </div>
@@ -72,7 +75,7 @@
 <div class="card">
     <div class="card-body">
 
-        <div class="row" *ngIf="partList && partList.length">
+        <div class="row">
             <!-- <div class="col-md-12">
                 <h2 class="img-title">{{partList[0].assembly.name}}</h2>
                 <div id="img-zoomer-box">
@@ -82,14 +85,14 @@
             <div class="col-md-12">
                 <div class="d-flex justify-content-between">
                     <h5 class="card-title">Results ({{partList.length}})</h5>
-                    <div class="add-box">
+                    <div class="add-box" *ngIf="isSearched">
                         <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
                             Add
                             <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
                 </div>
-                <div class="table-responsive custom-table">
+                <div class="table-responsive custom-table" *ngIf="partList && partList.length">
                     <table class="table table-bordered border-dark">
                         <thead class="table-dark">
                             <tr>
@@ -119,6 +122,11 @@
                                         Remarks
                                     </div>
                                 </th>
+                                <th scope="col" *ngIf="main_category_id == 1">
+                                    <div class="table-agliment">
+                                        Price
+                                    </div>
+                                </th>
                                 <th>
                                     <div class="table-agliment">
                                         Action
@@ -132,7 +140,8 @@
                                 <td>{{item.part_no}}</td>
                                 <td>{{item.name}}</td>
                                 <td *ngIf="serchObj.product_type_id != 3"> </td>
-                                <td > {{item.remarks || ''}}</td>
+                                <td> {{item.remarks || ''}}</td>
+                                <td class="text-center" *ngIf="main_category_id == 1"> {{item.price}} </td>
                                 <td>
                                     <div class="action-box">
                                         <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
@@ -147,10 +156,10 @@
                         </tbody>
                     </table>
                 </div>
+                <div *ngIf="!partList.length" class="text-center">
+                    Search To Part's Show
+                </div>
             </div>
-        </div>
-        <div *ngIf="!partList.length" class="text-center">
-            Search To Part's Show
         </div>
 
     </div>
@@ -200,6 +209,16 @@
                             <input type="text" class="form-control" id="moq" [(ngModel)]="formObj.sno" name="sno"
                                 required #snoCtrl="ngModel">
                             <div *ngIf="snoCtrl.invalid && (snoCtrl.dirty || snoCtrl.touched || form.submitted)"
+                                class="text-danger invalid-feild">
+                                Sno is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="main_category_id && main_category_id == 1">
+                            <label for="price-id" class="form-label">Price<sup class="text-danger">*</sup>:</label>
+                            <input type="text" class="form-control" id="price-id" [(ngModel)]="formObj.price" name="price"
+                                required #priceCtrl="ngModel">
+                            <div *ngIf="priceCtrl.invalid && (priceCtrl.dirty || priceCtrl.touched || form.submitted)"
                                 class="text-danger invalid-feild">
                                 Sno is required.
                             </div>

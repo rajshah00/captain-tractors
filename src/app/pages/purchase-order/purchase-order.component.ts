@@ -304,11 +304,14 @@ export class PurchaseOrderComponent implements OnInit {
           this.partListOption.push(res.data.user_cart_part[i].part);
           this.partList.push({
             part_id: res.data.user_cart_part[i].part?.id,
-            description: res.data.user_cart_part[i].part?.description,
+            name: res.data.user_cart_part[i].part?.name,
             moq: res.data.user_cart_part[i].part?.moq,
-            qty: res.data.user_cart_part[i].qty
+            qty: res.data.user_cart_part[i].qty,
+            price: res.data.user_cart_part[i].part.price
           })
         }
+        console.log("partList", this.partList);
+
       } else {
         this.comman.toster('warning', "Your cart is empty!")
       }
@@ -320,10 +323,10 @@ export class PurchaseOrderComponent implements OnInit {
 
     if (partNo) {
       let part: any = this.partListOption.find((part: any) => part.id === partNo);
-      this.partList[ind].description = part.description;
+      this.partList[ind].name = part.name;
       this.partList[ind].moq = part.moq;
     } else {
-      this.partList[ind].description = '';
+      this.partList[ind].name = '';
       this.partList[ind].moq = '';
     }
   }
@@ -449,12 +452,16 @@ export class PurchaseOrderComponent implements OnInit {
   submitOrder(form: any) {
     form.submitted = true
     if (form.form.valid) {
+      this.formObj.parts = [];
       this.partList.forEach((item: any) => {
         this.formObj.parts.push({
           "part_id": item.part_id,
           "qty": item.qty,
+          "price": item.price || null,
+          "total_price": item.price ? item.price * item.qty : null,
         })
       });
+      console.log("this.formObj", this.formObj);
 
       this.service.saveOrder(this.formObj).subscribe((res: any) => {
         if (res.success) {

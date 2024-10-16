@@ -150,6 +150,10 @@ export class ApiServiceService {
   ProductTypeList(data: any) {
     return this.http.post(environment.apiUrl + 'product_type_master/list', data);
   }
+
+  MainTypeList(data: any) {
+    return this.http.post(environment.apiUrl + 'category/list', data);
+  }
   //=====// Product Type Master End //=====//
 
 
@@ -301,6 +305,9 @@ export class ApiServiceService {
     return this.http.post(environment.apiUrl + `order/${id}/pi_upload_dealer`, data);
   }
 
+  scanUtilityPoUpload(id: any, data: any = {}) {
+    return this.http.post(environment.apiUrl + `order/${id}/utility_pi_upload_dealer`, data);
+  }
 
   demoEXCL() {
     return this.http.post(environment.apiUrl + `order/sample_excel`, {});
@@ -470,5 +477,10 @@ export class ApiServiceService {
   deleteCategory(id: any) {
     return this.http.post(environment.apiUrl + `model_category/${id}/delete`, {});
   }
+
+  verifyModel(data: any) {
+    return this.http.post(environment.apiUrl + 'model_master/check_category_model', data);
+  }
+
 
 }

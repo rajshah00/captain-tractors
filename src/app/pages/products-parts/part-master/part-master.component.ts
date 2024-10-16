@@ -22,6 +22,9 @@ export class PartMasterComponent implements OnInit {
   partList: any = [];
   formType: any;
   partId: any;
+  isSearched: boolean = false;
+  main_category_id: any;
+
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -34,7 +37,7 @@ export class PartMasterComponent implements OnInit {
 
   onChangeProduct($event: any) {
     console.log(this.serchObj.product_type_id);
-    
+
     this.modalList($event.id);
     this.serchObj.assembly_id = null;
     this.serchObj.model_id = null;
@@ -84,8 +87,13 @@ export class PartMasterComponent implements OnInit {
     if (Type == 'Reset') {
       this.serchObj = {};
       this.partList = [];
+      this.modaldataList = [];
+      this.categoryList = [];
+      this.assemblyList = [];
+      this.isSearched = false;
       return
     }
+    this.isSearched = true;
     this.service.e_CatalogueList(this.serchObj).subscribe((res: any) => {
       if (res.success && res.data.length) {
         this.partList = res.data;
@@ -121,10 +129,12 @@ export class PartMasterComponent implements OnInit {
           model_id: this.serchObj.model_id,
           category_id: this.serchObj.category_id,
           assembly_id: this.serchObj.assembly_id,
+          main_category_id: this.main_category_id,
           name: this.formObj.name,
           part_no: this.formObj.part_no,
           moq: this.formObj.moq,
           sno: this.formObj.sno,
+          price: this.formObj.price || null,
           remarks: this.formObj.remarks,
         }
         this.service.addPart(obj).subscribe((res: any) => {
@@ -147,10 +157,12 @@ export class PartMasterComponent implements OnInit {
           model_id: this.serchObj.model_id,
           category_id: this.serchObj.category_id,
           assembly_id: this.serchObj.assembly_id,
+          main_category_id: this.main_category_id,
           name: this.formObj.name,
           part_no: this.formObj.part_no,
           moq: this.formObj.moq,
           sno: this.formObj.sno,
+          price: this.formObj.price || null,
           remarks: this.formObj.remarks,
         }
         this.service.editPart(obj, this.partId).subscribe((res: any) => {
@@ -197,5 +209,10 @@ export class PartMasterComponent implements OnInit {
         this.comman.toster('warning', res.message)
       }
     })
+  }
+
+  modelSelection(item: any) {
+    console.log("item", item);
+    this.main_category_id = item.main_category_id;
   }
 }

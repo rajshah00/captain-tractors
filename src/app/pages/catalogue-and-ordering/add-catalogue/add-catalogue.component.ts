@@ -29,6 +29,7 @@ export class AddCatalogueComponent implements OnInit {
   currentPage: number = 0;
   totalPages: any;
   alldata: any;
+  main_category_id: any;
 
   constructor(
     public service: ApiServiceService,
@@ -46,6 +47,7 @@ export class AddCatalogueComponent implements OnInit {
         this.formObj.product_type_id = params['product_type_id'];
         this.formObj.model_id = params['model_id'];
         this.formObj.category_id = params['category_id'];
+        this.main_category_id = params['main_category_id'];
         console.log(typeof params['product_type_id']);
         this.getAsseblyWiseData();
       };
@@ -179,6 +181,7 @@ export class AddCatalogueComponent implements OnInit {
   moveTocart(item: any) {
     let obj: any = {
       "user_id": this.userData.id,
+      "main_category_id": this.main_category_id,
       "parts": []
     }
     if (item.qty > 0) {
@@ -281,7 +284,9 @@ export class AddCatalogueComponent implements OnInit {
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages) {
+    console.log(this.currentPage ,"<", this.totalPages);
+    
+    if (this.totalPages > 1 && this.currentPage < this.totalPages) {
       this.currentPage++;
 
       this.partList = this.alldata[this.currentPage].parts;
@@ -298,6 +303,7 @@ export class AddCatalogueComponent implements OnInit {
   moveToAllcart() {
     let obj: any = {
       "user_id": this.userData.id,
+      "main_category_id": this.main_category_id,
       "parts": []
     }
     for (let item of this.partList) {

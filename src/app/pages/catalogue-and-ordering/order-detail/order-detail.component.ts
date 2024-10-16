@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
+declare var $: any;
 
 @Component({
   selector: 'app-order-detail',
@@ -19,7 +20,9 @@ export class OrderDetailComponent implements OnInit {
   ordertype: any;
   tracking_number: any = '';
   isDesibled: boolean = false;
+  isUtility: boolean = false;
   any_comment: any;
+  utility_po: any;
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
@@ -65,11 +68,20 @@ export class OrderDetailComponent implements OnInit {
         this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
         this.isDesibled = this.tracking_number ? true : false;
         this.partList = res.data.order_details;
-        this.orderDetail.total_qty = this.getTotalQty(this.partList);
         this.partList.forEach((item: any) => {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;
+          item.part_price = parseFloat(item.part.price || 0)
         });
+        this.partList.forEach((item: any) => {
+          if (item.part && item.part.main_category_id !== undefined && item.part.main_category_id === 1) {
+            this.isUtility = true;
+          }
+        });
+        console.log(this.isUtility);
+        this.orderDetail.total_qty = this.getTotalQty(this.partList, 'part_qty');
+        this.orderDetail.total_price = this.getTotalPrice(this.partList);
+
         this.selectAll = true;
         this.selected();
       } else {
@@ -85,11 +97,13 @@ export class OrderDetailComponent implements OnInit {
         this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
         this.isDesibled = this.tracking_number ? true : false;
         this.partList = res.data.backorder_details;
-        this.orderDetail.total_qty = this.getTotalQty(this.partList);
         this.partList.forEach((item: any) => {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;
+          item.part_price = parseFloat(item.part.price || 0)
         });
+        this.orderDetail.total_qty = this.getTotalQty(this.partList, 'part_qty');
+        this.orderDetail.total_price = this.getTotalPrice(this.partList);
         this.selectAll = true;
         this.selected();
       } else {
@@ -99,6 +113,8 @@ export class OrderDetailComponent implements OnInit {
   }
 
   approveOrder() {
+    // $('#po_upload').modal('show');
+    // return
     this.service.approve(this.order_id).subscribe((res: any) => {
       if (res.success) {
         this.getDetail();
@@ -220,13 +236,63 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  getTotalQty(item: any) {
+  getTotalQty(item: any, type: any) {
     let total = 0;
     item.forEach((it: any) => {
-      total += parseFloat(it.part_qty)
+      total += parseFloat(it[type])
     });
 
     return total;
   }
 
+
+  getTotalPrice(item: any) {
+    let total: any = 0;
+    item.forEach((it: any) => {
+      total += parseFloat(it.part_price) * parseFloat(it.part_qty);
+    });
+
+    return total;
+  }
+
+
+  onUtilityFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    const maxSizeInMB = 20;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    if (file) {
+      if (file.size > maxSizeInBytes) {
+        this.comman.toster('warning', `File size exceeds ${maxSizeInMB} MB limit. Please upload a smaller file.`);
+        return;
+      }
+      this.utility_po = file;
+    }
+  }
+
+  onUtilitySubmit(type: any): void {
+    const formData = new FormData();
+    if (type == 'Reset') {
+      formData.append('po_pdf', "");
+      formData.append('type', "reset");
+    } else {
+      formData.append('po_pdf', this.utility_po, this.utility_po.name);
+      formData.append('type', "upload");
+    }
+    this.service.scanUtilityPoUpload(this.order_id, formData).subscribe(
+      (res: any) => {
+        console.log("res", res);
+        if (res.success) {
+          this.comman.toster('success', res.message);
+        } else {
+          this.comman.toster('warning', res.message);
+        }
+      },
+      (err: any) => {
+        console.log(err);
+        this.comman.toster('error', 'Oops! Something went wrong. Please try again later.');
+      }
+    );
+
+  }
 }

@@ -14,7 +14,7 @@ export class PartDetailComponent implements OnInit {
   productTypeId: any;
   categoryList: any;
   pdfUrl: any;
-
+  main_category_id:any;
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
@@ -32,6 +32,7 @@ export class PartDetailComponent implements OnInit {
         this.service.getModalById(this.modal_Id).subscribe((res: any) => {
           if (res.success) {
             this.pdfUrl = res.data.pdf;
+            this.main_category_id = res.data.main_category_id
           }
         })
       };

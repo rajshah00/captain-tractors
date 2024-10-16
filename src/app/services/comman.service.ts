@@ -26,6 +26,17 @@ export class CommanService {
     });
   }
 
+  confirm(message: string, confirmButtonText: string = 'Yes', cancelButtonText: string = 'No') {
+    return Swal.fire({
+      title: 'Are you sure?',
+      text: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: cancelButtonText
+    });
+  }
+
   downloadFile(fileUrl: string) {
     if (fileUrl) {
       const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);

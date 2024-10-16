@@ -17,7 +17,7 @@
                         Profile Settings
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" *ngIf="userData.role_name == 'Camel'">
                     <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
                         role="tab" aria-controls="home" aria-selected="true">
                         Change Password
@@ -44,7 +44,8 @@
                                     <label for="name" class="form-label">Distributor Code<sup
                                             class="text-danger">*</sup>:</label>
                                     <input type="text" class="form-control" id="name" [(ngModel)]="formObj.code"
-                                        name="code" required #codeCtrl="ngModel">
+                                        name="code" required #codeCtrl="ngModel"
+                                        [disabled]="userData.role_name != 'Camel'">
                                     <div *ngIf="codeCtrl.invalid && (codeCtrl.dirty || codeCtrl.touched || userForm.submitted)"
                                         class="text-danger invalid-feild">
                                         Distributor Code is required.
@@ -90,7 +91,8 @@
                                     <label for="brandId" class="form-label">Brand<sup
                                             class="text-danger">*</sup>:</label>
                                     <select id="brandId" class="form-select" [(ngModel)]="formObj.brand_id"
-                                        name="brand_id" required #brandCtrl="ngModel">
+                                        name="brand_id" required #brandCtrl="ngModel"
+                                        [disabled]="userData.role_name != 'Camel'">
                                         <ng-container *ngFor="let item of brandList">
                                             <option [value]="item.id">{{item.name}}</option>
                                         </ng-container>

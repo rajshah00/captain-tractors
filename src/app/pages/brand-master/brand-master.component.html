@@ -13,7 +13,7 @@
         <div class="d-flex justify-content-between">
             <h5 class="card-title">Results ({{brandList.length}})</h5>
             <div class="add-box">
-                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                <button type="button" *hasPermission="'is_create'" class="btn btn-primary" (click)="openPop('Add',null)">
                     Add
                     <i class="bi bi-plus-circle"></i>
                 </button>
@@ -40,10 +40,10 @@
                         <td>{{item.website}}</td>
                         <td>
                             <div class="action-box">
-                                <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                <button type="button" *hasPermission="'is_edit'" class="btn btn-success" (click)="openPop('Edit',item)">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger" (click)="deletBrand(item)">
+                                <button type="button" *hasPermission="'is_delete'" class="btn btn-danger" (click)="deletBrand(item)">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>

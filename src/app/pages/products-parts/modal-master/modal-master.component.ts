@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -23,15 +24,20 @@ export class ModalMasterComponent implements OnInit {
   productTypeList: any;
   p: number = 1;
   validation: any = {};
+  BrochurePdf: any = "";
+  deleteImageType: any;
+  TypeList: any = [];
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
-    public router: Router
+    public router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
     this.getModalList();
     this.getproductsTypeMaster();
+    this.getMainTypeMaster();
   }
 
   openPop(type: any, item: any) {
@@ -43,6 +49,7 @@ export class ModalMasterComponent implements OnInit {
       this.modalId = item.id;
       this.formObj.name = item.name;
       this.formObj.number = item.number;
+      this.formObj.main_category_id = item.main_category_id;
       this.formObj.image = item.image;
       this.formObj.blosore_image_view = item.blosore_image;
       this.formObj.description = item.description;
@@ -64,6 +71,7 @@ export class ModalMasterComponent implements OnInit {
         formData.append('product_type_master_id', this.formObj.product_type_master_id);
         formData.append('name', this.formObj.name);
         formData.append('number', this.formObj.number);
+        formData.append('main_category_id', this.formObj.main_category_id);
         formData.append('description', this.formObj.description);
         formData.append('is_active', this.formObj.is_active.toString());
 
@@ -98,13 +106,15 @@ export class ModalMasterComponent implements OnInit {
         formData.append('product_type_master_id', this.formObj.product_type_master_id);
         formData.append('name', this.formObj.name);
         formData.append('number', this.formObj.number);
+        formData.append('main_category_id', this.formObj.main_category_id);
         formData.append('description', this.formObj.description);
         formData.append('is_active', this.formObj.is_active.toString());
 
         if (this.selectedFile) {
           formData.append('image', this.selectedFile, this.selectedFile.name);
+        } else if (this.deleteImageType == 'modal_image') {
+          formData.append('image', '');
         }
-
 
         if (this.formObj.blosore_pdf) {
           formData.append('blosore_pdf', this.formObj.blosore_pdf, this.formObj.blosore_pdf.name);
@@ -112,6 +122,8 @@ export class ModalMasterComponent implements OnInit {
 
         if (this.formObj.blosore_image) {
           formData.append('blosore_image', this.formObj.blosore_image, this.formObj.blosore_image.name);
+        } else if (this.deleteImageType == 'Brochure_img') {
+          formData.append('blosore_image', '');
         }
 
         this.service.editModal(formData, this.modalId).subscribe((res: any) => {
@@ -188,9 +200,35 @@ export class ModalMasterComponent implements OnInit {
     })
   }
 
+  //========// Get All Products Type //========//
+  getMainTypeMaster() {
+    this.service.MainTypeList({}).subscribe((res: any) => {
+      if (res.success) {
+        this.TypeList = res.data
+      }
+    })
+  }
+
   resetForm(form: any) {
     form.resetForm();
     this.getModalList();
+  }
+
+  openPopVeiw(item: any) {
+    if (item.blosore_pdf) {
+      this.BrochurePdf = this.sanitizer.bypassSecurityTrustResourceUrl(item.blosore_pdf);
+    }
+    $('#exampleModal').modal('show')
+  }
+
+
+  deleteImage(type: any) {
+    this.deleteImageType = type;
+    if (type == 'Brochure_img') {
+      this.formObj.blosore_image_view = "";
+    } else if (type == 'modal_image') {
+      this.formObj.image = "";
+    }
   }
 
 }

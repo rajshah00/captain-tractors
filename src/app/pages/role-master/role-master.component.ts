@@ -20,6 +20,7 @@ export class RoleMasterComponent implements OnInit {
   roleList: any = [];
   userId: any;
   p: number = 1;
+  is_closeRow: boolean = false;
   constructor(
     private navServices: NavserviceService,
     public service: ApiServiceService,
@@ -40,13 +41,25 @@ export class RoleMasterComponent implements OnInit {
       this.menuItems = this.addPermissionsToMenu(this.menuItems, item.permissions);
       // console.log("item.permissions",item.permissions);
       console.log("this.menuItems", this.menuItems);
+      this.is_closeRow = false;
+      this.menuItems = this.updateMenuCloseRow(this.menuItems);
     } else {
+      this.is_closeRow = true;
       this.formObj = {};
-      this.menuItems.forEach((item: any) => {
+      this.menuItems.forEach((item: any, ind: any) => {
         item.is_create = false;
         item.is_delete = false;
         item.is_edit = false;
         item.is_view = false;
+        let rowShowHideBtn = document.querySelectorAll(`[id^=showHide${ind}]`)
+        let rowShowHideBtnImg = document.querySelectorAll(`[id^=showHide${ind}] img`)
+        let showHideRow = document.querySelectorAll(`[id^=showBody${ind}]`)
+        rowShowHideBtn.forEach((btn, index) => {
+          btn.setAttribute("data-is-card-show", "false")
+          showHideRow[index].classList.add("d-none")
+          rowShowHideBtnImg[index].setAttribute("src", "./assets/img/add-circle-icon.svg");
+        });
+
         if (item.children && item.children.length) {
           item.children.forEach((subscribetem: any) => {
             subscribetem.is_create = false;
@@ -59,6 +72,38 @@ export class RoleMasterComponent implements OnInit {
     }
     this.roleType = type;
     $('#rolePop').modal('show')
+  }
+
+  updateMenuCloseRow(menus: any) {
+    menus.forEach((menu: any, ind: any) => {
+      if (menu.children && menu.children.length > 0) {
+        const hasPermission = menu.children.some((child: any) => {
+          return child.is_create === 1 || child.is_delete === 1 ||
+            child.is_edit === 1 || child.is_view === 1;
+        });
+        menu.is_closeRow = hasPermission;
+        // this.toggelRow(index)
+        let rowShowHideBtn = document.querySelectorAll(`[id^=showHide${ind}]`)
+        let rowShowHideBtnImg = document.querySelectorAll(`[id^=showHide${ind}] img`)
+        let showHideRow = document.querySelectorAll(`[id^=showBody${ind}]`)
+        if (menu.is_closeRow) {
+          rowShowHideBtn.forEach((btn, index) => {
+            btn.setAttribute("data-is-card-show", "true")
+            showHideRow[index].classList.remove("d-none")
+            rowShowHideBtnImg[index].setAttribute("src", "./assets/img/minus-circle-icon.svg")
+          });
+        } else {
+          rowShowHideBtn.forEach((btn, index) => {
+            btn.setAttribute("data-is-card-show", "false")
+            showHideRow[index].classList.add("d-none")
+            rowShowHideBtnImg[index].setAttribute("src", "./assets/img/add-circle-icon.svg");
+          });
+
+        }
+      }
+    });
+
+    return menus;
   }
 
   // To set Active on Load
@@ -110,6 +155,10 @@ export class RoleMasterComponent implements OnInit {
       console.log("this.menuItems", this.menuItems);
       this.menuItems.forEach((permision: any) => {
         if (permision.path != '') {
+          permision.is_create = permision.is_create ? 1 : 0;
+          permision.is_delete = permision.is_delete ? 1 : 0;
+          permision.is_edit = permision.is_edit ? 1 : 0;
+          permision.is_view = permision.is_view ? 1 : 0;
           if (permision.is_create || permision.is_delete || permision.is_edit || permision.is_view) {
             permisionAllow.push(permision)
           }
@@ -117,14 +166,14 @@ export class RoleMasterComponent implements OnInit {
         if (permision.path == '') {
           let chaildPermision: any = [];
           permision.children.forEach((item: any) => {
+            item.is_create = item.is_create ? 1 : 0;
+            item.is_delete = item.is_delete ? 1 : 0;
+            item.is_edit = item.is_edit ? 1 : 0;
+            item.is_view = item.is_view ? 1 : 0;
             if (item.is_create || item.is_delete || item.is_edit || item.is_view) {
               chaildPermision.push(item);
               permision.is_view = true;
             } else {
-              item.is_create = 0;
-              item.is_delete = 0;
-              item.is_edit = 0;
-              item.is_view = 0;
               chaildPermision.push(item);
             }
           })
@@ -140,7 +189,7 @@ export class RoleMasterComponent implements OnInit {
       this.formObj.permision = permisionAllow;
       // this.formObj.is_active = this.formObj.is_active ? 1 : 0;
       console.log("this.formObj", this.formObj);
-      // return
+
       if (this.roleType == 'Add') {
         this.service.addRole(this.formObj).subscribe((res: any) => {
           console.log("res", res);

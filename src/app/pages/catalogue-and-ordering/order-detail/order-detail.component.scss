@@ -19,6 +19,10 @@ table th {
     font-size: 15.4px;
 }
 
+table>tbody>tr.highlights>* {
+    background-color: #fdf5cb69;
+}
+
 .font-14 {
     font-size: 14px;
 }
@@ -66,4 +70,52 @@ input[type="number"] {
 .title-lable {
     font-size: 14px;
     font-weight: 600;
+}
+
+
+
+#po_upload .modal-header {
+    border-bottom: 0;
+}
+
+#po_upload .modal-content {
+    padding: 10px;
+}
+
+#po_upload .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+    text-align: center;
+}
+
+#po_upload .sub-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+}
+
+.format {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #717b9e;
+    margin-top: 8px;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+    #po_upload .modal-lg {
+        --bs-modal-width: 738px;
+    }
+}
+
+.btn-custom {
+    background:#ec3237;
+    padding: 5px 20px;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
 }

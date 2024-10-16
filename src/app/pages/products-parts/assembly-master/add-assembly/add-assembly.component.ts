@@ -18,7 +18,8 @@ export class AddAssemblyComponent implements OnInit {
   showProgress: boolean = false;
   assemblyId: any;
   excelFile: any;
-
+  modalCategoryList: any = [];
+  productTypeId: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -170,6 +171,38 @@ export class AddAssemblyComponent implements OnInit {
         link.click();
       }
       console.log("res", res);
+    })
+  }
+
+  verifyModal(item: any) {
+    console.log("item", item);
+    this.productTypeId = item.product_type_master_id;
+    if (item.product_type_master_id === 1) {
+      let obj = {
+        id: item.id
+      }
+
+      this.service.verifyModel(obj).subscribe((res: any) => {
+        if (res.success) {
+          this.comman.toster('success', res.message);
+          this.categoryGetList(item.id);
+        } else {
+          this.comman.toster('warning', res.message);
+          this.formObj.model_id = null;
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.comman.toster('error', 'ops! something went wrong please try again later')
+      })
+    }
+  }
+
+  //========// Get All Modal //========//
+  categoryGetList(modal_Id: any) {
+    this.service.model_category_by_id({ model_id: modal_Id }).subscribe((res: any) => {
+      if (res.success) {
+        this.modalCategoryList = res.data
+      }
     })
   }
 }

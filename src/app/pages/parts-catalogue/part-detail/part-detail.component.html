@@ -14,12 +14,12 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <div class="row mt-3 justify-content-center">
+            <div class="row mt-3">
 
                 <ng-container *ngFor="let item of categoryList">
                     <div class="col-xxl-6 col-md-6">
                         <div class="card info-card pb-0 sales-card cursor-pointer" [routerLink]="['/add-catalogue']"
-                            [queryParams]="{ model_id: modal_Id,product_type_id:productTypeId,category_id:item.id }">
+                            [queryParams]="{ model_id: modal_Id,product_type_id:productTypeId,category_id:item.id,main_category_id:main_category_id }">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="ps-3 box-header">

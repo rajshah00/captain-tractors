@@ -65,7 +65,11 @@ export class ICircularComponent implements OnInit {
 
   //========// get Brand List //========//
   getCircularList() {
-    this.service.circularList({}).subscribe((res: any) => {
+    let obj: any = {};
+    if (this.userData.role_name == "Dealer") {
+      obj.dealer_id = this.userData.id
+    }
+    this.service.circularList(obj).subscribe((res: any) => {
       if (res.success) {
         this.circularList = res.data;
       }
@@ -97,7 +101,7 @@ export class ICircularComponent implements OnInit {
 
     if (file) {
       const fileType = file.type;
-      const validFileTypes = ['application/pdf', 'image/jpeg','image/png'];
+      const validFileTypes = ['application/pdf', 'image/jpeg', 'image/png'];
       if (validFileTypes.includes(fileType)) {
         this.pdf = file;
       } else {

@@ -27,7 +27,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         finalize(() => {
           setTimeout(() => {
             this.spinner.hide()
-          }, 2500);
+          }, 1500);
         })
       );
     }
