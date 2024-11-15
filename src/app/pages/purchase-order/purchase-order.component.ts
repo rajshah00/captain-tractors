@@ -48,6 +48,8 @@ export class PurchaseOrderComponent implements OnInit {
 
   isDropdownOpen = false;
   selectedParts: any;
+  brand_name:any;
+
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -67,6 +69,7 @@ export class PurchaseOrderComponent implements OnInit {
     const year = currentDate.getFullYear().toString().slice(-2);
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
     this.formObj.po_number = this.userData.code + '/' + year + month;
+    this.brand_name = this.userData?.brand.name;
     console.log(this.formObj.po_number);
 
     this.addRow();
@@ -307,7 +310,8 @@ export class PurchaseOrderComponent implements OnInit {
             name: res.data.user_cart_part[i].part?.name,
             moq: res.data.user_cart_part[i].part?.moq,
             qty: res.data.user_cart_part[i].qty,
-            price: res.data.user_cart_part[i].part.price
+            price: res.data.user_cart_part[i].part.price,
+            main_category_id: res.data.user_cart_part[i].part.main_category_id
           })
         }
         console.log("partList", this.partList);
@@ -457,11 +461,11 @@ export class PurchaseOrderComponent implements OnInit {
         this.formObj.parts.push({
           "part_id": item.part_id,
           "qty": item.qty,
+          "main_category_id":item.main_category_id,
           "price": item.price || null,
           "total_price": item.price ? item.price * item.qty : null,
         })
       });
-      console.log("this.formObj", this.formObj);
 
       this.service.saveOrder(this.formObj).subscribe((res: any) => {
         if (res.success) {

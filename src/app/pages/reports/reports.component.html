@@ -1,7 +1,7 @@
 <div class="dashboard">
     <div class=" pagetitle">
         <h1>{{report_type || 'Reports'}}</h1>
-        <nav *ngIf="userData?.role_name != 'Dealer'">
+        <nav *ngIf="userData?.role_name != 'Distributor'">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a routerLink="/dasboard">Home</a></li>
                 <li class="breadcrumb-item active">{{report_type || 'Reports'}}</li>

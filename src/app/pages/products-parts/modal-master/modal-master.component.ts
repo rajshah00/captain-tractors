@@ -27,6 +27,7 @@ export class ModalMasterComponent implements OnInit {
   BrochurePdf: any = "";
   deleteImageType: any;
   TypeList: any = [];
+  model_detail: any = {};
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -215,8 +216,11 @@ export class ModalMasterComponent implements OnInit {
   }
 
   openPopVeiw(item: any) {
+    this.model_detail = item;
     if (item.blosore_pdf) {
       this.BrochurePdf = this.sanitizer.bypassSecurityTrustResourceUrl(item.blosore_pdf);
+    } else {
+      this.BrochurePdf = '';
     }
     $('#exampleModal').modal('show')
   }
@@ -229,6 +233,28 @@ export class ModalMasterComponent implements OnInit {
     } else if (type == 'modal_image') {
       this.formObj.image = "";
     }
+  }
+
+  deleteBlosore() {
+    const formData = new FormData();
+    formData.append('product_type_master_id', this.model_detail.product_type_master_id);
+    formData.append('name', this.model_detail.name);
+    formData.append('number', this.model_detail.number);
+    formData.append('main_category_id', this.model_detail.main_category_id);
+    formData.append('description', this.model_detail.description);
+    formData.append('is_active', this.model_detail.is_active.toString());
+    formData.append('blosore_pdf', '');
+
+    this.service.editModal(formData, this.model_detail.id).subscribe((res: any) => {
+      if (res.success) {
+        this.comman.toster('success', "Model Master brochure pdf deleted successfully.");
+        this.getModalList();
+        $('#exampleModal').modal('hide');
+      } else {
+        this.validation = res.data;
+        this.comman.toster('warning', res.message)
+      }
+    });
   }
 
 }

@@ -82,7 +82,7 @@ const routes: Routes = [
       { path: 'camel-reports', component: CamelReportsComponent },
 
       { path: 'i-catalogue', component: ICatalogueComponent },
-      { path: 'i-circular', component: ICircularComponent },
+      { path: 'technical-circula', component: ICircularComponent },
       { path: 'service-manuals', component: ServiceManualsComponent },
       { path: 'owners-manuals', component: OwnersManualsComponent },
       { path: 'service-sop', component: ServiceSOPComponent },

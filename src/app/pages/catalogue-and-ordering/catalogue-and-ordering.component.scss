@@ -45,7 +45,8 @@
 .table-hover>tbody>tr.highlights>* {
     background-color: #fdf5cb69;
 }
-.check-id input{
+
+.check-id input {
     border: 1px solid red;
     cursor: not-allowed;
 }
@@ -54,4 +55,12 @@
     opacity: 0.2;
     border: 1px solid red;
     cursor: not-allowed;
+}
+
+.signed-pi {
+    color: red;
+}
+
+.signed-pi:hover {
+    text-decoration: underline;
 }

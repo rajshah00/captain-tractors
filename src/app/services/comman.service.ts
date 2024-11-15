@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
+import { PDFDocument } from 'pdf-lib';
 
 @Injectable({
   providedIn: 'root'
@@ -71,5 +72,21 @@ export class CommanService {
       input.type = 'password';
       icon.className = 'bi bi-eye';
     }
+  }
+
+  async mergePdfs(pdf1: ArrayBuffer, pdf2: ArrayBuffer): Promise<Blob> {
+    const pdfDoc1 = await PDFDocument.load(pdf1);
+    const pdfDoc2 = await PDFDocument.load(pdf2);
+
+    const mergedPdf = await PDFDocument.create();
+
+    const copiedPages1 = await mergedPdf.copyPages(pdfDoc1, pdfDoc1.getPageIndices());
+    copiedPages1.forEach((page) => mergedPdf.addPage(page));
+
+    const copiedPages2 = await mergedPdf.copyPages(pdfDoc2, pdfDoc2.getPageIndices());
+    copiedPages2.forEach((page) => mergedPdf.addPage(page));
+
+    const pdfBytes = await mergedPdf.save();
+    return new Blob([pdfBytes], { type: 'application/pdf' });
   }
 }

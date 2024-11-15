@@ -27,7 +27,7 @@ export class PartsCatalogueComponent implements OnInit {
 
   //========// Get All Modal //========//
   getModalList(typeId: any) {
-    if (this.userData.role_name == 'Dealer') {
+    if (this.userData.role_name == 'Distributor') {
       let obj = {
         id: this.userData.id,
         product_type_id: typeId

@@ -33,7 +33,7 @@ export class BackOrderReportComponent implements OnInit {
   }
 
   getCatalogue(obj: any) {
-    if (this.userData?.role_name == 'Dealer') {
+    if (this.userData?.role_name == 'Distributor') {
       obj.dealer_id = this.userData.id;
     }
     this.service.getBackOrder(obj).subscribe((res: any) => {

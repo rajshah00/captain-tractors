@@ -1,9 +1,9 @@
 <div class="pagetitle">
-    <h1>I - Circular</h1>
-    <nav *ngIf="userData?.role_name != 'Dealer'">
+    <h1>Technical Circular</h1>
+    <nav *ngIf="userData?.role_name != 'Distributor'">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
-            <li class="breadcrumb-item active">I-Circular</li>
+            <li class="breadcrumb-item active">Technical Circular</li>
         </ol>
     </nav>
 </div>
@@ -79,7 +79,22 @@
                     <div class="form-group mb-3">
                         <label for="name">Name<sup class="text-danger">*</sup></label>
                         <input type="url" id="name" name="name" class="form-control" [(ngModel)]="circular_name"
-                            required>
+                            #nameCtrl="ngModel" required>
+                        <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || circularForm.submitted)"
+                            class="text-danger invalid-feild">
+                            Name is required.
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="search" class="form-label">Country<sup class="text-danger">*</sup></label>
+                        <ng-select [(ngModel)]="country_id" name="country_id" [items]="allCountryList" bindLabel="name"
+                            bindValue="id" placeholder="Select Country" #countryCtrl="ngModel" required>
+                        </ng-select>
+                        <div *ngIf="countryCtrl.invalid && (countryCtrl.dirty || countryCtrl.touched || circularForm.submitted)"
+                            class="text-danger invalid-feild">
+                            Country is required.
+                        </div>
                     </div>
 
                     <div class="form-group mb-3">
@@ -87,7 +102,7 @@
                         <ng-select [items]="dealers" bindLabel="name" bindValue="id" placeholder="Select Dealers"
                             [(ngModel)]="selectedDealers" [multiple]="true" name="dealers" required
                             groupBy="selectedAllGroup" [selectableGroup]="true" [selectableGroupAsModel]="false"
-                            [closeOnSelect]="true">
+                            [closeOnSelect]="true" #dealersCtrl="ngModel">
                             <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
                                 Select All
                             </ng-template>
@@ -96,6 +111,10 @@
                                 {{ item.name }}
                             </ng-template>
                         </ng-select>
+                        <div *ngIf="dealersCtrl.invalid && (dealersCtrl.dirty || dealersCtrl.touched || circularForm.submitted)"
+                            class="text-danger invalid-feild">
+                            Dealers is required.
+                        </div>
                     </div>
 
                     <div class="form-group">

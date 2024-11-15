@@ -26,7 +26,7 @@ export class CatalogueAndOrderingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.userData?.role_name == 'Dealer') {
+    if (this.userData?.role_name == 'Distributor') {
       this.serchObj.dealer_id = this.userData.id;
     }
     this.getCatalogue(this.serchObj);
@@ -39,7 +39,8 @@ export class CatalogueAndOrderingComponent implements OnInit {
   getDealerList() {
     this.service.DealerList({}).subscribe((res: any) => {
       if (res.success) {
-        this.dealerList = res.data
+        this.dealerList = res.data;
+        this.dealerList.unshift({ id: '', name: 'ALL' })
       }
     })
   }
@@ -84,7 +85,6 @@ export class CatalogueAndOrderingComponent implements OnInit {
       const link = document.createElement('a');
       link.href = poPdf;
       link.target = '_blank';
-      link.download = 'purchase_order.pdf';
       link.click();
     } else {
       this.comman.toster('warning', "PDF url not found")

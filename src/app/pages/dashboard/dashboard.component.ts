@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   //========// Get All Modal //========//
   getModalList() {
-    if (this.userData.role_name == 'Dealer') {
+    if (this.userData.role_name == 'Distributor') {
       let obj = {
         id: this.userData.id
       }

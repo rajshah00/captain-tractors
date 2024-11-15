@@ -1,6 +1,6 @@
 <div class="pagetitle">
     <h1>Spare Parts Purchase Order</h1>
-    <nav *ngIf="userData?.role_name != 'Dealer'">
+    <nav *ngIf="userData?.role_name != 'Distributor'">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item active">Spare Parts Purchase Order</li>
@@ -33,7 +33,7 @@
         </div>
 
         <form #purchsForm="ngForm" class="mt-3">
-            <div class="row">
+            <div class="row justify-content-between">
                 <div class="col-md-6">
                     <div class="mb-3 grid-item">
                         <label for="order_type" class="form-label lable-box">Order Type<sup class="text-danger">*</sup>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="mb-3 grid-item">
+                    <div class="mb-3 grid-item justify-content-end">
                         <label for="mode_of_dispatch" class="form-label lable-box">Mode of Dispatch<sup
                                 class="text-danger">*</sup> : </label>
                         <div class="input-box">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-md-2 mt-3">
                     <div class="form-check">
                         <input class="form-check-input" [(ngModel)]="formObj.entry_type" type="radio"
                             value="Manual Entry" name="flexRadioDefault" id="manual-entry" checked>
@@ -95,6 +95,25 @@
                         <label class="form-check-label" for="excel-sheet-upload">
                             Excel Sheet Upload
                         </label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mt-3">
+                    <div class="mb-3 grid-item">
+                        <label for="mode_of_dispatch" class="form-label lable-box">
+                            Remark <sup class="text-danger">*</sup> :
+                        </label>
+                        <textarea type="text" rows="1" class="form-control" [(ngModel)]="formObj.remark"
+                            name="description"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mt-3">
+                    <div class="mb-3 grid-item">
+                        <label for="mode_of_dispatch" class="form-label lable-box">
+                            Brand <sup class="text-danger">*</sup> :
+                        </label>
+                        <input type="text" rows="1" class="form-control" [(ngModel)]="brand_name" name="brand_name" disabled />
                     </div>
                 </div>
 

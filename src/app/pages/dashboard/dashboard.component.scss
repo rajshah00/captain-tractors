@@ -1,10 +1,10 @@
-.dashboard {
-    min-height: 440px;
-}
+// .dashboard {
+//     min-height: 440px;
+// }
 
 .card-body {
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 6px;
     text-align: center;
     display: block;
     transition: all 0.5s ease;
@@ -46,9 +46,24 @@
     color: #ffffff !important;
 }
 
-.dashboard-right-column img{
-    width: 450px;
-    position: relative;
-    top: 0;
-    left: 85px;
+.dashboard-right-column img {
+    width: auto;
+    height: 350px;
+    margin: 0px auto;
+    display: block;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+@media (max-width:991px) {
+    .dashboard-right-column img {
+        width: auto !important;
+        height: 250px;
+        margin: 0px auto;
+        display: block;
+        margin-top: 60px;
+        margin-bottom: 60px;
+    }
 }

@@ -26,6 +26,8 @@ export class ICircularComponent implements OnInit {
   imageUrl: any;
   userData: any = {};
   fileSizeError = false;
+  allCountryList: any = [];
+  country_id: any;
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -35,11 +37,11 @@ export class ICircularComponent implements OnInit {
 
   }
 
-
   ngOnInit(): void {
     this.userData = JSON.parse(localStorage.getItem('profile') || '');
     this.getCircularList();
     this.getDealerList();
+    this.getCountryAllList();
   }
 
   //========// Get All Dealer //========//
@@ -48,6 +50,15 @@ export class ICircularComponent implements OnInit {
       if (res.success) {
         this.dealers = res.data;
         this.selectAllForDropdownItems(this.dealers);
+      }
+    })
+  }
+
+  //========// get Country All List //========//
+  getCountryAllList() {
+    this.service.allCountryList({}).subscribe((res: any) => {
+      if (res.success) {
+        this.allCountryList = res.data
       }
     })
   }
@@ -126,6 +137,7 @@ export class ICircularComponent implements OnInit {
         const formData = new FormData();
         formData.append('pdf_or_img', this.pdf);
         formData.append('name', this.circular_name);
+        formData.append('country_id', this.country_id);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });
@@ -142,6 +154,7 @@ export class ICircularComponent implements OnInit {
       } else {
         const formData = new FormData();
         formData.append('name', this.circular_name);
+        formData.append('country_id', this.country_id);
         this.selectedDealers.forEach((dealerId: any) => {
           formData.append('dealers[]', dealerId.toString());
         });

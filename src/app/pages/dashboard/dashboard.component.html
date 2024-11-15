@@ -10,7 +10,7 @@
     </div>
 
 
-    <ng-container *ngIf="userData?.role_name != 'Dealer'">
+    <ng-container *ngIf="userData?.role_name != 'Distributor' && userData?.role_name != 'CTPL'">
         <div class="row mt-3">
             <div class="col-xxl-3 col-md-3">
                 <div class="card info-card pb-0 sales-card cursor-pointer">
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="col-xxl-3 col-md-3">
+            <!-- <div class="col-xxl-3 col-md-3">
                 <div class="card info-card pb-0 sales-card cursor-pointer">
                     <div class="card-body" (click)="toggelSection('Order')">
                         <div class="d-flex align-items-center">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="card info-card" *ngIf="is_show_part_cat">
             <div class="card-body">
@@ -50,7 +50,7 @@
                                         <button class="accordion-button collapsed" type="button"
                                             [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
                                             [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
-                                            {{userData.role_name == 'Dealer' ? item.model_name : item.name}}
+                                            {{userData.role_name == 'Distributor' ? item.model_name : item.name}}
                                         </button>
                                     </h2>
                                     <div [id]="'collapse' + i" class="accordion-collapse collapse"
@@ -129,7 +129,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="userData?.role_name == 'Dealer'">
+    <ng-container *ngIf="userData?.role_name == 'Distributor'">
         <div class="row">
             <div class="col-lg-6">
                 <div class="row mt-3 justify-content-center">
@@ -230,7 +230,7 @@
                     </div>
 
                     <div class="col-xxl-6 col-md-6">
-                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/i-circular">
+                        <div class="card info-card pb-0 sales-card cursor-pointer" routerLink="/technical-circula">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div class="ps-3 box-header">

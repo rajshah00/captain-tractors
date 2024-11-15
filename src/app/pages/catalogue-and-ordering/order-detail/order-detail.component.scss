@@ -112,10 +112,25 @@ input[type="number"] {
 }
 
 .btn-custom {
-    background:#ec3237;
+    background: #ec3237;
     padding: 5px 20px;
     border-radius: 30px;
     color: #fff;
     font-weight: 600;
     font-size: 16px;
+}
+
+.card-title-box {
+    display: flex;
+    justify-content: space-between;
+    gap: 45px;
+}
+
+.card-title-box h4 {
+    color: #ec3237;
+}
+
+.card-title-box h4 span {
+    color: black;
+    font-weight: 400;
 }

@@ -154,8 +154,8 @@
                                 {{ item.dealer ? item.dealer?.name : ''}}
                             </td>
                             <td>{{ item.order_number }}</td>
-                            <td>{{ item.dealer ? item.dealer?.country?.name : '' }}</td>
-                            <td>-</td>
+                            <td>{{ item.dealer && item.dealer?.country ? item.dealer?.country?.name : '-' }}</td>
+                            <td>{{ item.dealer && item.dealer?.brand ? item.dealer?.brand?.name : '-' }}</td>
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
                             <td>{{ item.order_type }}</td>
                             <td scope="col">{{ getTotalQty(item) }}</td>

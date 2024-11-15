@@ -54,6 +54,7 @@ import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add
 import { CamelReportsComponent } from './pages/camel-reports/camel-reports.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { PermissionDirective } from './directive/permission.directive';
+import { TechnicalSpecificationComponent } from './pages/technical-specification/technical-specification.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { PermissionDirective } from './directive/permission.directive';
     AddAssemblyComponent,
     CamelReportsComponent,
     ResetPasswordComponent,
-    PermissionDirective
+    PermissionDirective,
+    TechnicalSpecificationComponent
   ],
   imports: [
     BrowserModule,

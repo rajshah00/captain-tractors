@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
@@ -23,14 +24,27 @@ export class OrderDetailComponent implements OnInit {
   isUtility: boolean = false;
   any_comment: any;
   utility_po: any;
+  mergedPdfUrl: any;
+  isMini: boolean = false;
+  loading = false;
+  pageSize = 10; // Number of items per page
+  endReached = false;
+  query = '';
+  page = 1;
+  partListOption: any = [];
+  partListOptionEx: any = [];
+  partNumber: any;
+
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
     public comman: CommanService,
-    public router: Router
+    public router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
+
     this.route.paramMap.subscribe(params => {
       this.order_id = params.get('id') || '';
 
@@ -43,6 +57,7 @@ export class OrderDetailComponent implements OnInit {
             this.getBackOrderDetail();
           }
         });
+        this.fetchParts();
       }
     });
   }
@@ -72,12 +87,19 @@ export class OrderDetailComponent implements OnInit {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;
           item.part_price = parseFloat(item.part.price || 0)
+          this.partListOption.push(item.part);
         });
         this.partList.forEach((item: any) => {
           if (item.part && item.part.main_category_id !== undefined && item.part.main_category_id === 1) {
             this.isUtility = true;
           }
+          if (item.part && item.part.main_category_id !== undefined && item.part.main_category_id === 2) {
+            this.isMini = true;
+          }
         });
+        if (this.userData?.role_name == 'CTPL') {
+          this.partList = this.partList.filter((item: any) => item.part.main_category_id !== 1);
+        }
         console.log(this.isUtility);
         this.orderDetail.total_qty = this.getTotalQty(this.partList, 'part_qty');
         this.orderDetail.total_price = this.getTotalPrice(this.partList);
@@ -100,7 +122,8 @@ export class OrderDetailComponent implements OnInit {
         this.partList.forEach((item: any) => {
           item.part_qty = parseFloat(item.part_qty);
           item.approve_qty = item.part_qty;
-          item.part_price = parseFloat(item.part.price || 0)
+          item.part_price = parseFloat(item.part.price || 0);
+          this.partListOption.push(item.part);
         });
         this.orderDetail.total_qty = this.getTotalQty(this.partList, 'part_qty');
         this.orderDetail.total_price = this.getTotalPrice(this.partList);
@@ -115,7 +138,20 @@ export class OrderDetailComponent implements OnInit {
   approveOrder() {
     // $('#po_upload').modal('show');
     // return
-    this.service.approve(this.order_id).subscribe((res: any) => {
+
+    let obj: any = {
+      order_detail: []
+    };
+    this.partList.forEach((item: any) => {
+      obj.order_detail.push({
+        order_detail_id: item.id,
+        approve_qty: item.is_approve != true ? 0 : item.approve_qty,
+        part_id: item.part.id,
+        remarks: item.remarks,
+      })
+    });
+
+    this.service.approve(this.order_id, obj).subscribe((res: any) => {
       if (res.success) {
         this.getDetail();
         this.comman.toster('success', res.message);
@@ -177,14 +213,29 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  onSubmit(type: any): void {
+  async onSubmit(type: any): Promise<void> {
+    let mergedPdfBlob: any = "";
+    if (this.isMini && this.isUtility) {
+      const pdf1 = await this.file.arrayBuffer();
+      const pdf2 = await this.utility_po.arrayBuffer();
+      mergedPdfBlob = await this.comman.mergePdfs(pdf1, pdf2);
+    } else if (this.isMini) {
+      mergedPdfBlob = this.file;
+    } else if (this.isUtility) {
+      mergedPdfBlob = this.utility_po;
+    }
+
     const formData = new FormData();
     if (type == 'Reset') {
       formData.append('po_pdf', "");
+      formData.append('utility_po', "");
+      formData.append('merged_po', "");
       formData.append('type', "reset");
       formData.append('tracking_number', this.tracking_number);
     } else {
-      formData.append('po_pdf', this.file, this.file.name);
+      formData.append('po_pdf', this.file ? this.file : '');
+      formData.append('utility_po', this.utility_po ? this.utility_po : '');
+      formData.append('merged_po', mergedPdfBlob);
       formData.append('type', "upload");
       formData.append('tracking_number', this.tracking_number);
     }
@@ -192,6 +243,7 @@ export class OrderDetailComponent implements OnInit {
     this.service.poUpload(this.order_id, formData).subscribe((res: any) => {
       if (res.success) {
         this.po_pdf.nativeElement.value = '';
+        URL.revokeObjectURL(this.mergedPdfUrl as string);
         if (this.ordertype == 'Order') {
           this.getDetail();
         } else {
@@ -295,4 +347,54 @@ export class OrderDetailComponent implements OnInit {
     );
 
   }
+
+
+  onChangePart(ind: any, event: any) {
+    this.partList[ind].part = event
+  }
+
+  fetchMore() {
+    if (!this.loading && !this.endReached) {
+      this.fetchParts(this.query, this.page);
+    }
+  }
+
+  fetchParts(query: string = '', page: number = 1) {
+    this.loading = true;
+    let obj = {
+      search: query,
+      page: page,
+      size: this.pageSize
+    }
+
+    this.service.getAllParts(obj).subscribe((response: any) => {
+      if (response.success) {
+        if (response.data.length === 0) {
+          this.endReached = true;
+        } else {
+          if (query) {
+            this.partListOptionEx = response.data;
+            this.partListOption = response.data;
+          } else {
+            this.partListOptionEx = [...this.partListOptionEx, ...response.data];
+            this.partListOption = [...this.partListOption, ...response.data];
+          }
+          this.page++;
+        }
+      }
+      this.loading = false;
+    });
+  }
+
+  onSearch(event: any) {
+    if (event.term.length >= 1) {
+      this.fetchParts(event.term);
+    }
+  }
+
+  onPartClear() {
+    this.fetchParts(this.query, this.page);
+  }
+
+
 }

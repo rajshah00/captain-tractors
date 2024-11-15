@@ -15,14 +15,14 @@
         <!-- <a href="javascript:;" class="d-md-none d-block camel-menu-btn"><i class="bi bi-list"></i></a> -->
         <ul class="d-flex align-items-center camel-login-menu-ul">
 
-            <li class="d-none d-md-block nav-item dropdown pe-3" *ngIf="userData?.role_name == 'Dealer'">
+            <li class="d-none d-md-block nav-item dropdown pe-3" *ngIf="userData?.role_name == 'Distributor'">
                 <a class="nav-link nav-profile dasboard-button" routerLink="/dashboard">
                     <span>Dashboard</span>
                 </a>
             </li>
 
             <!-- Dropdown Menu -->
-            <ng-container *ngIf="userData?.role_name != 'Dealer'">
+            <ng-container *ngIf="userData?.role_name != 'Distributor'">
                 <li class="nav-item dropdown pe-3" *ngFor="let item of menuItems">
                     <a *ngIf="!item.children.length" class="nav-link nav-profile" [routerLink]="item.path">
                         <span class="ps-2">{{item.title}}</span>
@@ -120,7 +120,7 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li *ngIf="userData?.role_name == 'Dealer'">
+                    <li *ngIf="userData?.role_name == 'Distributor'">
                         <a class="dropdown-item d-flex align-items-center" routerLink="/dashboard"
                             (click)="removeClass()">
                             <i class="bi bi-person"></i>
@@ -131,7 +131,7 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <ng-container *ngIf="userData?.role_name != 'Dealer'">
+                    <ng-container *ngIf="userData?.role_name != 'Distributor'">
                         <ng-container *ngFor="let item of menuItems">
                             <li class="dropdown">
                                 <a *ngIf="!item.children.length" class="dropdown-item" [routerLink]="item.path"

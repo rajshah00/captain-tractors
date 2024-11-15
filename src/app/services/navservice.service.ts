@@ -127,8 +127,8 @@ export class NavserviceService {
           icon: 'bi bi-bullseye',
         },
         {
-          path: '/i-circular',
-          title: 'E - Technical Circular',
+          path: '/technical-circula',
+          title: 'Technical Circular',
           type: 'link',
           icon: 'bi bi-bullseye',
         },

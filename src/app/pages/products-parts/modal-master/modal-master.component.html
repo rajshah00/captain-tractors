@@ -105,9 +105,9 @@
                 <div class="modal-body">
                     <div class="row g-3">
 
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <label for="inputEmail3" class=" form-label">
-                                 Type
+                                Type
                                 <sup class="text-danger">*</sup> :
                             </label>
                             <select id="roles" class="form-select" [(ngModel)]="formObj.main_category_id"
@@ -120,7 +120,7 @@
                                 class="text-danger invalid-feild">
                                 Type is required.
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="col-md-6">
                             <label for="inputEmail3" class=" form-label">
@@ -171,7 +171,22 @@
                                 (change)="onFileSelected($event)">
                         </div>
 
-                        <div class="col-md-12" *ngIf="modalType == 'Edit' && formObj.image">
+                        <div class="col-md-6">
+                            <label for="modal_image" class="form-label">Brochure Image:</label>
+                            <input type="file" class="form-control" #Brochure_img id="modal_image"
+                                (change)="selectBrochure($event,'IMG')">
+                            <div class="text-danger invalid-feild" *ngIf="validation.image">
+                                {{validation.image[0]}}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="modal_image" class="form-label">Brochure PDF:</label>
+                            <input type="file" class="form-control" #Brochure_pdf id="modal_image"
+                                (change)="selectBrochure($event,'PDF')">
+                        </div>
+
+                        <div class="col-md-6" *ngIf="modalType == 'Edit' && formObj.image">
                             <div class="form-group row">
                                 <label for="logo" class="col-md-12">Model Preview : </label>
                                 <div class="col-md-12">
@@ -185,22 +200,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="modal_image" class="form-label">Brochure Image:</label>
-                            <input type="file" class="form-control" #Brochure_img id="modal_image"
-                                (change)="selectBrochure($event,'IMG')">
-                                <div class="text-danger invalid-feild" *ngIf="validation.image">
-                                    {{validation.image[0]}}
-                                </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="modal_image" class="form-label">Brochure PDF:</label>
-                            <input type="file" class="form-control" #Brochure_pdf id="modal_image"
-                                (change)="selectBrochure($event,'PDF')">
-                        </div>
-
-                        <div class="col-md-12" *ngIf="modalType == 'Edit' && formObj.blosore_image_view">
+                        <div class="col-md-6" *ngIf="modalType == 'Edit' && formObj.blosore_image_view">
                             <div class="form-group row">
                                 <label for="logo" class="col-md-12">Brochure Preview : </label>
                                 <div class="col-md-12">
@@ -262,7 +262,10 @@
                     </ng-template>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-flex" [ngClass]="{'justify-content-between':BrochurePdf}">
+                <button *ngIf="BrochurePdf" class="btn btn-danger" (click)="deleteBlosore()">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
