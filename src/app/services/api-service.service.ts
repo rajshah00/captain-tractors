@@ -481,6 +481,18 @@ export class ApiServiceService {
   verifyModel(data: any) {
     return this.http.post(environment.apiUrl + 'model_master/check_category_model', data);
   }
+  //=====// Category Master End //=====//
 
+  //=====//  Technical Specification Start //=====//
+  save(data: any) {
+    return this.http.post(environment.apiUrl + 'model_details/store', data);
+  }
 
+  edit(data: any, id: any) {
+    return this.http.post(environment.apiUrl + `model_details/${id}/update`, data);
+  }
+
+  get(data: any) {
+    return this.http.post(environment.apiUrl + 'model_details/list', data);
+  }
 }

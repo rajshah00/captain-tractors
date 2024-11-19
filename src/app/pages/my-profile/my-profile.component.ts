@@ -151,4 +151,25 @@ export class MyProfileComponent implements OnInit {
       this.comman.toster('warning', 'Form is invalid');
     }
   }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('email', this.formObj.email);
+      this.service.editUser(formData, this.userData.id).subscribe((res: any) => {
+        if (res.success) {
+          this.comman.toster('success', res.message);
+          localStorage.removeItem('profile');
+          localStorage.setItem('profile', JSON.stringify(res.data));
+        } else {
+          this.comman.toster('warning', res.message)
+        }
+      }, (err: any) => {
+        console.log(err);
+        this.comman.toster('error', 'ops! something went wrong please try again later')
+      })
+    }
+  }
 }

@@ -41,6 +41,7 @@ import { PartMasterComponent } from './pages/products-parts/part-master/part-mas
 import { AddAssemblyComponent } from './pages/products-parts/assembly-master/add-assembly/add-assembly.component';
 import { CamelReportsComponent } from './pages/camel-reports/camel-reports.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { TechnicalSpecificationComponent } from './pages/technical-specification/technical-specification.component';
 
 const routes: Routes = [
   {
@@ -80,6 +81,7 @@ const routes: Routes = [
       { path: 'parts-purchase-report', component: PartPurchaseReportComponent },
       { path: 'reports', component: ReportsComponent },
       { path: 'camel-reports', component: CamelReportsComponent },
+      { path: 'technical-specification', component: TechnicalSpecificationComponent },
 
       { path: 'i-catalogue', component: ICatalogueComponent },
       { path: 'technical-circula', component: ICircularComponent },

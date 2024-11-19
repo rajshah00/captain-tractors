@@ -34,7 +34,7 @@ export class OrderDetailComponent implements OnInit {
   partListOption: any = [];
   partListOptionEx: any = [];
   partNumber: any;
-
+  pdf_name: any;
   constructor(
     private route: ActivatedRoute,
     public service: ApiServiceService,
@@ -80,6 +80,7 @@ export class OrderDetailComponent implements OnInit {
     this.service.getOrderDetail(this.order_id).subscribe((res: any) => {
       if (res.success && res.data) {
         this.orderDetail = res.data;
+        this.pdf_name = res.data.po_pdf ? res.data.po_pdf.split('/pdf/')[1] : '';
         this.tracking_number = res.data.tracking_number != null ? res.data.tracking_number : '';
         this.isDesibled = this.tracking_number ? true : false;
         this.partList = res.data.order_details;
@@ -396,5 +397,15 @@ export class OrderDetailComponent implements OnInit {
     this.fetchParts(this.query, this.page);
   }
 
-
+  downloadPdf(poPdf: string) {
+    if (poPdf && poPdf != '') {
+      console.log('Downloading PDF:', poPdf);
+      const link = document.createElement('a');
+      link.href = poPdf;
+      link.target = '_blank';
+      link.click();
+    } else {
+      this.comman.toster('warning', "PDF url not found")
+    }
+  }
 }

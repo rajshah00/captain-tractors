@@ -85,6 +85,7 @@ export class CatalogueAndOrderingComponent implements OnInit {
       const link = document.createElement('a');
       link.href = poPdf;
       link.target = '_blank';
+      link.download;
       link.click();
     } else {
       this.comman.toster('warning', "PDF url not found")

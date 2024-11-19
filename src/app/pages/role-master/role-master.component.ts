@@ -158,13 +158,16 @@ export class RoleMasterComponent implements OnInit {
           permision.is_create = permision.is_create ? 1 : 0;
           permision.is_delete = permision.is_delete ? 1 : 0;
           permision.is_edit = permision.is_edit ? 1 : 0;
-          permision.is_view = permision.is_view ? 1 : 0;
           if (permision.is_create || permision.is_delete || permision.is_edit || permision.is_view) {
             permisionAllow.push(permision)
           }
         }
         if (permision.path == '') {
           let chaildPermision: any = [];
+          permision.is_view = permision.children.some((child: any) => {
+            return child.is_create === 1 || child.is_delete === 1 || child.is_edit === 1 || child.is_view === 1;
+          });
+          permision.is_view = permision.is_view ? 1 : 0;
           permision.children.forEach((item: any) => {
             item.is_create = item.is_create ? 1 : 0;
             item.is_delete = item.is_delete ? 1 : 0;
@@ -172,7 +175,6 @@ export class RoleMasterComponent implements OnInit {
             item.is_view = item.is_view ? 1 : 0;
             if (item.is_create || item.is_delete || item.is_edit || item.is_view) {
               chaildPermision.push(item);
-              permision.is_view = true;
             } else {
               chaildPermision.push(item);
             }

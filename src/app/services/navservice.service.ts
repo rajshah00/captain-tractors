@@ -151,6 +151,13 @@ export class NavserviceService {
           icon: 'bi bi-person-lines-fill',
           children: []
         },
+        {
+          path: '/technical-specification',
+          title: 'Technical Specification',
+          type: 'link',
+          icon: 'bi bi-person-lines-fill',
+          children: []
+        },
       ]
     },
     {

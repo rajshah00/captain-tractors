@@ -75,15 +75,13 @@
                         <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Dealer</th>
                         <th scope="col">Brand</th>
                         <th scope="col">PI Upload Date</th>
-                        <th scope="col" *ngIf="userData?.role_name == 'Camel'">Download <br> customer's signed PI </th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Camel'">PI Number <br> Download PI for signature
-                        </th>
+                        <th scope="col" *ngIf="userData?.role_id == 1">Download <br> customer's signed PI </th>
+                        <th scope="col" *ngIf="userData?.role_id != 1">Download PI</th>
                         <th scope="col" *ngIf="userData?.role_name == 'Distributor'">Upload Signed PI</th>
                         <!-- <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Approve PI</th> -->
                         <th scope="col">Order Status</th>
                         <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Current Stage</th>
                         <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Tracking Number</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Download PI</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,11 +96,23 @@
                             <td *ngIf="userData?.role_name != 'Distributor'"> {{item.dealer.name}}</td>
                             <td>{{ item.dealer.brand?.name || '-' }}</td>
                             <td>{{ item.pi_date | date: 'dd-MMM-yyyy' || '-'}}</td>
-                            <td>
-                                <a class="cursor-pointer signed-pi" (click)="downloadPdf(item.pi_upload_dealer); $event.stopPropagation()" rel="noopener noreferrer">
+                            <td *ngIf="userData?.role_id == 1">
+                                <a class="cursor-pointer signed-pi"
+                                    (click)="comman.downloadFile(item.pi_upload_dealer); $event.stopPropagation()"
+                                    rel="noopener noreferrer">
                                     {{ item.pi_number_dealer || '-' }}
                                 </a>
+
                             </td>
+                            <td *ngIf="userData?.role_name == 'Distributor'">
+                                <div class="action-box" *ngIf="item.po_pdf">
+                                    <button type="button" class="btn btn-success"
+                                        (click)="comman.downloadFile(item.po_pdf); $event.stopPropagation()">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+
                             <td *ngIf="userData?.role_name == 'Distributor'">
                                 <ng-container *ngIf="item.po_pdf; else elseData">
                                     <input type="file" id="fileInput-{{i}}" hidden
@@ -121,10 +131,10 @@
                             <td *ngIf="userData?.role_name != 'Distributor'">{{ item.approval_status }}</td>
                             <td *ngIf="userData?.role_name != 'Distributor'">{{ item.current_stage }}</td>
                             <td *ngIf="userData?.role_name != 'CTPL'">{{ item.tracking_number }}</td>
-                            <td *ngIf="userData?.role_name != 'CTPL'">
-                                <div class="action-box" *ngIf="item.merged_po">
+                            <!-- <td *ngIf="userData?.role_name != 'CTPL'">
+                                <div class="action-box" *ngIf="item.po_pdf">
                                     <button type="button" class="btn btn-success"
-                                        (click)="downloadPdf(item.merged_po); $event.stopPropagation()">
+                                        (click)="downloadPdf(item.po_pdf); $event.stopPropagation()">
                                         <i class="bi bi-download"></i>
                                     </button>
                                 </div>
@@ -134,7 +144,7 @@
                                         Utility <i class="bi bi-download"></i>
                                     </button>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
                     </ng-container>
 

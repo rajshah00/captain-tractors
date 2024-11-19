@@ -103,8 +103,11 @@ export class UserMasterComponent implements OnInit {
         })
 
       } else {
+
         //========// Edit user code //========//
-        console.log(form.value);
+        if (form.value?.password == '' || form.value?.password == null) {
+          delete form.value?.password;
+        }
         this.service.editUser(form.value, this.userId).subscribe((res: any) => {
           if (res.success) {
             this.comman.toster('success', res.message);

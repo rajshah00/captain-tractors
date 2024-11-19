@@ -1,1 +1,231 @@
-<p>technical-specification works!</p>
+<div class=" pagetitle">
+    <h1>Technical Specification</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h5 class="card-title p-0">Search</h5>
+            <form #serchForm="ngForm">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="start_date" class="form-label mb-0">Model:</label>
+                        <ng-select [(ngModel)]="serchObj.model_id" name="model" [items]="modalList" bindLabel="name"
+                            bindValue="id" placeholder="Select Model" (change)="getcategoryList($event)">
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="end_date" class="form-label mb-0">Category:</label>
+                        <ng-select [(ngModel)]="serchObj.Category_id" name="model" [items]="categoryList"
+                            bindLabel="name" bindValue="id" placeholder="Select Category">
+                        </ng-select>
+                    </div>
+
+                    <div class="serch-box col-md-12">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="button" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title">Results (0)</h5>
+            <div class="add-box" *hasPermission="'is_create'">
+                <button type="button" class="btn btn-primary" (click)="openPop('Add',null)">
+                    Add
+                    <i class="bi bi-plus-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table with hoverable rows -->
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Parameters</th>
+                        <th scope="col">value</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <ng-container *ngFor="let item of getAll; let i = index">
+                    <tbody>
+                        <tr>
+                            <td [attr.rowspan]="item.parameters ? item.parameters.length + 1 : 1" valign="middle">{{i + 1}}</td>
+                            <td [attr.rowspan]="item.parameters ? item.parameters.length + 1 : 1" class="user-cntct-right" valign="middle">
+                                {{item.model_name}}</td>
+                            <td [attr.rowspan]="item.parameters ? item.parameters.length + 1 : 1" class="user-cntct-right" valign="middle">
+                                {{item.category_id}}</td>
+                            <td class="p-0 border-0"></td>
+                            <td class="p-0 border-0"></td>
+                            <td [attr.rowspan]="item.parameters ? item.parameters.length + 1 : 1" class="text-center user-cntct-left"
+                                valign="middle">
+                                <div class="action-column">
+                                    <button type="button" class="btn btn-success" (click)="openPop('Edit',item)">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let subItem of item.parameters">
+                            <td>{{ subItem.label }}</td>
+                            <td>{{ subItem.value }}</td>
+                        </tr>
+                    </tbody>
+                </ng-container>
+
+
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Model -->
+<div class="modal fade" id="add-technical-specification" tabindex="-1"
+    aria-labelledby="add-technical-specificationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="add-technical-specificationLabel">{{modalType}} Technical Specification
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #addEditForm="ngForm">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label mb-0">
+                                Model <sup class="text-danger">*</sup>:
+                            </label>
+                            <ng-select [(ngModel)]="formObj.model_id" name="model" [items]="modalList" bindLabel="name"
+                                bindValue="id" placeholder="Select Model"
+                                #model_id="ngModel" required>
+                            </ng-select>
+                            <div *ngIf="model_id.invalid && (model_id.dirty || model_id.touched || addEditForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Model is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="categoryName" class="form-label mb-0">
+                                Category <sup class="text-danger">*</sup>:
+                            </label>
+                            <input type="text" class="form-control" name="category" id="categoryName"
+                                [(ngModel)]="formObj.category_id" placeholder="Enter Category" #Category_id="ngModel"
+                                required>
+                            <div *ngIf="Category_id.invalid && (Category_id.dirty || Category_id.touched || addEditForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Category is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="model-name" class="form-label mb-0">
+                                Tractor Model Name <sup class="text-danger">*</sup>:
+                            </label>
+                            <input type="text" class="form-control" name="tractor_model_name" id="model-name"
+                                [(ngModel)]="formObj.tractor_model_name" placeholder="Enter tractor model name" #tractor_model_name="ngModel"
+                                required>
+                            <div *ngIf="tractor_model_name.invalid && (tractor_model_name.dirty || tractor_model_name.touched || addEditForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Tractor Model Name is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="ctpl-model-code" class="form-label mb-0">
+                                CTPL Model Code	 <sup class="text-danger">*</sup>:
+                            </label>
+                            <input type="text" class="form-control" name="ctpl_model_code" id="ctpl-model-code"
+                                [(ngModel)]="formObj.ctpl_model_code" placeholder="Enter ctpl model code" #ctpl_model_code="ngModel"
+                                required>
+                            <div *ngIf="ctpl_model_code.invalid && (ctpl_model_code.dirty || ctpl_model_code.touched || addEditForm.submitted)"
+                                class="text-danger invalid-feild">
+                                CTPL Model Code is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="camel-model-code" class="form-label mb-0">
+                                CAMEL Model Code	<sup class="text-danger">*</sup>:
+                            </label>
+                            <input type="text" class="form-control" name="camel_model_code" id="camel-model-code"
+                                [(ngModel)]="formObj.camel_model_code" placeholder="Enter camel model code" #camel_model_code="ngModel"
+                                required>
+                            <div *ngIf="camel_model_code.invalid && (camel_model_code.dirty || camel_model_code.touched || addEditForm.submitted)"
+                                class="text-danger invalid-feild">
+                                CAMEL Model Code is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="homologation-compliance" class="form-label mb-0">
+                                Homologation Compliance	<sup class="text-danger">*</sup>:
+                            </label>
+                            <input type="text" class="form-control" name="homologation_compliance" id="homologation-compliance"
+                                [(ngModel)]="formObj.homologation_compliance" placeholder="Enter homologation compliance" #homologation_compliance="ngModel"
+                                required>
+                            <div *ngIf="homologation_compliance.invalid && (homologation_compliance.dirty || homologation_compliance.touched || addEditForm.submitted)"
+                                class="text-danger invalid-feild">
+                                Homologation Compliance is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label mb-0">Parameters:</label>
+                            <hr>
+                            <div class="row mt-2 justify-content-around"
+                                *ngFor="let item of parametersList;let i = index">
+                                <div class="col-md-5">
+                                    <label for="start_date" class="form-label mb-0">Label:</label>
+                                    <input type="text" class="form-control" id="name" [(ngModel)]="item.label"
+                                        name="label{{i}}">
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label for="end_date" class="form-label mb-0">Value:</label>
+                                    <input type="text" class="form-control" id="name" [(ngModel)]="item.value"
+                                        name="value{{i}}">
+                                </div>
+                                <div class="col-md-1 text-end">
+                                    <button *ngIf="i != 0" type="button" class="btn btn-danger mt-4 remove-btn"
+                                        (click)="removeRow(i)">
+                                        <i class="bi bi-dash-circle"></i>
+                                        <!-- Remove -->
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text-end mt-4">
+                                <button type="button" class="btn btn-primary my-2" (click)="addRow()">
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="submit(addEditForm)">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

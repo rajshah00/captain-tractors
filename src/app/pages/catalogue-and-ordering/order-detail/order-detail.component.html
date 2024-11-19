@@ -152,15 +152,15 @@
                 <div class="card-body">
                     <div class="row align-items-center">
 
-                        <!-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="formGroupExampleInput" class="form-label">PI Upload</label>
                                 <input type="file" (change)="onFileSelected($event)" accept="application/pdf"
                                     class="form-control" id="formGroupExampleInput" #po_pdf required>
                             </div>
-                        </div> -->
+                        </div>
 
-                        <div class="col-md-6" *ngIf="isMini">
+                        <!-- <div class="col-md-6" *ngIf="isMini">
                             <div class="mb-3">
                                 <label for="formGroupExampleInput" class="form-label">PI Upload</label>
                                 <input type="file" (change)="onFileSelected($event)" accept="application/pdf"
@@ -176,7 +176,7 @@
                                 <input type="file" (change)="onUtilityFileSelected($event)" accept="application/pdf"
                                     class="form-control" id="formGroupExampleInput" #po_pdf required>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-6">
                             <label for="tracking" class="form-label">Tracking Number<sup
@@ -202,10 +202,12 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12" *ngIf="orderDetail.po_pdf">
+                            <label for="tracking" class="form-label">PI Download</label>
                             <div class="me-2">
-                                <a class="btn btn-success mt-2" (click)="onSubmit('Upload')">
-                                    <i class="bi bi-file-earmark-pdf"></i> 
+                                {{pdf_name}}
+                                <a class="mt-2 btn btn-success ms-2" (click)="downloadPdf(orderDetail.po_pdf)">
+                                    <i class="bi bi-download"></i>
                                 </a>
                             </div>
                         </div>
