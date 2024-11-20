@@ -10,14 +10,14 @@
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label for="start_date" class="form-label mb-0">Model:</label>
-                        <ng-select [(ngModel)]="serchObj.model_id" name="model" [items]="modalList" bindLabel="name"
+                        <ng-select [(ngModel)]="serchObj.model_id" name="model" [items]="modalSearchOpetion" bindLabel="name"
                             bindValue="id" placeholder="Select Model">
                         </ng-select>
                     </div>
 
                     <div class="col-md-4">
                         <label for="end_date" class="form-label mb-0">Category:</label>
-                        <ng-select [(ngModel)]="serchObj.Category_id" name="model" [items]="getAll"
+                        <ng-select [(ngModel)]="serchObj.category_id" name="model" [items]="getAll"
                             bindLabel="category_id" bindValue="category_id" placeholder="Select Category">
                         </ng-select>
                     </div>
@@ -62,12 +62,12 @@
                         <th scope="col">#</th>
                         <th scope="col">Model</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Label</th>
+                        <th scope="col">Parameters</th>
                         <th scope="col">value</th>
                         <th scope="col" class="text-center" *hasPermission="'is_edit'">Action</th>
                     </tr>
                 </thead>
-                <ng-container *ngFor="let item of getAll; let i = index">
+                <ng-container *ngFor="let item of getAll | paginate: { itemsPerPage: 10, currentPage: p }; let i = index">
                     <tbody>
                         <tr>
                             <td [attr.rowspan]="item.parameters ? item.parameters.length + 1 : 1" valign="middle">{{i +
@@ -83,7 +83,7 @@
                             <td [attr.rowspan]="item.parameters ? item.parameters.length + 1 : 1"
                                 class="text-center user-cntct-left" valign="middle" *hasPermission="'is_edit'">
                                 <div class="action-column">
-                                    <button type="button" class="btn btn-success me-2" (click)="openPop('Edit',item)">
+                                    <button type="button" class="btn btn-success m-2" (click)="openPop('Edit',item)">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <button type="button" *hasPermission="'is_delete'" class="btn btn-danger"
@@ -143,9 +143,9 @@
                                 Category <sup class="text-danger">*</sup>:
                             </label>
                             <input type="text" class="form-control" name="category" id="categoryName"
-                                [(ngModel)]="formObj.category_id" placeholder="Enter Category" #Category_id="ngModel"
+                                [(ngModel)]="formObj.category_id" placeholder="Enter Category" #category_id="ngModel"
                                 required>
-                            <div *ngIf="Category_id.invalid && (Category_id.dirty || Category_id.touched || addEditForm.submitted)"
+                            <div *ngIf="category_id.invalid && (category_id.dirty || category_id.touched || addEditForm.submitted)"
                                 class="text-danger invalid-feild">
                                 Category is required.
                             </div>

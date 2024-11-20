@@ -124,11 +124,15 @@ export class AddToCartComponent implements OnInit {
     }
 
     this.cartList.forEach((item: any) => {
+      console.log(item);
+
       obj.parts.push({
         "part_id": item.part_id,
         "qty": item.qty,
+        "main_category_id": item.part.main_category_id
       })
     });
+
     this.service.saveOrder(obj).subscribe((res: any) => {
       if (res.success) {
         localStorage.removeItem('order_detail');

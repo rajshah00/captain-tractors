@@ -15,13 +15,14 @@ export class TechnicalSpecificationComponent implements OnInit {
   formObj: any = {};
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   modalList: any = [];
+  modalSearchOpetion:any = [];
   categoryList: any = [];
   parametersList: any = [];
   p: number = 1;
   modalType: any;
   getAll: any = [];
   itemId: any;
-  
+
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -49,7 +50,8 @@ export class TechnicalSpecificationComponent implements OnInit {
     this.service.ModalList(this.serchObj).subscribe((res: any) => {
       if (res.success) {
         this.modalList = res.data;
-        this.modalList.unshift({ id: '', name: 'ALL' })
+        this.modalSearchOpetion = res.data;
+        this.modalSearchOpetion.unshift({ id: '', name: 'ALL' })
       }
     })
   }
