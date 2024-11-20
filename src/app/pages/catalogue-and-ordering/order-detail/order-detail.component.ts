@@ -98,7 +98,7 @@ export class OrderDetailComponent implements OnInit {
             this.isMini = true;
           }
         });
-        if (this.userData?.role_name == 'CTPL') {
+        if (this.userData?.role_id == 2) {
           this.partList = this.partList.filter((item: any) => item.part.main_category_id !== 1);
         }
         console.log(this.isUtility);

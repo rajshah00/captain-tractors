@@ -1,6 +1,6 @@
 <div class="pagetitle">
     <h1>Order List</h1>
-    <nav *ngIf="userData?.role_name != 'Distributor'">
+    <nav *ngIf="userData?.role_id != 3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item active">Order List</li>
@@ -12,7 +12,7 @@
     <div class="card-body">
         <div class="pt-3">
             <form #serchForm="ngForm">
-                <div class="row g-3" *ngIf="userData?.role_name != 'Distributor'">
+                <div class="row g-3" *ngIf="userData?.role_id != 3">
                     <div class="col-md-3 mb-3">
                         <label for="search" class="form-label">Dealer :</label>
                         <ng-select [(ngModel)]="serchObj.dealer_id" name="order_type" [items]="dealerList"
@@ -39,7 +39,7 @@
                         <input type="date" class="form-control" id="search" [(ngModel)]="serchObj.to_date"
                             name="search">
                     </div>
-                    <div class="col-md-3" *ngIf="userData?.role_name != 'Distributor'">
+                    <div class="col-md-3" *ngIf="userData?.role_id != 3">
                         <label for="search" class="form-label">Country :</label>
                         <ng-select [(ngModel)]="serchObj.country_id" name="country_id" [items]="allCountryList"
                             bindLabel="name" bindValue="id" placeholder="Select Country">
@@ -55,7 +55,7 @@
 
         <div class="d-flex justify-content-between">
             <h5 class="card-title">Results ({{getAllOrder.length}})</h5>
-            <div class="add-box" *ngIf="userData?.role_name != 'CTPL'">
+            <div class="add-box" *ngIf="userData?.role_id != 2">
                 <button type="button" class="btn btn-primary" routerLink="/add-catalogue">
                     Add
                     <i class="bi bi-plus-circle"></i>
@@ -72,16 +72,16 @@
                         <th scope="col">Order Type</th>
                         <th scope="col">Order Number</th>
                         <th scope="col">Order date</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Dealer</th>
+                        <th scope="col" *ngIf="userData?.role_id != 3">Dealer</th>
                         <th scope="col">Brand</th>
                         <th scope="col">PI Upload Date</th>
                         <th scope="col" *ngIf="userData?.role_id == 1">Download <br> customer's signed PI </th>
-                        <th scope="col" *ngIf="userData?.role_id != 1">Download PI</th>
-                        <th scope="col" *ngIf="userData?.role_name == 'Distributor'">Upload Signed PI</th>
-                        <!-- <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Approve PI</th> -->
+                        <th scope="col" *ngIf="userData?.role_id == 3">Download PI</th>
+                        <th scope="col" *ngIf="userData?.role_id == 3">Upload Signed PI</th>
+                        <!-- <th scope="col" *ngIf="userData?.role_id != 3">Approve PI</th> -->
                         <th scope="col">Order Status</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Current Stage</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'CTPL'">Tracking Number</th>
+                        <th scope="col" *ngIf="userData?.role_id != 3">Current Stage</th>
+                        <th scope="col" *ngIf="userData?.role_id != 2">Tracking Number</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@
                             <td>{{ item.order_type }}</td>
                             <td>{{ item.order_number }}</td>
                             <td>{{ item.order_date | date: 'dd-MMM-yyyy' }}</td>
-                            <td *ngIf="userData?.role_name != 'Distributor'"> {{item.dealer.name}}</td>
+                            <td *ngIf="userData?.role_id != 3"> {{item.dealer.name}}</td>
                             <td>{{ item.dealer.brand?.name || '-' }}</td>
                             <td>{{ item.pi_date | date: 'dd-MMM-yyyy' || '-'}}</td>
                             <td *ngIf="userData?.role_id == 1">
@@ -104,7 +104,7 @@
                                 </a>
 
                             </td>
-                            <td *ngIf="userData?.role_name == 'Distributor'">
+                            <td *ngIf="userData?.role_id == 3">
                                 <div class="action-box" *ngIf="item.po_pdf">
                                     <button type="button" class="btn btn-success"
                                         (click)="comman.downloadFile(item.po_pdf); $event.stopPropagation()">
@@ -113,7 +113,7 @@
                                 </div>
                             </td>
 
-                            <td *ngIf="userData?.role_name == 'Distributor'">
+                            <td *ngIf="userData?.role_id == 3">
                                 <ng-container *ngIf="item.po_pdf; else elseData">
                                     <input type="file" id="fileInput-{{i}}" hidden
                                         (change)="onFileSelected($event,item)">
@@ -123,22 +123,22 @@
                                     -
                                 </ng-template>
                             </td>
-                            <!-- <td class="text-center check-id" *ngIf="userData?.role_name != 'Distributor'">
+                            <!-- <td class="text-center check-id" *ngIf="userData?.role_id != 3">
                                 <input type="checkbox" class="form-check-input" [(ngModel)]="item.checked"
                                     [disabled]="item.file == ''" />
                             </td> -->
-                            <td *ngIf="userData?.role_name == 'Distributor'">{{ item.dealer_show_status }}</td>
-                            <td *ngIf="userData?.role_name != 'Distributor'">{{ item.approval_status }}</td>
-                            <td *ngIf="userData?.role_name != 'Distributor'">{{ item.current_stage }}</td>
-                            <td *ngIf="userData?.role_name != 'CTPL'">{{ item.tracking_number }}</td>
-                            <!-- <td *ngIf="userData?.role_name != 'CTPL'">
+                            <td *ngIf="userData?.role_id == 3">{{ item.dealer_show_status }}</td>
+                            <td *ngIf="userData?.role_id != 3">{{ item.approval_status }}</td>
+                            <td *ngIf="userData?.role_id != 3">{{ item.current_stage }}</td>
+                            <td *ngIf="userData?.role_id != 2">{{ item.tracking_number }}</td>
+                            <!-- <td *ngIf="userData?.role_id != 2">
                                 <div class="action-box" *ngIf="item.po_pdf">
                                     <button type="button" class="btn btn-success"
                                         (click)="downloadPdf(item.po_pdf); $event.stopPropagation()">
                                         <i class="bi bi-download"></i>
                                     </button>
                                 </div>
-                                <div class="action-box mt-2" *ngIf="item.utility_po && userData?.role_name == 'Camel'">
+                                <div class="action-box mt-2" *ngIf="item.utility_po && userData?.role_id == 1">
                                     <button type="button" class="btn btn-success"
                                         (click)="downloadPdf(item.utility_po); $event.stopPropagation()">
                                         Utility <i class="bi bi-download"></i>
@@ -151,7 +151,7 @@
 
 
                 </tbody>
-                <!-- <tfoot *ngIf="userData?.role_name != 'Distributor'">
+                <!-- <tfoot *ngIf="userData?.role_id != 3">
                     <tr>
                         <td colspan="8">
                             <div class="d-flex justify-content-end me-4">

@@ -495,4 +495,8 @@ export class ApiServiceService {
   get(data: any) {
     return this.http.post(environment.apiUrl + 'model_details/list', data);
   }
+
+  delete(id: any) {
+    return this.http.post(environment.apiUrl + `model_details/${id}/delete`, {});
+  }
 }

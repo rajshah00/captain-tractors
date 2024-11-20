@@ -25,20 +25,29 @@ hr {
 .action-column {
     text-align: center;
     vertical-align: middle;
-  }
-  
-  button.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 14px;
-  }
-  
-  .user-cntct-right:not(:last-child) {
-    border-right:thin solid #dee2e6;
+}
+
+//   button.btn-danger {
+//     background-color: #dc3545;
+//     border-color: #dc3545;
+//     color: #fff;
+//     padding: 5px 10px;
+//     font-size: 14px;
+//   }
+
+.user-cntct-right:not(:last-child) {
+    border-right: thin solid #dee2e6;
 }
 
 .user-cntct-left {
-    border-left:thin solid #dee2e6;
+    border-left: thin solid #dee2e6;
+}
+
+.btn-export {
+    width: 10%;
+    margin-top: 8px;
+}
+
+.btn-export i {
+    font-size: 18px;
 }

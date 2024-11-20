@@ -1,6 +1,6 @@
 <div class=" pagetitle">
     <h1>Parts Purchase Report</h1>
-    <nav *ngIf="userData?.role_name != 'Distributor'">
+    <nav *ngIf="userData?.role_id != 3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item active">Parts Purchase Report</li>
@@ -26,7 +26,7 @@
                             name="end_date">
                     </div>
 
-                    <ng-container *ngIf="userData?.role_name == 'Camel'">
+                    <ng-container *ngIf="userData?.role_id == 1">
                         <div class="col-md-4">
                             <label for="brand_id" class="form-label mb-0">Brand:</label>
                             <select class="form-select" id="brand_id" [(ngModel)]="serchObj.brand_id" name="brand_id">
@@ -95,12 +95,12 @@
                 <thead>
                     <tr>
                         <th scope="col">Ser No</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Country</th>
-                        <th scope="col" *ngIf="userData?.role_name != 'Distributor'">Brand</th>
+                        <th scope="col" *ngIf="userData?.role_id != 3">Country</th>
+                        <th scope="col" *ngIf="userData?.role_id != 3">Brand</th>
                         <th scope="col">Order Type</th>
                         <th scope="col">Order Number</th>
                         <th scope="col">Order date</th>
-                        <th scope="col" *ngIf="userData?.role_name == 'Distributor'">Brand</th>
+                        <th scope="col" *ngIf="userData?.role_id == 3">Brand</th>
                         <th scope="col">Part Number</th>
                         <th scope="col">Part Description</th>
                         <th scope="col">QTY</th>
@@ -112,14 +112,14 @@
                         *ngFor="let item of getAllBackOrder | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
                         <tr>
                             <th scope="row">{{ i + 1 }}</th>
-                            <td *ngIf="userData?.role_name != 'Distributor'">
+                            <td *ngIf="userData?.role_id != 3">
                                 {{ item.dealer ? item.dealer.country.name : '' }}
                             </td>
-                            <td *ngIf="userData?.role_name != 'Distributor'">{{item.dealer.brand?.name || '-' }}</td>
+                            <td *ngIf="userData?.role_id != 3">{{item.dealer.brand?.name || '-' }}</td>
                             <td>{{ item.order_type }}</td>
                             <td>{{ item.order_number }}</td>
                             <td>{{ item.created_at | date: 'dd-MMM-yyyy' }}</td>
-                            <td *ngIf="userData?.role_name == 'Distributor'">{{item.dealer.brand.name}}</td>
+                            <td *ngIf="userData?.role_id == 3">{{item.dealer.brand.name}}</td>
                             <td>
                                 <ng-container *ngFor="let mem of item.order_details">
                                     {{mem.part.part_no}},

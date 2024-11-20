@@ -26,7 +26,7 @@ export class CatalogueAndOrderingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.userData?.role_name == 'Distributor') {
+    if (this.userData?.role_id == 3) {
       this.serchObj.dealer_id = this.userData.id;
     }
     this.getCatalogue(this.serchObj);

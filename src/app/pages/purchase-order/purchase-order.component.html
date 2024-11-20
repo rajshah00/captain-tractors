@@ -1,6 +1,6 @@
 <div class="pagetitle">
     <h1>Spare Parts Purchase Order</h1>
-    <nav *ngIf="userData?.role_name != 'Distributor'">
+    <nav *ngIf="userData?.role_id != 3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item active">Spare Parts Purchase Order</li>

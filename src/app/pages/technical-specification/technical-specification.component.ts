@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ApiServiceService } from 'src/app/services/api-service.service';
 import { CommanService } from 'src/app/services/comman.service';
 declare var $: any;
@@ -9,6 +10,7 @@ declare var $: any;
   styleUrls: ['./technical-specification.component.scss']
 })
 export class TechnicalSpecificationComponent implements OnInit {
+  @ViewChild('addEditForm') addEditForm!: NgForm;
   serchObj: any = {};
   formObj: any = {};
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
@@ -19,6 +21,7 @@ export class TechnicalSpecificationComponent implements OnInit {
   modalType: any;
   getAll: any = [];
   itemId: any;
+  
   constructor(
     public service: ApiServiceService,
     public comman: CommanService,
@@ -29,7 +32,8 @@ export class TechnicalSpecificationComponent implements OnInit {
     this.getCatalogue();
   }
 
-  getCatalogue() {
+  getCatalogue(type?: any) {
+    if (type == 'Reset') { this.serchObj = {} }
     this.service.get(this.serchObj).subscribe((res: any) => {
       if (res.success) {
         this.getAll = res.data;
@@ -44,7 +48,8 @@ export class TechnicalSpecificationComponent implements OnInit {
   getModalList() {
     this.service.ModalList(this.serchObj).subscribe((res: any) => {
       if (res.success) {
-        this.modalList = res.data
+        this.modalList = res.data;
+        this.modalList.unshift({ id: '', name: 'ALL' })
       }
     })
   }
@@ -63,6 +68,7 @@ export class TechnicalSpecificationComponent implements OnInit {
     if (type == "Add") {
       this.parametersList = [{ label: '', value: '' }];
       this.formObj = {};
+      this.addEditForm.reset();
     } else {
       this.itemId = item.id;
       this.parametersList = item.parameters;
@@ -114,4 +120,36 @@ export class TechnicalSpecificationComponent implements OnInit {
       }
     }
   }
+
+
+  delete(item: any) {
+    this.service.delete(item.id).subscribe((res: any) => {
+      if (res.success) {
+        this.comman.toster('success', res.message);
+        this.getCatalogue();
+      } else {
+        this.comman.toster('warning', res.message)
+      }
+    }, (err: any) => {
+      console.log(err);
+      this.comman.toster('error', 'Ops! something went wrong please try again later')
+    })
+  }
+
+  download() {
+    this.serchObj.export = 1;
+    this.serchObj.export_type = "xlsx";
+    this.service.get(this.serchObj).subscribe((res: any) => {
+      if (res.success) {
+        const link = document.createElement('a');
+        link.href = res.data.file_url;
+        link.target = '_blank';
+        link.download;
+        link.click();
+      } else {
+        this.comman.toster('warning', res.message)
+      }
+    })
+  }
+
 }

@@ -60,7 +60,7 @@ export class PartPurchaseReportComponent implements OnInit {
 
   //========// get Catalogue //========//
   getCatalogue(obj: any) {
-    if (this.userData?.role_name == 'Distributor') {
+    if (this.userData?.role_id == 3) {
       obj.dealer_id = this.userData.id;
     }
     this.service.getPurchaseReport(obj).subscribe((res: any) => {

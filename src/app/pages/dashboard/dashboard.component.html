@@ -10,7 +10,7 @@
     </div>
 
 
-    <ng-container *ngIf="userData?.role_name != 'Distributor' && userData?.role_name != 'CTPL'">
+    <ng-container *ngIf="userData?.role_id != 3 && userData?.role_id != 2">
         <div class="row mt-3">
             <div class="col-xxl-3 col-md-3">
                 <div class="card info-card pb-0 sales-card cursor-pointer">
@@ -50,7 +50,7 @@
                                         <button class="accordion-button collapsed" type="button"
                                             [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + i"
                                             [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + i">
-                                            {{userData.role_name == 'Distributor' ? item.model_name : item.name}}
+                                            {{userData.role_id == 3 ? item.model_name : item.name}}
                                         </button>
                                     </h2>
                                     <div [id]="'collapse' + i" class="accordion-collapse collapse"
@@ -129,7 +129,7 @@
         </div>
     </ng-container>
 
-    <ng-container *ngIf="userData?.role_name == 'Distributor'">
+    <ng-container *ngIf="userData?.role_id == 3">
         <div class="row">
             <div class="col-lg-6">
                 <div class="row mt-3">

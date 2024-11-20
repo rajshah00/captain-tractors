@@ -9,7 +9,7 @@ import { CommanService } from 'src/app/services/comman.service';
   styleUrls: ['./add-to-cart.component.scss']
 })
 export class AddToCartComponent implements OnInit {
-  cartList: any;
+  cartList: any = [];
   userData: any = JSON.parse(localStorage.getItem('profile') || '');
   finalTotal: any;
   totalQty: number = 0;
@@ -40,6 +40,10 @@ export class AddToCartComponent implements OnInit {
         this.cartList.forEach((item: any) => {
           this.totalQty += item.qty;
         });
+        if (this.cartList.length == 0) {
+          localStorage.removeItem('order_detail');
+          this.router.navigate(['/purchase-order'])
+        }
       }
     })
   }

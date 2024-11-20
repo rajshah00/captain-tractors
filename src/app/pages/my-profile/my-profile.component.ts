@@ -163,6 +163,7 @@ export class MyProfileComponent implements OnInit {
           this.comman.toster('success', res.message);
           localStorage.removeItem('profile');
           localStorage.setItem('profile', JSON.stringify(res.data));
+          this.userData = JSON.parse(localStorage.getItem('profile') || '');
         } else {
           this.comman.toster('warning', res.message)
         }

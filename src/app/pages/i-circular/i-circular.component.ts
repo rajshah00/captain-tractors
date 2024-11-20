@@ -77,7 +77,7 @@ export class ICircularComponent implements OnInit {
   //========// get Brand List //========//
   getCircularList() {
     let obj: any = {};
-    if (this.userData.role_name == "Dealer") {
+    if (this.userData.role_id == 3) {
       obj.dealer_id = this.userData.id
     }
     this.service.circularList(obj).subscribe((res: any) => {
